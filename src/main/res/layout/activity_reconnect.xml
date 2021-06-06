@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="com.example.myapplication.ConnectActivity">
+
+
+    <EditText
+        android:id="@+id/ipTv"
+        android:hint="192.168.4.1"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="192.168.4.1"/>
+
+    <EditText
+        android:id="@+id/portTv"
+        android:hint="8086"
+        android:text="8086"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+
+
+    <Button
+        android:id="@+id/connectBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bt_shape"
+        android:text="连接"
+        android:textColor="#FFFFFFFF" />
+    <Button
+        android:id="@+id/btnT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bt_shape"
+        android:text="返回"></Button>
+</LinearLayout>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/welcom_color">
+
+  <Button
+      android:id="@+id/btn00"
+      android:layout_width="300dp"
+      android:layout_height="80dp"
+      android:layout_marginTop="249dp"
+      android:background="@drawable/bt_shape2"
+      android:text="通信重连"
+      android:textColor="#ffffffff"
+      android:textSize="40sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"></Button>
+
+  <Button
+      android:id="@+id/btn01"
+      android:layout_width="300dp"
+      android:layout_height="80dp"
+      android:layout_marginTop="32dp"
+      android:background="@drawable/bt_shape2"
+      android:text="通道测试管理"
+      android:textColor="#ffffffff"
+      android:textSize="40sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/btn00"></Button>
+
+  <Button
+      android:id="@+id/btn02"
+      android:layout_width="300dp"
+      android:layout_height="80dp"
+      android:layout_marginTop="32dp"
+      android:background="@drawable/bt_shape2"
+      android:text="测试结果管理"
+      android:textColor="#ffffffff"
+      android:textSize="40sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/btn01"></Button>
+
+  <RadioGroup
+      android:id="@+id/radioGroupRetry"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintStart_toEndOf="@+id/textView2"
+      app:layout_constraintTop_toTopOf="@+id/textView2">
+
+    <RadioButton
+        android:id="@+id/btnRetry1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+    <RadioButton
+        android:id="@+id/btnRetry2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+    <RadioButton
+        android:id="@+id/btnRetry3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+    <RadioButton
+        android:id="@+id/btnRetry4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+  </RadioGroup>
+
+  <TextView
+      android:id="@+id/textView2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="32dp"
+      android:text="重闻次数选择:"
+      android:textColor="#ffffff"
+      android:textSize="24sp"
+      app:layout_constraintStart_toStartOf="@+id/btn02"
+      app:layout_constraintTop_toBottomOf="@+id/btn02" />
+
+  <TextView
+      android:id="@+id/retryNumberRemind"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="32dp"
+      android:text="当前设置的重闻次数："
+      android:textColor="#ffffff"
+      android:textSize="24sp"
+      app:layout_constraintEnd_toEndOf="@+id/btn02"
+      app:layout_constraintStart_toStartOf="@+id/btn02"
+      app:layout_constraintTop_toBottomOf="@+id/radioGroupRetry" />
+
+  <TextView
+      android:id="@+id/retryNumberShow"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="1"
+      android:textColor="#ffffff"
+      android:textSize="24sp"
+      app:layout_constraintStart_toEndOf="@+id/retryNumberRemind"
+      app:layout_constraintTop_toTopOf="@+id/retryNumberRemind" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

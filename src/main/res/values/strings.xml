@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">嗅觉辨识功能测试</string>
+    <string name="instruction1">1.使用前，请确保仪器供电正常，待仪器初始化完成后，启动移动设备上的嗅觉检测应用程序，应用程序将自动连接至仪器；您必须确保移动设备成功连接至嗅觉测试仪器，若连接正常，应用程序右上角的WiFi提示符将变为绿色。若连接失败，其显示为红色。此时请通过管理页面，手动尝试连接。</string>
+    <string name="instruction2">2.选择合适的测试类型，开始测试前，请按照系统的提示，输入您的个人信息。</string>
+    <string name="instruction3">3.测试完成后，点击“上传测试结果”按钮后结束本次，您可以返回主界面或退出本应用程序</string>
+    <string name="viewinstruction1">1.欢迎使用本款嗅觉辨识功能测试仪器！在测试过程中，您需要按照指引，嗅闻并辨识一系列常见的气味。气味将通过嗅闻头呈现，您需要在离嗅闻头3-5cm处正常地呼吸、嗅闻；建议您采用短呼吸、短嗅的方式。</string>
+    <string name="viewinstruction2">2.请您按照管理员的指示选择合适的测试</string>
+    <string name="viewinstruction3">3.请您输入您的个人信息，确认无误后，请点击下一步</string>
+    <string name="viewinstruction4">4.点击"准备"或"下一个气味"按钮，开启3秒倒计时，倒计时结束后，您将有3秒的时间对气味进行嗅闻和识别</string>
+    <string name="viewinstruction5">5.第一次嗅闻后，将弹出确认弹窗，若您未察觉到有任何气味，您可以选择否，重新准备再次嗅闻！可重新嗅闻的次数可由管理员于管理界面设定。</string>
+    <string name="viewinstruction6">6.嗅闻完成后，进入四项选择，作答界面，您必须根据您所闻到的气味，双击选择最相似的气味图片，如果您不确定您必须猜一个</string>
+    <string name="viewinstruction100">3.开始答题前，您将有有3s的时间嗅闻气味,然后将弹出提示框，询问您是否有闻到气味;然后你可以根据识别的气味选择你认为正确的图片</string>
+</resources>
