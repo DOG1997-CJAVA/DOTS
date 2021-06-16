@@ -10,4 +10,15 @@
     <string name="viewinstruction5">5.第一次嗅闻后，将弹出确认弹窗，若您未察觉到有任何气味，您可以选择否，重新准备再次嗅闻！可重新嗅闻的次数可由管理员于管理界面设定。</string>
     <string name="viewinstruction6">6.嗅闻完成后，进入四项选择，作答界面，您必须根据您所闻到的气味，双击选择最相似的气味图片，如果您不确定您必须猜一个</string>
     <string name="viewinstruction100">3.开始答题前，您将有有3s的时间嗅闻气味,然后将弹出提示框，询问您是否有闻到气味;然后你可以根据识别的气味选择你认为正确的图片</string>
+    <string name="remind">温馨提示</string>
+    <string name="remind2">请前往后台管理页面查看详细信息</string>
+    <string name="remind3">好的</string>
+    <string name="remind4">警告！！！</string>
+    <string name="remind5">执行此操作，将会删除数据库中的内容，不可恢复。</string>
+    <string name="remind6">确认删除</string>
+    <string name="cencle1">取消</string>
+    <string name="retry1">可重闻次数设置</string>
+    <string name="confirm1">确认</string>
+    <string name="need_useful_wifi">请将WIFI切换至可使用的网络，断开与仪器的wifi局域网连接，才能在线提交反馈信息。</string>
+    <string name="save_excel_folder">请选择Excel数据表导出目录</string>
 </resources>

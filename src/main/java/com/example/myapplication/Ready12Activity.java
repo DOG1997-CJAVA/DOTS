@@ -3,10 +3,12 @@ package com.example.myapplication;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,11 +22,15 @@ import android.widget.Toast;
 import android.content.Context;
 import androidx.annotation.Nullable;
 
+import com.example.myapplication.db.Constants;
+import com.example.myapplication.db.MyOpenHelper;
 import com.example.myapplication.service.SocketService;
 import com.example.myapplication.utils.MyCountTimer;
 import com.example.myapplication.utils.options.Option12Activity;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.ButterKnife;
 
@@ -87,7 +93,7 @@ public class Ready12Activity extends Activity {
         });
     }
 
-    public static void getRetryData(Context context){//通过上下文拿到MangementTabActivity
+    public static void getRetryData(Context context){//通过上下文拿到MangementTabActivity定义的retyr
         SharedPreferences retryCount = context.getSharedPreferences("retryCount", MODE_PRIVATE);
         retry = retryCount.getInt("retry_time",1);
     }
@@ -119,14 +125,21 @@ public class Ready12Activity extends Activity {
         stopService(intent);
     }
 
-    Handler handler = new Handler() {
+     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             //当前进度大于0
+            MyOpenHelper dbHelper = new MyOpenHelper(Ready12Activity.this);//***
+            SQLiteDatabase sqliteDatabase = dbHelper.getWritableDatabase();//***
+            ContentValues cv = new ContentValues();//***
+            Date date = new Date();//***
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");//***
             TextView text_appear = (TextView) findViewById(R.id.text_appear);
             if (TIME - mProgressStatus > 0) {
                 btnCountTimer.setVisibility(View.INVISIBLE);
                 text_appear.setText("闻");
+                cv.put("odorStartTime", sdf.format(date));//***
+                sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv);//***
                 text_appear.setEnabled(false);
                 mProgressStatus++;
                 //从左到右更新进度条的显示进度
@@ -136,6 +149,8 @@ public class Ready12Activity extends Activity {
                 //延迟半秒发送消息
                 handler.sendEmptyMessageDelayed(TIMER_MSG, 500);
             } else if(status<retry){
+                cv.put("odorEndTime", sdf.format(date));//***
+                sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv);//***
                 AlertDialog dialog = new AlertDialog.Builder(Ready12Activity.this)
                         //设置标题的图片
                         .setIcon(R.mipmap.wenhao)
@@ -147,13 +162,17 @@ public class Ready12Activity extends Activity {
                         .setNegativeButton("否",new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                cv.put("odorStartTime", " ");//*** 清空 只记录 正确识别的刺激
+                                cv.put("odorEndTime", " ");//***清空
+                                cv.put("retryCount", status+"");//***记录重闻次数
+                                sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv);//***清空
                                 Button NegativeButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
                                 text_appear.setText("");
                                 btnCountTimer.setVisibility(View.VISIBLE);
                                 btnCountTimer.setText("点击再闻一次");
                                 //进度条归零
                                 mProgressStatus=0;
-                                timer.setProgress( mProgressStatus);
+                                timer.setProgress(mProgressStatus);
                                 //重闻状态+1
                                 status++;
                                 dialog.dismiss();
@@ -168,7 +187,7 @@ public class Ready12Activity extends Activity {
                                 testPleaseWait.setVisibility(View.VISIBLE);
                                 btnCountTimer.setVisibility(View.INVISIBLE);
                                 mProgressStatus = 0;
-                                timer.setProgress( mProgressStatus);
+                                timer.setProgress(mProgressStatus);
                                 timer.setVisibility(View.INVISIBLE);
                                 testRemindText.setVisibility(View.INVISIBLE);
                                 Intent intent=new Intent(Ready12Activity.this, Option12Activity.class);
@@ -201,6 +220,7 @@ public class Ready12Activity extends Activity {
                 //startActivityForResult的主要作用就是它可以回传数据
                 startActivityForResult(intent, 0);
             }
+            sqliteDatabase.close();
         }
     };
 

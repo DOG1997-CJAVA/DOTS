@@ -70,7 +70,6 @@
         <activity android:name=".MainActivity"
                   android:launchMode="singleTask"></activity>
         <activity android:name=".FeedBackActivity"></activity>
-
     </application>
 
 </manifest>

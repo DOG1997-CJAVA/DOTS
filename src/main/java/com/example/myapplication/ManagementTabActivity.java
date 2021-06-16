@@ -16,8 +16,11 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.list.DialogSingleChoiceExtKt;
+
 public class ManagementTabActivity extends Activity {
-    private Button btn00,btn01,btn02,rdBtn01,rdBtn02,rdBtn03,rdBtn04;
+    private Button btn00,btn01,btn02,btn_retry,rdBtn01,rdBtn02,rdBtn03,rdBtn04;
     private RadioGroup rdDroup;
     private TextView retryNumberShow;
     @Override
@@ -29,11 +32,12 @@ public class ManagementTabActivity extends Activity {
         btn00 = (Button) findViewById(R.id.btn00);
         btn01 = (Button) findViewById(R.id.btn01);
         btn02 = (Button) findViewById(R.id.btn02);
-        rdBtn01 = (RadioButton) findViewById(R.id.btnRetry1);
+        btn_retry = (Button) findViewById(R.id.btn_retry_set);
+/*        rdBtn01 = (RadioButton) findViewById(R.id.btnRetry1);
         rdBtn02 = (RadioButton) findViewById(R.id.btnRetry2);
         rdBtn03 = (RadioButton) findViewById(R.id.btnRetry3);
         rdBtn04 = (RadioButton) findViewById(R.id.btnRetry4);
-        rdDroup = (RadioGroup)  findViewById(R.id.radioGroupRetry);
+        rdDroup = (RadioGroup)  findViewById(R.id.radioGroupRetry);*/
         retryNumberShow = (TextView) findViewById(R.id.retryNumberShow);
         retryNumberShow.setText(retryCount.getInt("retry_time",1)+"");
         Ready2Activity.getRetryData(this);
@@ -62,7 +66,34 @@ public class ManagementTabActivity extends Activity {
             }
         });
 
-        rdDroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        btn_retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MaterialDialog dialog = new MaterialDialog(ManagementTabActivity.this, MaterialDialog.getDEFAULT_BEHAVIOR());
+                dialog.title(R.string.retry1, null);
+                DialogSingleChoiceExtKt.listItemsSingleChoice(dialog, R.array.retry_times, null, null, 0,
+                        true, (materialDialog, index, text) -> {
+                            Toast.makeText(ManagementTabActivity.this, "已设置为 " + text , Toast.LENGTH_SHORT).show();
+                            SharedPreferences retryCount = getSharedPreferences("retryCount", MODE_PRIVATE);
+                            SharedPreferences.Editor edit = retryCount.edit();
+                            edit.putInt("retry_time",index+1);
+                            edit.apply();
+                            retryNumberShow.setText(index+1+"");
+                            return null;
+                        });
+                dialog.positiveButton(R.string.confirm1,null,materialDialog -> {
+                    dialog.dismiss();
+                    return null;
+                        });
+                dialog.negativeButton(R.string.cencle1, null, materialDialog -> {
+                    Toast.makeText(ManagementTabActivity.this, "已取消设置", Toast.LENGTH_SHORT).show();
+                    return null;
+                });
+                dialog.show();
+            }
+        });
+
+/*        rdDroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(group.getCheckedRadioButtonId() == rdBtn01.getId()){
@@ -94,6 +125,6 @@ public class ManagementTabActivity extends Activity {
                     retryNumberShow.setText("4");
                 }
             }
-        });
+        });*/
     }
 }

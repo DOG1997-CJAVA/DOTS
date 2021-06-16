@@ -46,14 +46,14 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     //创建数据库的同时创建表
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //创建时的回调
+        //创建时的回调  TABLE_NAME4为主要的
         Log.d(TAG,"创建数据库....");
         String sql="create table "+Constants.TABLE_NAME+"(ID char(4),name char(8),age char(3),gender char(1),result char(15))";//managementinfo表格
         String sql1 = "create table " + Constants.TABLE_NAME1 + "(" + BaseColumns._ID   //picture表格
                 + " integer primary key autoincrement," + PictureColumns.PICTURE //primary key autoincrement 自动累加
                 + " blob not null);";
         String sql2 = "create table "+Constants.TABLE_NAME3+"(target char(10),error01 char(10),error02 char(10),error03 char(10),index01 char(10),index02 char(10),index03 char(10),index04 char(10))";//excel表格
-        String sql3 = "create table "+Constants.TABLE_NAME4+"(ID char(6),name char(18),sex char(1),age char(3),answerTime char(25),target char(10),error01 char(10),error02 char(10),error03 char(10),answer char(10))";
+        String sql3 = "create table "+Constants.TABLE_NAME4+"(ID char(6),name char(18),sex char(1),age char(3),answerTime char(25),odorStartTime char(25),odorEndTime char(25),retryCount char(10),target char(10),error01 char(10),error02 char(10),error03 char(10),answer char(10))";
         db.execSQL(sql); //execSQL()方法不能执行查询操作。可以执行有更改行为的SQL语句
         db.execSQL(sql1);
         db.execSQL(sql2);
@@ -90,7 +90,6 @@ public class MyOpenHelper extends SQLiteOpenHelper {
             * android 中封装好的SQL语句执行方法，不用再自行编写SQL语句 包括db.insert delete update query
             * insert:第三个参数values:一个ContentValues对象，类似一个map.通过键值对的形式存储值。
             * */
-
         }
     }
 
