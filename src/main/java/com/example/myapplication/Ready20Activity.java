@@ -26,21 +26,39 @@ import com.example.myapplication.utils.MyCountTimer;
 import com.example.myapplication.utils.options.Option20Activity;
 
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.ButterKnife;
 
 public class Ready20Activity extends Activity {
-    final int TIME = 5;    //定义时间长度
-    final int TIMER_MSG = 0x001;    //定义消息代码
-    private ProgressBar timer;      //声明水平进度条
-    private int mProgressStatus = 0;    //定义完成进度
+    final int TIME = 6;
+    final int TIMER_MSG = 0x001;
+    private ProgressBar progressBar;
+    private int mProgressStatus = 0;
     private Button btnCountTimer;
     private TextView testRemindText;
     private TextView testPleaseWait;
-    int accept1;
+    int accept1 = 0;
+    int number_count = 0;
     int status;
-    static int retry_20 =1;
+    static int retry_20 = 1;
+    static int random_fix_mode = 1;
+    static int odor_release_delay = 2000;
     private ServiceConnection sc;
     public SocketService socketService;
+    private HashMap answerInfo = new HashMap();
+    /*private final String[] status_20 = {"101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116",
+            "201", "202", "203", "309"};*/
+    private final String[] status_40 = {"101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116",
+            "201", "202", "203", "309", "205", "206", "207", "208", "209", "210", "211", "212", "213", "214", "215", "216",
+            "301", "302", "303", "304", "305", "306", "307", "308"};
+    private List<Integer> indices = new ArrayList<Integer>(20);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,43 +66,85 @@ public class Ready20Activity extends Activity {
         setContentView(R.layout.activity_ready);
         bindSocketService();
         ButterKnife.bind(this);
-        timer = (ProgressBar) findViewById(R.id.progressBar);      //获取进度条组件
-        timer.setVisibility(View.VISIBLE);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         testRemindText = (TextView) findViewById(R.id.test_remind_text);
         testRemindText.setVisibility(View.VISIBLE);
         testPleaseWait = (TextView) findViewById(R.id.text_please_wait);
         testPleaseWait.setVisibility(View.INVISIBLE);
-        btnCountTimer = (Button)findViewById(R.id.btnPrepareToStart);
+        btnCountTimer = (Button) findViewById(R.id.btnPrepareToStart);
         btnCountTimer.setVisibility(View.VISIBLE);
+        SharedPreferences retryCount = this.getSharedPreferences("retryCount", MODE_PRIVATE);
+        retry_20 = retryCount.getInt("retry_time",1);
+        random_fix_mode = retryCount.getInt("btn_random_mode", 1);
+        odor_release_delay = retryCount.getInt("odor_release_delay",2000);
+        if (random_fix_mode == 0) {
+            for (int c = 0; c < 40; c++) {
+                indices.add(c);
+            }
+        }
         btnCountTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sc!=null&&socketService!=null) {
-                    socketService.sendOrder("" + (101 + accept1));
-                    MyCountTimer myCountTimer = new MyCountTimer( btnCountTimer, "");
+                if (sc != null && socketService != null) {
+                    MyCountTimer myCountTimer = new MyCountTimer(btnCountTimer, "");
                     myCountTimer.start();
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                Thread.sleep(3000);
-                                handler.sendEmptyMessage(TIMER_MSG);
+                                if (random_fix_mode == 1) {//固定模式
+                                    Thread.sleep(odor_release_delay); // 上位机命令传输延时 而下位机打开计时 需要修改单片机程序 否则关闭时间出问题
+                                    socketService.sendOrder(status_40[accept1]);
+                                    Timer my_delay_timer = new Timer();
+                                    my_delay_timer.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            socketService.sendOrder(status_40[accept1]);
+                                        }
+                                    }, 200);
+                                    Thread.sleep(3000 - odor_release_delay); //总计5秒 休眠3秒
+                                    handler.sendEmptyMessage(TIMER_MSG);//发送消息，启动进度条
+                                    //固定模式下accept1 不再使用option40activity send3返回的accept2赋值递增 采用自增
+                                }
+                                if (random_fix_mode == 0) {//随机模式
+                                    Thread.sleep(odor_release_delay);
+                                    accept1 = getRandomOdor();
+                                    socketService.sendOrder(status_40[accept1]);
+                                    Timer my_delay_timer = new Timer();
+                                    my_delay_timer.schedule(new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            socketService.sendOrder(status_40[accept1]);
+                                        }
+                                    }, 200);
+                                    Thread.sleep(3000 - odor_release_delay);
+                                    handler.sendEmptyMessage(TIMER_MSG);
+                                }
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
                         }
                     }).start();
-                }else{
-                    Toast.makeText(Ready20Activity.this,"网络异常！",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Ready20Activity.this, "网络异常！", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    public static void getRetryData(Context context){//通过上下文拿到MangementTabActivity
-        // static修饰的变量和方法,从属于类
+    public static void getRetryData(Context context) {
         SharedPreferences retryCount = context.getSharedPreferences("retryCount", MODE_PRIVATE);
-        retry_20 = retryCount.getInt("retry_time",1);
+        retry_20 = retryCount.getInt("retry_time", 1);
+        random_fix_mode = retryCount.getInt("btn_random_mode", 1);
+        odor_release_delay = retryCount.getInt("odor_release_delay",2000);
+    }
+
+    private int getRandomOdor() {
+        int arrIndex = (int) ((double) indices.size() * Math.random());
+        int randomIndex = indices.get(arrIndex);
+        indices.remove(arrIndex);
+        return randomIndex;
     }
 
     private void bindSocketService() {
@@ -94,6 +154,7 @@ public class Ready20Activity extends Activity {
                 SocketService.SocketBinder binder = (SocketService.SocketBinder) iBinder;
                 socketService = binder.getService();
             }
+
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
             }
@@ -113,74 +174,91 @@ public class Ready20Activity extends Activity {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            //当前进度大于0
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss:SSS");//***
             TextView text_appear = (TextView) findViewById(R.id.text_appear);
             if (TIME - mProgressStatus > 0) {
+                mProgressStatus++;
+                if (mProgressStatus == 1) {
+                    answerInfo.put("odorStartTime", sdf.format(date));
+                }
                 btnCountTimer.setVisibility(View.INVISIBLE);
                 text_appear.setText("闻");
                 text_appear.setEnabled(false);
-                mProgressStatus++;
-                timer.setProgress( mProgressStatus);
-                handler.sendEmptyMessageDelayed(TIMER_MSG, 500);    //延迟半秒发送消息
-            } else if(status< retry_20){
+                progressBar.setProgress(mProgressStatus);
+                handler.sendEmptyMessageDelayed(TIMER_MSG, 500);
+            } else if (retry_20 != 6 && status < retry_20) {
+                answerInfo.put("odorEndTime", sdf.format(date));
+                answerInfo.put("retryCount", status + "");
                 AlertDialog dialog = new AlertDialog.Builder(Ready20Activity.this)
                         .setIcon(R.mipmap.wenhao)
                         .setTitle(" ")
-                        .setMessage("您是否闻到了气味？")//设置对话框的内容
-                        //设置对话框的按钮
+                        .setMessage("您是否闻到了气味？")
                         .setNegativeButton("否", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Button NegativeButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                                status++;
+                                answerInfo.put("retryCount", status + "");
+                                Button NegativeButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
                                 text_appear.setText("");
                                 btnCountTimer.setVisibility(View.VISIBLE);
                                 btnCountTimer.setText("点击再闻一次");
-                                //进度条归零
-                                mProgressStatus=0;
-                                timer.setProgress( mProgressStatus);
-                                //重闻状态+1
-                                status++;
+                                mProgressStatus = 0;
+                                progressBar.setProgress(mProgressStatus);
                                 dialog.dismiss();
                             }
                         })
                         .setPositiveButton("是", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Button PositiveButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                                Button PositiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
                                 text_appear.setText("");
-                                //设置准备按钮为空字符串
                                 testPleaseWait.setVisibility(View.VISIBLE);
                                 btnCountTimer.setVisibility(View.INVISIBLE);
                                 mProgressStatus = 0;
-                                timer.setProgress( mProgressStatus);
-                                timer.setVisibility(View.INVISIBLE);
+                                status = 0;
+                                progressBar.setProgress(mProgressStatus);
+                                progressBar.setVisibility(View.INVISIBLE);
                                 testRemindText.setVisibility(View.INVISIBLE);
                                 Intent intent = new Intent(Ready20Activity.this, Option20Activity.class);
-                                intent.putExtra("send2",accept1);
+                                intent.putExtra("send2", accept1);
+                                intent.putExtra("number_count", number_count);
+                                intent.putExtra("odorStartTime", (String) answerInfo.get("odorStartTime"));
+                                intent.putExtra("odorEndTime", (String) answerInfo.get("odorEndTime"));
+                                intent.putExtra("retryCount", (String) answerInfo.get("retryCount"));
+                                intent.putExtra("test_channel", (String) answerInfo.get("test_channel"));
                                 startActivityForResult(intent, 0);
+                                accept1++;
                                 dialog.dismiss();
                             }
                         }).create();
-                dialog.show();       //提示时间已到
+                dialog.show();
+                dialog.setCanceledOnTouchOutside(false);
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(40);
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setBackgroundColor(Color.GREEN);
                 dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(40);
                 dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
                 dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setBackgroundColor(Color.RED);
-            }else if(retry_20 ==status){
+            } else if (retry_20 == 6 || retry_20 == status) {
                 text_appear.setText("");
+                testPleaseWait.setVisibility(View.VISIBLE);
                 testPleaseWait.setVisibility(View.VISIBLE);
                 btnCountTimer.setText("准备");
                 btnCountTimer.setVisibility(View.INVISIBLE);
                 mProgressStatus = 0;
-                timer.setProgress( mProgressStatus);
-                timer.setVisibility(View.INVISIBLE);
+                progressBar.setProgress(mProgressStatus);
+                progressBar.setVisibility(View.INVISIBLE);
                 testRemindText.setVisibility(View.INVISIBLE);
                 Intent intent = new Intent(Ready20Activity.this, Option20Activity.class);//打开答题界面
-                intent.putExtra("send2",accept1);
-                status=0;
-                //startActivityForResult的主要作用就是它可以回传数据
+                intent.putExtra("send2", accept1);
+                intent.putExtra("number_count", number_count);
+                intent.putExtra("odorStartTime", (String) answerInfo.get("odorStartTime"));
+                intent.putExtra("odorEndTime", (String) answerInfo.get("odorEndTime"));
+                intent.putExtra("retryCount", (String) answerInfo.get("retryCount"));
+                intent.putExtra("test_channel", (String) answerInfo.get("test_channel"));
+                status = 0;
+                accept1++;
                 startActivityForResult(intent, 0);
             }
         }
@@ -192,16 +270,17 @@ public class Ready20Activity extends Activity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (resultCode) { //resultCode为回传的标记，我在Option12Activity中回传的是RESULT_OK
+        switch (resultCode) {
             case RESULT_OK:
-                Bundle b=data.getExtras(); //data为Option12Activity中回传的Intent
-                accept1 = b.getInt("send3");//str即为回传的值
-                if(accept1>=1){
-                    //如果是第二个题，则显示下一个气味
+                Bundle b = data.getExtras();
+                number_count = b.getInt("send3");
+                //number_count 代替 accept 记录题目序号
+                //无论何种模式 题目计数独立 + 1
+                if (number_count >= 1) {
                     testPleaseWait.setVisibility(View.INVISIBLE);
                     btnCountTimer.setText("下一个气味");
                     btnCountTimer.setVisibility(View.VISIBLE);
-                    timer.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
                     TextView testRemindText = (TextView) findViewById(R.id.test_remind_text);
                     testRemindText.setVisibility(View.VISIBLE);
                 }

@@ -74,7 +74,6 @@ public class ResultActivity extends AppCompatActivity {
                 result.setText(ri.getResult());
                 return view;
             }
-
             @Override
             public Object getItem(int position) {
                 return null;

@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     private Button btn100,btn101,btn102;
     private ServiceConnection sc;
+    private long firstTime = 0;
     public SocketService socketService;
     public ImageView icon10,icon11;
     //public boolean connect_sur_ero = false;
@@ -99,6 +101,17 @@ public class MainActivity extends AppCompatActivity {
         if(msg.getTag().equals(Constants.CONNET_FAIL)){
             icon11.setVisibility(View.VISIBLE);
             icon10.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        long secondTime = System.currentTimeMillis();
+        if (secondTime - firstTime > 2000) {
+            Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            firstTime = secondTime;
+        } else {
+            System.exit(0);
         }
     }
 

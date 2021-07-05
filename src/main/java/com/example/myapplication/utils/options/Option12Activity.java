@@ -40,9 +40,6 @@ import java.util.Date;
 public class Option12Activity extends Activity {
 
     private int count;
-    //声明Animation类的对象
-    //private Animation myAlphaAnimation;
-    //private ImageView myImageView;
     private TextView textView;
 
     @Override
@@ -63,22 +60,26 @@ public class Option12Activity extends Activity {
         TextView text3 = (TextView) findViewById(R.id.text3);
         TextView text4 = (TextView) findViewById(R.id.text4);
         //接收ReadyActivity页面传来的数据
+        String odorStartTime = getIntent().getStringExtra("odorStartTime");
+        String odorEndTime = getIntent().getStringExtra("odorEndTime");
+        String retryCount = getIntent().getStringExtra("retryCount");
         int accept2 = getIntent().getIntExtra("send2", 0);
+        int number_count2 = getIntent().getIntExtra("number_count", 0);
         int index1, index2, index3, index4;
+        String correct = " ";
         textView = (TextView) findViewById(R.id.textview);
-        //显示第几题
-        textView.setText("第" + (accept2 + 1) + "题");
-        //查询图片名称第(accept2+1)行的数据
+        textView.setText("第" + (number_count2 + 1) + "题");
         String sql = "select * from " + Constants.TABLE_NAME3 + " where rowid=" + (accept2 + 1);
         //执行sql语句  Cursor 是每行的集合 使用 moveToFirst() 定位第一行
         Cursor cursor = sqliteDatabase.rawQuery(sql, null);
         try {
             cursor.moveToFirst();//若打乱题目顺序，可以新建一列储存目标，前四列维持随机顺序
             //读取数据库存储的图片名称
-            text1.setText(cursor.getString(cursor.getColumnIndex("target")));
-            text2.setText(cursor.getString(cursor.getColumnIndex("error01")));
-            text3.setText(cursor.getString(cursor.getColumnIndex("error02")));
-            text4.setText(cursor.getString(cursor.getColumnIndex("error03")));
+            text1.setText(cursor.getString(cursor.getColumnIndex("option1")));
+            text2.setText(cursor.getString(cursor.getColumnIndex("option2")));
+            text3.setText(cursor.getString(cursor.getColumnIndex("option3")));
+            text4.setText(cursor.getString(cursor.getColumnIndex("option4")));
+            correct = cursor.getString(cursor.getColumnIndex("correct"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,45 +112,60 @@ public class Option12Activity extends Activity {
         //关闭查询源
         cursor1.close();
         //设置图片1点击事件
+        String finalCorrect = correct;
         image1.setOnTouchListener(new OnDoubleClickListener(new OnDoubleClickListener.DoubleClickCallback() {
             @Override
             public void onDoubleClick() {
                 //获取当前日期
                 Date date = new Date();
                 //日期标准化
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 // TODO Auto-generated method stub
                 ContentValues cv = new ContentValues();
+                if((number_count2+1) == 1){
+                    cv.put("name", name);
+                    cv.put("sex", sex);
+                    cv.put("age", age);
+                }
                 cv.put("ID", id);
-                cv.put("name", name);
-                cv.put("sex", sex);
-                cv.put("age", age);
-                cv.put("target", text1.getText().toString());
-                cv.put("error01", text2.getText().toString());
-                cv.put("error02", text3.getText().toString());
-                cv.put("error03", text4.getText().toString());
+                cv.put("correct_answer", finalCorrect);
+                cv.put("option1", text1.getText().toString());
+                cv.put("option2", text2.getText().toString());
+                cv.put("option3", text3.getText().toString());
+                cv.put("option4", text4.getText().toString());
                 cv.put("answer", text1.getText().toString());//点击第一张图片，就是answer
-                cv.put("answerTime", sdf.format(date));
-                //将id、name.....answerTime相关信息插入用户作答情况
+                cv.put("responTime", sdf.format(date));
+                cv.put("odorStartTime", odorStartTime);
+                cv.put("odorEndTime", odorEndTime);
+                cv.put("retryCount", retryCount);
                 sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv);
                 //判断答题数量是否为12
-                if (accept2 == 11) {
-                    String sql = "select count(*) from " + Constants.TABLE_NAME4 + " where target=answer and ID=" + id;
+                if (number_count2 == 11) {
+                    ContentValues cv1 = new ContentValues();
+                    String sql = "select count(*) from " + Constants.TABLE_NAME4 + " where answer=correct_answer and ID=" + id;
                     Cursor cursor = sqliteDatabase.rawQuery(sql, null);
                     cursor.moveToFirst();
                     int count = cursor.getInt(0);
-                    ContentValues cv1 = new ContentValues();
+                    cv1.put("answercount",count + "/" + "12");
                     if (count >= 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能正常");
                     } else if (count >= 7 && count < 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能障碍");
                     } else {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能丧失");
                     }
                     cursor.close();
+                    cv1.put("ID", id);
+                    sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv1);
+                    cv1.put("result"," ");//添加一行空行
+                    cv1.put("answercount"," ");
+                    sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv1);
                     //弹出对话框
                     AlertDialog dialog = new AlertDialog.Builder(Option12Activity.this)
                             .setIcon(R.mipmap.talk)//设置标题的图片
@@ -168,7 +184,7 @@ public class Option12Activity extends Activity {
                     dialog.show();
                 } else {
                     Intent intent = getIntent();
-                    intent.putExtra("send3", accept2 + 1);//accept2+1
+                    intent.putExtra("send3", number_count2 + 1);//accept2+1
                     setResult(RESULT_OK, intent); //intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
                     finish();
                 }
@@ -180,36 +196,51 @@ public class Option12Activity extends Activity {
             public void onDoubleClick() {
                 // TODO Auto-generated method stub
                 Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 ContentValues cv = new ContentValues();
+                if((number_count2+1) == 1){
+                    cv.put("name", name);
+                    cv.put("sex", sex);
+                    cv.put("age", age);
+                }
                 cv.put("ID", id);
-                cv.put("name", name);
-                cv.put("sex", sex);
-                cv.put("age", age);
-                cv.put("target", text1.getText().toString());
-                cv.put("error01", text2.getText().toString());
-                cv.put("error02", text3.getText().toString());
-                cv.put("error03", text4.getText().toString());
-                cv.put("answer", text2.getText().toString());
-                cv.put("answerTime", sdf.format(date));
+                cv.put("correct_answer", finalCorrect);
+                cv.put("option1", text1.getText().toString());
+                cv.put("option2", text2.getText().toString());
+                cv.put("option3", text3.getText().toString());
+                cv.put("option4", text4.getText().toString());
+                cv.put("answer", text2.getText().toString());//点击第一张图片，就是answer
+                cv.put("responTime", sdf.format(date));
+                cv.put("odorStartTime", odorStartTime);
+                cv.put("odorEndTime", odorEndTime);
+                cv.put("retryCount", retryCount);
                 sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv);
-                if (accept2 == 11) {
-                    String sql = "select count(*) from " + Constants.TABLE_NAME4 + " where target=answer and ID=" + id;
+                if (number_count2 == 11) {
+                    ContentValues cv1 = new ContentValues();
+                    String sql = "select count(*) from " + Constants.TABLE_NAME4 + " where answer=correct_answer and ID=" + id;
                     Cursor cursor = sqliteDatabase.rawQuery(sql, null);
                     cursor.moveToFirst();
                     int count = cursor.getInt(0);
-                    ContentValues cv1 = new ContentValues();
+                    cv1.put("answercount",count + "/" + "12");
                     if (count >= 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能正常");
                     } else if (count >= 7 && count < 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能障碍");
                     } else {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能丧失");
                     }
                     cursor.close();
+                    cv1.put("ID", id);
+                    sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv1);
+                    cv1.put("result"," ");//添加一行空行
+                    cv1.put("answercount"," ");
+                    sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv1);
                     AlertDialog dialog = new AlertDialog.Builder(Option12Activity.this)
                             .setIcon(R.mipmap.talk)//设置标题的图片
                             .setTitle("提示")//设置对话框的标题
@@ -227,7 +258,7 @@ public class Option12Activity extends Activity {
                     dialog.show();
                 } else {
                     Intent intent = getIntent();
-                    intent.putExtra("send3", accept2 + 1);
+                    intent.putExtra("send3", number_count2 + 1);
                     setResult(RESULT_OK, intent); //intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
                     finish();
                 }
@@ -239,36 +270,51 @@ public class Option12Activity extends Activity {
             public void onDoubleClick() {
                 // TODO Auto-generated method stub
                 Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 ContentValues cv = new ContentValues();
+                if((number_count2+1) == 1){
+                    cv.put("name", name);
+                    cv.put("sex", sex);
+                    cv.put("age", age);
+                }
                 cv.put("ID", id);
-                cv.put("name", name);
-                cv.put("sex", sex);
-                cv.put("age", age);
-                cv.put("target", text1.getText().toString());
-                cv.put("error01", text2.getText().toString());
-                cv.put("error02", text3.getText().toString());
-                cv.put("error03", text4.getText().toString());
-                cv.put("answer", text3.getText().toString());
-                cv.put("answerTime", sdf.format(date));
+                cv.put("correct_answer", finalCorrect);
+                cv.put("option1", text1.getText().toString());
+                cv.put("option2", text2.getText().toString());
+                cv.put("option3", text3.getText().toString());
+                cv.put("option4", text4.getText().toString());
+                cv.put("answer", text3.getText().toString());//点击第一张图片，就是answer
+                cv.put("responTime", sdf.format(date));
+                cv.put("odorStartTime", odorStartTime);
+                cv.put("odorEndTime", odorEndTime);
+                cv.put("retryCount", retryCount);
                 sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv);
-                if (accept2 == 11) {
-                    String sql = "select count(*) from " + Constants.TABLE_NAME4 + " where target=answer and ID=" + id;
+                if (number_count2 == 11) {
+                    ContentValues cv1 = new ContentValues();
+                    String sql = "select count(*) from " + Constants.TABLE_NAME4 + " where answer=correct_answer and ID=" + id;
                     Cursor cursor = sqliteDatabase.rawQuery(sql, null);
                     cursor.moveToFirst();
                     int count = cursor.getInt(0);
-                    ContentValues cv1 = new ContentValues();
+                    cv1.put("answercount",count + "/" + "12");
                     if (count >= 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能正常");
                     } else if (count >= 7 && count < 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能障碍");
                     } else {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能丧失");
                     }
                     cursor.close();
+                    cv1.put("ID", id);
+                    sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv1);
+                    cv1.put("result"," ");//添加一行空行
+                    cv1.put("answercount"," ");
+                    sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv1);
                     AlertDialog dialog = new AlertDialog.Builder(Option12Activity.this)
                             .setIcon(R.mipmap.talk)//设置标题的图片
                             .setTitle("提示")//设置对话框的标题
@@ -319,7 +365,7 @@ public class Option12Activity extends Activity {
                         }
                     });*/
                     Intent intent = getIntent();
-                    intent.putExtra("send3", accept2 + 1);
+                    intent.putExtra("send3", number_count2 + 1);
                     setResult(RESULT_OK, intent); //intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
                     finish();//此处一定要调用finish()方法
                 }
@@ -331,36 +377,51 @@ public class Option12Activity extends Activity {
             public void onDoubleClick() {
                 // TODO Auto-generated method stub
                 Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 ContentValues cv = new ContentValues();
+                if((number_count2+1) == 1){
+                    cv.put("name", name);
+                    cv.put("sex", sex);
+                    cv.put("age", age);
+                }
                 cv.put("ID", id);
-                cv.put("name", name);
-                cv.put("sex", sex);
-                cv.put("age", age);
-                cv.put("target", text1.getText().toString());
-                cv.put("error01", text2.getText().toString());
-                cv.put("error02", text3.getText().toString());
-                cv.put("error03", text4.getText().toString());
-                cv.put("answer", text4.getText().toString());
-                cv.put("answerTime", sdf.format(date));
+                cv.put("correct_answer", finalCorrect);
+                cv.put("option1", text1.getText().toString());
+                cv.put("option2", text2.getText().toString());
+                cv.put("option3", text3.getText().toString());
+                cv.put("option4", text4.getText().toString());
+                cv.put("answer", text4.getText().toString());//点击第一张图片，就是answer
+                cv.put("responTime", sdf.format(date));
+                cv.put("odorStartTime", odorStartTime);
+                cv.put("odorEndTime", odorEndTime);
+                cv.put("retryCount", retryCount);
                 sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv);
-                if (accept2 == 11) {
-                    String sql = "select count(*) from " + Constants.TABLE_NAME4 + " where target=answer and ID=" + id;
+                if (number_count2 == 11) {
+                    ContentValues cv1 = new ContentValues();
+                    String sql = "select count(*) from " + Constants.TABLE_NAME4 + " where answer=correct_answer and ID=" + id;
                     Cursor cursor = sqliteDatabase.rawQuery(sql, null);
                     cursor.moveToFirst();
                     int count = cursor.getInt(0);
-                    ContentValues cv1 = new ContentValues();
+                    cv1.put("answercount",count + "/" + "12");
                     if (count >= 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能正常");
                     } else if (count >= 7 && count < 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能障碍");
                     } else {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' where ID=" + id;
+                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' , test_channel='12项气味测试' where ID=" + id;
                         sqliteDatabase.execSQL(sql2);
+                        cv1.put("result","嗅觉功能丧失");
                     }
                     cursor.close();
+                    cv1.put("ID", id);
+                    sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv1);
+                    cv1.put("result"," ");//添加一行空行
+                    cv1.put("answercount"," ");
+                    sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv1);
                     AlertDialog dialog = new AlertDialog.Builder(Option12Activity.this)
                             .setIcon(R.mipmap.talk)//设置标题的图片
                             .setTitle("提示")//设置对话框的标题
@@ -379,7 +440,7 @@ public class Option12Activity extends Activity {
                     dialog.show();
                 } else {
                     Intent intent = getIntent();
-                    intent.putExtra("send3", accept2 + 1);
+                    intent.putExtra("send3", number_count2 + 1);
                     setResult(RESULT_OK, intent); //intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
                     finish();//此处一定要调用finish()方法
                 }

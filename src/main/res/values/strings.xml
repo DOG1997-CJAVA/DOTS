@@ -18,7 +18,10 @@
     <string name="remind6">确认删除</string>
     <string name="cencle1">取消</string>
     <string name="retry1">可重闻次数设置</string>
+    <string name="test_mode">测试模式设置</string>
     <string name="confirm1">确认</string>
     <string name="need_useful_wifi">请将WIFI切换至可使用的网络，断开与仪器的wifi局域网连接，才能在线提交反馈信息。</string>
     <string name="save_excel_folder">请选择Excel数据表导出目录</string>
+    <string name="delete_all_data">执行此操作，将会删除数据库中的所有内容，不可恢复，确认删除前请确保已将数据导出。</string>
+    <string name="release_delay_set">本参数将更改气味释放的延时时间。非专业人员严禁更改此项参数，将直接影响气味刺激时间，影响测试结果。</string>
 </resources>

@@ -11,15 +11,18 @@ public class ManagementInfo {
     private String age;
     //用户性别
     private String gender;
+    //用户测试类型
+    private String test_channel;
     //用户作答结果
     private String result;
 
     public ManagementInfo(){};
-    public ManagementInfo(String ID, String name, String age, String gender, String result) {
+    public ManagementInfo(String ID, String name, String age, String gender,String test_channel,String result) {
         this.ID = ID;
         this.name = name;
         this.age = age;
         this.gender = gender;
+        this.test_channel = test_channel;
         this.result = result;
     }
     public ManagementInfo(String ID, String name, String result) {
@@ -58,6 +61,14 @@ public class ManagementInfo {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getTest_channel() {
+        return test_channel;
+    }
+
+    public void getTest_channel(String test_channel) {
+        this.test_channel = test_channel;
     }
 
     public String getResult() {

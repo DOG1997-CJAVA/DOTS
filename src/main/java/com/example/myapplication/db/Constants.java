@@ -4,7 +4,7 @@ public class Constants {
     //用户信息表
     public static final String DATABASE_NAME = "message.db";
     //数据库版本号
-    public static final int VERSION_CODE = 17;
+    public static final int VERSION_CODE = 19;
     //管理员管理表
     public static final String TABLE_NAME = "managementinfo";
     //图片表

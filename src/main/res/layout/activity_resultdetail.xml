@@ -7,34 +7,36 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView12"
-        android:layout_width="0dp"
+        android:id="@+id/textview12"
+        android:layout_width="411dp"
         android:layout_height="3dp"
         android:background="@android:color/background_dark"
-        app:layout_constraintBottom_toBottomOf="@+id/error02"
+
+        app:layout_constraintBottom_toTopOf="@+id/resultdetail_lv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/error01" />
+        app:layout_constraintTop_toBottomOf="@+id/option1" />
 
     <TextView
         android:id="@+id/channelname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="临床12项气味测试"
+        android:text="嗅觉辨识测试"
         android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"></TextView>
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="@+id/textView3"></TextView>
 
     <TextView
-        android:id="@+id/target"
+        android:id="@+id/option1"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:gravity="center"
-        android:text="目标\n选项"
+        android:text="选项1"
         android:textColor="#0F16B1"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/error01"
+        app:layout_constraintEnd_toStartOf="@+id/option2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,18 +88,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textView15"></TextView>
 
     <TextView
-        android:id="@+id/error01"
+        android:id="@+id/option4"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:gravity="center"
-        android:text="干扰\n项1"
+        android:text="选项4"
         android:textColor="#0F16B1"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/target"
-        app:layout_constraintEnd_toStartOf="@+id/error02"
+        app:layout_constraintBottom_toBottomOf="@+id/option3"
+        app:layout_constraintEnd_toStartOf="@+id/answer"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/target"
-        app:layout_constraintTop_toTopOf="@+id/target" />
+        app:layout_constraintStart_toEndOf="@+id/option3"
+        app:layout_constraintTop_toTopOf="@+id/option3" />
 
     <TextView
         android:id="@+id/textView4"
@@ -145,6 +147,20 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7"></TextView>
 
     <TextView
+        android:id="@+id/correct_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:text="目标"
+        android:textColor="#0F16B1"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/answer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/answer"
+        app:layout_constraintTop_toTopOf="@+id/answer" />
+
+    <TextView
         android:id="@+id/answer"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
@@ -152,25 +168,11 @@
         android:text="回答"
         android:textColor="#0F16B1"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/my_answer_time"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/option4"
+        app:layout_constraintEnd_toStartOf="@+id/correct_answer"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/my_answer_time"
-        app:layout_constraintTop_toTopOf="@+id/my_answer_time" />
-
-    <TextView
-        android:id="@+id/my_answer_time"
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:gravity="center"
-        android:text="回答\n时间"
-        android:textColor="#0F16B1"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/error03"
-        app:layout_constraintEnd_toStartOf="@+id/answer"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/error03"
-        app:layout_constraintTop_toTopOf="@+id/error03" />
+        app:layout_constraintStart_toEndOf="@+id/option4"
+        app:layout_constraintTop_toTopOf="@+id/option4" />
 
     <TextView
         android:id="@+id/result1"
@@ -183,18 +185,18 @@
         app:layout_constraintStart_toEndOf="@+id/textView11"></TextView>
 
     <TextView
-        android:id="@+id/error02"
+        android:id="@+id/option2"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:gravity="center"
-        android:text="干扰\n项2"
+        android:text="选项2"
         android:textColor="#0F16B1"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/error01"
-        app:layout_constraintEnd_toStartOf="@+id/error03"
+        app:layout_constraintBottom_toBottomOf="@+id/option1"
+        app:layout_constraintEnd_toStartOf="@+id/option3"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/error01"
-        app:layout_constraintTop_toTopOf="@+id/error01" />
+        app:layout_constraintStart_toEndOf="@+id/option1"
+        app:layout_constraintTop_toTopOf="@+id/option1" />
 
     <TextView
         android:id="@+id/ID2"
@@ -211,11 +213,11 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"></TextView>
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/startTime"></TextView>
 
     <TextView
-        android:id="@+id/answer1"
+        android:id="@+id/answercount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="6/12"
@@ -230,28 +232,28 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"></TextView>
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/age"></TextView>
 
     <TextView
-        android:id="@+id/error03"
+        android:id="@+id/option3"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:gravity="center"
-        android:text="干扰\n项3"
+        android:text="选项3"
         android:textColor="#0F16B1"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/error02"
-        app:layout_constraintEnd_toStartOf="@+id/my_answer_time"
+        app:layout_constraintBottom_toBottomOf="@+id/option2"
+        app:layout_constraintEnd_toStartOf="@+id/option4"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/error02"
-        app:layout_constraintTop_toTopOf="@+id/error02" />
+        app:layout_constraintStart_toEndOf="@+id/option2"
+        app:layout_constraintTop_toTopOf="@+id/option2" />
 
     <TextView
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="测试者姓名："
+        android:text="姓名："
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"></TextView>
@@ -273,6 +275,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12"></ListView>
+        app:layout_constraintTop_toBottomOf="@+id/option1"></ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

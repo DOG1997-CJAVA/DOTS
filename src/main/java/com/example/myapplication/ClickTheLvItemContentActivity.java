@@ -32,7 +32,9 @@ import com.example.myapplication.db.ManagementInfo;
 import com.example.myapplication.db.MyOpenHelper;
 import com.liyu.sqlitetoexcel.SQLiteToExcel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -46,13 +48,49 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
     private ClickItemContentAdapter adapter;
     private TextView tv_title;
     private String ID;
-    private Button excel;
+    private Button excel,delete_all;
 
     //以实现输出excel到具体路径下 依据日期添加筛选测试结果 SQlite导出为excel文件
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_item_content);
+        if (ContextCompat.checkSelfPermission(ClickTheLvItemContentActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(ClickTheLvItemContentActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    WRITE_EXTERNAL_STORAGE_REQUEST_CODE);//申请WRITE_EXTERNAL_STORAGE权限
+        }
+        delete_all = (Button) findViewById(R.id.delete_all);
+        delete_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点击删除按钮之后，给出dialog提示
+                BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+                MaterialDialog dialog = new MaterialDialog(ClickTheLvItemContentActivity.this, bottomSheet);
+                dialog.title(R.string.remind4, null);
+                dialog.message(R.string.delete_all_data, null, null);
+                dialog.positiveButton(R.string.remind6, null, materialDialog -> {
+                    for(int i = dataList.size() -1 ; i >= 0; i--){
+                        String idNumber = (dataList.get(i) + "").substring(3,7);
+                        System.out.println(i);
+                        System.out.println(idNumber);
+                        Map map = moh.deleteFromDdById(idNumber);
+                        if (map.get("result1") != null && map.get("result2") != null) {
+                            Toast.makeText(ClickTheLvItemContentActivity.this, "已成功删除数据", Toast.LENGTH_SHORT).show();
+                        }
+                        dataList.remove(i);
+                        adapter.notifyDataSetChanged();
+                    }
+                    return null;
+                });
+                dialog.negativeButton(R.string.cencle1, null, materialDialog -> {
+                    Toast.makeText(ClickTheLvItemContentActivity.this, "已取消", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    return null;
+                });
+                dialog.show();
+            }
+        });
         excel = (Button) findViewById(R.id.sql_to_excel_click);
         excel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +100,8 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
                     ActivityCompat.requestPermissions(ClickTheLvItemContentActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             WRITE_EXTERNAL_STORAGE_REQUEST_CODE);//申请WRITE_EXTERNAL_STORAGE权限
                 }
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 MaterialDialog dialog_folder = new MaterialDialog(ClickTheLvItemContentActivity.this, MaterialDialog.getDEFAULT_BEHAVIOR());
                 dialog_folder.title(R.string.save_excel_folder, null);
                 DialogFolderChooserExtKt.folderChooser(dialog_folder, getExternalStorageDirectory(), null,
@@ -73,7 +113,7 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
                                         .setDataBase(sd.getPath())
                                         .setTables(Constants.TABLE_NAME4)
                                         .setOutputPath(file.getAbsolutePath())
-                                        .setOutputFileName("测试结果.xls")
+                                        .setOutputFileName(sdf.format(date) + "测试结果.xls")
                                         .start();
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -148,6 +188,7 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
     }
 
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -175,27 +216,6 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
                     return null;
                 });
                 dialog.show();
-
- /*               AlertDialog.Builder builder = new AlertDialog.Builder(ClickTheLvItemContentActivity.this);
-                builder.setTitle("确认删除?");
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {//调用新加的delect类进行删除操作
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String idNumber = (dataList.get(position) + "").substring(3, 7);
-                        Map map = moh.deleteFromDdById(idNumber);//
-                        if (map.get("result1") != null && map.get("result2") != null) {
-                            Toast.makeText(ClickTheLvItemContentActivity.this, "已成功删除数据", Toast.LENGTH_SHORT).show();
-                        }
-                        dataList.remove(position);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-                builder.show();*/
                 break;
         }
     }

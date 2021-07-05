@@ -40,10 +40,10 @@ public class ManagementActivity extends Activity {
             String ID = cursor.getString(cursor.getColumnIndex("ID"));
             String name = cursor.getString(cursor.getColumnIndex("name"));
             String age = cursor.getString(cursor.getColumnIndex("age"));
-            // String medicalHistory = cursor.getString(cursor.getColumnIndex("medicalHistory"));
             String gender = cursor.getString(cursor.getColumnIndex("gender"));
             String result = cursor.getString(cursor.getColumnIndex("result"));
-            ManagementInfo ri = new ManagementInfo(ID, name, age, gender, result);    //ResultInfo存一个条目的数据
+            String test_channel = cursor.getString(cursor.getColumnIndex("test_channel"));
+            ManagementInfo ri = new ManagementInfo(ID, name, age, gender, test_channel,result);    //ResultInfo存一个条目的数据
             resultList.add(ri);//把数据库的每一行加入数组中
         }
         //获取ListView,并通过Adapter把resultList的信息显示到ListView

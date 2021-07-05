@@ -79,7 +79,7 @@
                         android:gravity="center">
 
                         <ImageView
-                            android:id="@+id/image4"
+                            android:id="@+id/image3"
                             android:layout_width="400dp"
                             android:layout_height="285dp"
                             android:layout_marginTop="10dp"
@@ -88,7 +88,7 @@
                             android:src="@drawable/ningmeng"></ImageView>
 
                         <TextView
-                            android:id="@+id/text4"
+                            android:id="@+id/text3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -102,7 +102,7 @@
                         android:gravity="center">
 
                         <ImageView
-                            android:id="@+id/image3"
+                            android:id="@+id/image4"
                             android:layout_width="400dp"
                             android:layout_height="285dp"
                             android:layout_marginTop="10dp"
@@ -111,7 +111,7 @@
                             android:src="@drawable/chengzi"></ImageView>
 
                         <TextView
-                            android:id="@+id/text3"
+                            android:id="@+id/text4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

@@ -44,14 +44,15 @@
                 android:layout_height="fill_parent"
                 android:maxEms="10"
                 android:minEms="10"
-                android:hint="请输入您的反馈意见（字数500以内）"
+                android:hint="请输入您的反馈意见（反馈邮件正文 字数500以内）"
                 android:gravity="top"
                 android:layout_marginBottom="50dip"/>
             <Button android:id="@+id/feedback_submit"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:text="提交反馈"
-                android:textSize="19dp"
+                android:textSize="20sp"
+                android:background="@drawable/btn_transparent"
                 android:layout_gravity="center_horizontal"
                 android:layout_alignParentBottom="true"/>
         </RelativeLayout>

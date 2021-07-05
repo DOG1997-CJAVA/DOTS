@@ -81,7 +81,7 @@
         android:id="@+id/sql_to_excel"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        android:background="@drawable/bt_shape2"
+        android:background="@drawable/btn_transparent"
         android:text="导出所有数据"
         android:textColor="#ffffffff"
         android:textSize="40sp"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,18 +22,19 @@ import com.example.myapplication.db.ResultDetailInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 
 public class ResultDetailActivity extends Activity {
     private static final String TAG = "tag";
     private MyOpenHelper moh;
     private SQLiteDatabase sd;
-    //存放用户作答详细结果的List集合
-    private List<ResultDetailInfo> resultDetailList;//n行ResultDetailInfo对象
-    //存放时间
+    private List<ResultDetailInfo> resultDetailList;//ResultDetailInfo对象
     private ArrayList<String> timeLog;
     private ListView lv;
-    private String ID,name,sex,age,answerTime,results,answerStu;
+    private String ID,name,sex,age,responTime,results,answerStu,testchannel;
     private int correct = 0;
+    private int raw_count_int = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,30 +49,39 @@ public class ResultDetailActivity extends Activity {
         //扫描数据库,将数据库信息放入resultList
         Cursor cursor = sd.rawQuery("select * from "+ Constants.TABLE_NAME4+" where ID="+getID ,null);
         while (cursor.moveToNext()){
+            String raw_count = raw_count_int +" ";
             ID = cursor.getString(cursor.getColumnIndex("ID"));
-            name = cursor.getString(cursor.getColumnIndex("name"));
-            sex = cursor.getString(cursor.getColumnIndex("sex"));
-            age = cursor.getString(cursor.getColumnIndex("age"));
-            answerTime = cursor.getString(cursor.getColumnIndex("answerTime"));
-            timeLog.add(answerTime);
-            String target = cursor.getString(cursor.getColumnIndex("target"));//若打乱题目顺序，可以新建一列储存目标
-            String error01 = cursor.getString(cursor.getColumnIndex("error01"));
-            String error02 = cursor.getString(cursor.getColumnIndex("error02"));
-            String error03 = cursor.getString(cursor.getColumnIndex("error03"));
+            responTime = cursor.getString(cursor.getColumnIndex("responTime"));
+            timeLog.add(responTime);
+            String option1 = raw_count + cursor.getString(cursor.getColumnIndex("option1"));//若打乱题目顺序，可以新建一列储存目标
+            String option2 = cursor.getString(cursor.getColumnIndex("option2"));
+            String option3 = cursor.getString(cursor.getColumnIndex("option3"));
+            String option4 = cursor.getString(cursor.getColumnIndex("option4"));
             String answer = cursor.getString(cursor.getColumnIndex("answer"));
-           //String answer_time = cursor.getString(cursor.getColumnIndex("answerTime"));
-            ResultDetailInfo rdi = new ResultDetailInfo(target,error01,error02,error03,answer,answerTime);
-            resultDetailList.add(rdi);//把数据库的每一行加入数组中
-            if(target.equals(answer)){correct = correct + 1;}
+            String correct_answer = cursor.getString(cursor.getColumnIndex("correct_answer"));
+            if(TextUtils.isEmpty(correct_answer) || TextUtils.isEmpty(answer)){
+            }else{
+                ResultDetailInfo rdi = new ResultDetailInfo(option1,option2,option3,option4,answer,correct_answer);
+                resultDetailList.add(rdi);
+                raw_count_int = raw_count_int + 1;
+            }
+
+            if(TextUtils.isEmpty(correct_answer) || TextUtils.isEmpty(answer)){
+            }else if(answer.equals(correct_answer)){
+                    correct = correct + 1;
+            }
         }
         cursor.close();
-
-        Cursor cursor1 = sd.rawQuery("select result from "+ Constants.TABLE_NAME+" where ID="+getID ,null);
+        Cursor cursor1 = sd.rawQuery("select * from "+ Constants.TABLE_NAME+" where ID="+getID ,null);
         cursor1.moveToFirst();
+        name = cursor1.getString(cursor1.getColumnIndex("name"));
+        age = cursor1.getString(cursor1.getColumnIndex("age"));
+        sex = cursor1.getString(cursor1.getColumnIndex("gender"));
         results = cursor1.getString(cursor1.getColumnIndex("result"));
+        testchannel = cursor1.getString(cursor1.getColumnIndex("test_channel"));
         cursor1.close();
 
-        answerStu = (correct + "") + "/" + (resultDetailList.size() + "");
+        answerStu = (correct + "") + "/" + (resultDetailList.size() + "");//答题正确数目 显示
         Log.d(TAG, "onCreate: "+ answerStu);
 
         TextView hzID = (TextView) findViewById(R.id.ID2);
@@ -83,8 +94,10 @@ public class ResultDetailActivity extends Activity {
         hzAge.setText(age);
         TextView hzResult = (TextView) findViewById(R.id.result1);
         hzResult.setText(results);
-        TextView hzAnswerSituation = (TextView) findViewById(R.id.answer1);
+        TextView hzAnswerSituation = (TextView) findViewById(R.id.answercount);
         hzAnswerSituation.setText(answerStu);
+        TextView test_channel = (TextView) findViewById(R.id.channelname);
+        test_channel.setText(testchannel);
 
         try{
             //显示开始作答时间
@@ -92,7 +105,9 @@ public class ResultDetailActivity extends Activity {
             hzStartAnswerTime.setText(timeLog.get(0));
             //显示结束作答时间
             TextView hzEndAnswerTime = (TextView) findViewById(R.id.endTime);
-            hzEndAnswerTime.setText(timeLog.get(timeLog.size()-1));//最后一个时间
+            //hzEndAnswerTime.setText(timeLog.get(timeLog.size()-1));//最后一个时间
+            hzEndAnswerTime.setText(timeLog.get(timeLog.size()-3));//最后一个时间
+            //Log.d(TAG,"aaaaaaaaaaaaaaaaaaaaaaaaaa"+timeLog);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -119,18 +134,18 @@ public class ResultDetailActivity extends Activity {
                 }
                 //从resultList中取出一行数据，position相当于数组下标,可以实现逐行取数据
                 ResultDetailInfo ri = resultDetailList.get(position);
-                TextView target = (TextView)view.findViewById(R.id.target);
-                TextView error01 = (TextView)view.findViewById(R.id.error01);
-                TextView error02 = (TextView)view.findViewById(R.id.error02);
-                TextView error03 = (TextView)view.findViewById(R.id.error03);
-                TextView answer = (TextView)view.findViewById(R.id.answer);
-                TextView answer_time = (TextView)view.findViewById(R.id.list_answer_time);
-                target.setText(ri.getTarget());
-                error01.setText(ri.getError01());
-                error02.setText(ri.getError02());
-                error03.setText(ri.getError03());
+                TextView option1 = (TextView)view.findViewById(R.id.listview_option1);
+                TextView option2 = (TextView)view.findViewById(R.id.listview_option2);
+                TextView option3 = (TextView)view.findViewById(R.id.listview_option3);
+                TextView option4 = (TextView)view.findViewById(R.id.listview_option4);
+                TextView answer = (TextView)view.findViewById(R.id.listview_answer);
+                TextView correct_answer = (TextView)view.findViewById(R.id.listview_correct_answer);
+                option1.setText(ri.getOption1());
+                option2.setText(ri.getOption2());
+                option3.setText(ri.getOption3());
+                option4.setText(ri.getOption4());
                 answer.setText(ri.getAnswer());
-                answer_time.setText(ri.getAnswerTime());
+                correct_answer.setText(ri.getCorrect_answer());
                 return view;
             }
 

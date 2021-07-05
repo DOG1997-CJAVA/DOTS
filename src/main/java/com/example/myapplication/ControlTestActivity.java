@@ -36,25 +36,26 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 
 public class ControlTestActivity extends Activity implements View.OnClickListener {
-    //四个通道的对应的状态码
-    private String[] status = {"101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116",
-            "201", "202", "203", "204", "205", "206", "207", "208", "209", "210", "211", "212", "213", "214", "215", "216",
-            "301", "302", "303", "304", "305", "306", "307", "308", "309", "310", "311", "312", "313", "314", "315", "316", "401", "402", "403", "404"};
+    private final String[] status = {"101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116",
+            "201", "202", "203", "309", "205", "206", "207", "208", "209", "210", "211", "212", "213", "214", "215", "216",
+            "301", "302", "303", "304", "305", "306", "307", "308"}; //备注 测试主板故障 20通道临时切换为309
+    //"309", "310", "311", "312", "313", "314", "315", "316", "401", "402", "403", "404"
     private static final int CONNECTED_RESPONSE = 0;
     private static final int RESPONSE_TIMEOUT = 1;
     private static final int SEND_RESPONSE = 2;
     private static final int RECEIVER_RESPONSE = 3;
     private static final String HOST = "192.168.4.1";
     private static final int PORT = 8086;
-    private static boolean pump1 = false, pump2 = false;
     Socket socket = null;
     private Button btn_connect;
-    private PrintStream out;    //  打印输出流
-    private ConnectThread mConnectThread;   //  TCP连接线程
+    private PrintStream out;
+    private ConnectThread mConnectThread;   //TCP连接线程
     private ServiceConnection sc;
     private int channel = 1;
     public SocketService socketService;
@@ -67,11 +68,10 @@ public class ControlTestActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.activity_controltest);
         bindSocketService();
         ButterKnife.bind(this);
-        //socketService.sendOrder("405");//进入手动 或者扫描界面 自动切换常开 互斥 调试模式
         Resources res = getResources();
         Chronometer metronome = (Chronometer) this.findViewById(R.id.chronometer);
         metronome.setFormat("通道打开计时:s%");
-        for (int i = 1; i < 49; i++) {
+        for (int i = 1; i < 41; i++) {//实际机箱只有40个电磁阀 预留的八个暂不初始化
             int id = res.getIdentifier("btn" + i, "id", getPackageName());
             ToggleButton btn = (ToggleButton) findViewById(id);
             int finalI = i;
@@ -89,134 +89,143 @@ public class ControlTestActivity extends Activity implements View.OnClickListene
                         metronome.stop();//暂停但不复位，供观察记录
                         btnSetState(true);
                         btn.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
-                        socketService.sendOrder("407");
+                        socketService.sendOrder("410");//关闭所有气味通道 打开清洗气路
                     }
                 }
             });
             bts.add(btn);
         }
 
-        ToggleButton btn49 = (ToggleButton) findViewById(R.id.pumb1);
-        btn49.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ToggleButton btn_pumb1 = (ToggleButton) findViewById(R.id.pumb1);//pumb1
+        btn_pumb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    btn49.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
+                    btn_pumb1.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
                     socketService.sendOrder("401");
                 } else {
-                    btn49.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
+                    btn_pumb1.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
                     socketService.sendOrder("403");
                 }
             }
         });
 
-        ToggleButton btn50 = (ToggleButton) findViewById(R.id.pumb2);
-        btn50.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ToggleButton btn_pumb2 = (ToggleButton) findViewById(R.id.pumb2);//pumb2
+        btn_pumb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    btn50.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
+                    btn_pumb2.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
                     socketService.sendOrder("402");
                 } else {
-                    btn50.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
+                    btn_pumb2.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
                     socketService.sendOrder("404");
                 }
             }
         });
 
-        ToggleButton btn51 = (ToggleButton) findViewById(R.id.btn_value_const);
-        btn51.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ToggleButton btn_value_const = (ToggleButton) findViewById(R.id.btn_value_const);//常开/延时自动关闭 模式切换 进入手动控制界面默认常开
+        btn_value_const.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    btn51.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
+                    btn_value_const.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
                     socketService.sendOrder("405");
                 } else {
-                    btn51.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
+                    btn_value_const.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
                     socketService.sendOrder("406");
                 }
             }
         });
 
-        ToggleButton btn53 = (ToggleButton) findViewById(R.id.btn_connect);
+        ToggleButton btn_connect = (ToggleButton) findViewById(R.id.btn_connect);
         if (btn_connect != null) {
-            btn53.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            btn_connect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        btn53.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
+                        btn_connect.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
                     } else {
-                        btn53.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
+                        btn_connect.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
                     }
                 }
             });
         }
 
-        ToggleButton btn54 = (ToggleButton) findViewById(R.id.btn_auto_scan);
-            btn54.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        btn54.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
-                        cdt.start();
-                        toastMsg("48通道 自动扫描检测已开始");
-                    } else {
-                        //手动点击取消 结束自动扫描
-                        btn54.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
-                        cdt.cancel();
-                        channel = 1;
-                        btnSetState(true);//取消扫描，恢复原样，使能各个按键的点击
-                        for(int i = 0; i<48 ;i++) {
-                            bts.get(i).setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
-                        }
-                        toastMsg("自动扫描检测已取消");
-                    }
-                }
-            });
-
-        ToggleButton btn55 = (ToggleButton) findViewById(R.id.btn_fan);
+        ToggleButton btn_fan = (ToggleButton) findViewById(R.id.btn_fan);
         if (btn_connect != null) {
-            btn53.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            btn_fan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        btn55.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
-                        socketService.sendOrder("501"); //501开启排风扇
+                        btn_fan.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
+                        socketService.sendOrder("407");
                     } else {
-                        btn55.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
-                        socketService.sendOrder("500"); //502关闭排风扇
+                        btn_fan.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
+                        socketService.sendOrder("408");
                     }
                 }
             });
         }
+
+        ToggleButton btn_clean = (ToggleButton) findViewById(R.id.btn_clean);
+        if (btn_connect != null) {
+            btn_clean.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        btn_clean.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
+                        socketService.sendOrder("411");//打开清洗 关闭加味
+                    } else {
+                        btn_clean.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
+                        socketService.sendOrder("412");//关闭清洗 打开加味
+                    }
+                }
+            });
+        }
+
+        ToggleButton btn_auto_scan = (ToggleButton) findViewById(R.id.btn_auto_scan);
+        btn_auto_scan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    btn_auto_scan.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
+                    cdt.start();
+                    toastMsg("40通道 自动扫描检测已开始");
+                } else {
+                    //手动点击取消 结束自动扫描
+                    btn_auto_scan.setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
+                    cdt.cancel();
+                    socketService.sendOrder("410");//清除状态标志位
+                    channel = 1;
+                    btnSetState(true);//取消扫描，恢复原样，使能各个按键的点击
+                    for (int i = 0; i < 40; i++) {
+                        bts.get(i).setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
+                    }
+                    toastMsg("自动扫描检测已完成或已取消");
+                }
+            }
+        });
     }
 
-    private void btnSetState(boolean state) {
-        for (int j = 0; j < 48; j++) {
-/*            System.out.println(j);
-            System.out.println(bts.size());
-            System.out.println(bts.get(j));*/
-            ToggleButton my_btn = (ToggleButton) bts.get(j);
-            my_btn.setClickable(state);
-        }
-    }
-
-    private CountDownTimer cdt = new CountDownTimer(96000,2000) {
+    private CountDownTimer cdt = new CountDownTimer(80000, 2000) {
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onTick(long millisUntilFinished) {
             btnSetState(false);
-            ToggleButton my_btn = (ToggleButton) bts.get(channel-1);//btn1开始
+            ToggleButton my_btn = (ToggleButton) bts.get(channel - 1);//btn1开始
             my_btn.setBackgroundDrawable(getDrawable(R.drawable.bt_shape));
-            socketService.sendOrder(status[channel-1]);//索引0开始
-            System.out.println(channel-1);
+            socketService.sendOrder(status[channel - 1]);//索引0开始 打开各个通道
+            System.out.println(channel - 1);
             channel++;
         }
+
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onFinish() {
+            socketService.sendOrder("410");
             btnSetState(true);//自动扫描结束，恢复原样，使能各个按键的点击
-            for(int i = 0; i<48 ;i++) {
+            for (int i = 0; i < 40; i++) {//依旧只自动扫描前40个通道
                 bts.get(i).setBackgroundDrawable(getDrawable(R.drawable.bt_shape1));
             }
             ToggleButton btn_auto_scan = (ToggleButton) findViewById(R.id.btn_auto_scan);
@@ -226,6 +235,13 @@ public class ControlTestActivity extends Activity implements View.OnClickListene
         }
     };
 
+    private void btnSetState(boolean state) {
+        for (int j = 0; j < 40; j++) {
+            ToggleButton my_btn = (ToggleButton) bts.get(j);
+            my_btn.setClickable(state);
+        }
+    }
+
     private void bindSocketService() {
         /*通过binder拿到service*/
         sc = new ServiceConnection() {
@@ -233,13 +249,34 @@ public class ControlTestActivity extends Activity implements View.OnClickListene
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 SocketService.SocketBinder binder = (SocketService.SocketBinder) iBinder;
                 socketService = binder.getService();
+                Timer my_delay_timer = new Timer();
+                socketService.sendOrder("405");//初始化 关闭所有可能打开的通道 打开清洗气路
+                my_delay_timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        socketService.sendOrder("405");
+                    }
+                }, 200);
+                socketService.sendOrder("410");
+                my_delay_timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        socketService.sendOrder("410");
+                    }
+                }, 200);
+                socketService.sendOrder("407");
+                my_delay_timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        socketService.sendOrder("407");
+                    }
+                }, 200);
             }
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
             }
         };
-
         Intent intent = new Intent(getApplicationContext(), SocketService.class);
         bindService(intent, sc, BIND_AUTO_CREATE);
     }
@@ -256,14 +293,26 @@ public class ControlTestActivity extends Activity implements View.OnClickListene
 
     @Override
     protected void onDestroy() {
-        if(cdt!=null){
+        if (cdt != null) {
             cdt.cancel();
             cdt = null;
         }
-        super.onDestroy();
-/*      socketService.sendOrder("406");//恢复测试模式 初始化状态
-        socketService.sendOrder("102");
-        socketService.sendOrder("102");*/
+        super.onDestroy();//恢复测试模式 初始化状态
+        socketService.sendOrder("410");//关闭所有可能打开的通道
+        Timer my_delay_timer = new Timer();
+        my_delay_timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                socketService.sendOrder("410");
+            }
+        }, 100);
+        socketService.sendOrder("406");  //切换回延时模式
+        my_delay_timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                socketService.sendOrder("406");
+            }
+        }, 100);
         unbindService(sc);
         Intent intent = new Intent(getApplicationContext(), SocketService.class);
         stopService(intent);
@@ -291,8 +340,8 @@ public class ControlTestActivity extends Activity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn1:
-            toastMsg("101");
-            break;
+                toastMsg("101");
+                break;
             /*                 case R.id.btn1:
                 socketService.sendOrder("101");
                 break;

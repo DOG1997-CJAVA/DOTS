@@ -19,8 +19,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:gravity="center"
-            android:foreground="?selectableItemBackground"
-            android:text="临床12项气味测试"
+            android:background="@drawable/btn_transparent"
+            android:text="12项气味测试"
             android:textSize="40sp"></Button>
     <Button
         android:id="@+id/btn_20"
@@ -30,8 +30,8 @@
         android:gravity="center"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
-        android:foreground="?selectableItemBackground"
-        android:text="临床20项气味测试"
+        android:background="@drawable/btn_transparent"
+        android:text="20项气味测试"
         android:textSize="40sp"></Button>
     <Button
         android:id="@+id/btn_40"
@@ -41,8 +41,8 @@
         android:gravity="center"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
-        android:foreground="?selectableItemBackground"
-        android:text="研究型40项气味测试"
+        android:background="@drawable/btn_transparent"
+        android:text="40项气味测试"
         android:textSize="40sp"></Button>
     </LinearLayout>
 </LinearLayout>

@@ -47,10 +47,7 @@ public class Option2Activity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option12);//改变此处指定它的 答题界面 样式
-        // 创建SQLiteOpenHelper子类对象
-        //注意，一定要传入最新的数据库版本号
         MyOpenHelper dbHelper = new MyOpenHelper(Option2Activity.this);
-        // 调用getWritableDatabase()方法创建或打开一个可以读的数据库
         SQLiteDatabase sqliteDatabase = dbHelper.getWritableDatabase();
         ImageView image1 = (ImageView) findViewById(R.id.image1);
         ImageView image2 = (ImageView) findViewById(R.id.image2);
@@ -68,10 +65,10 @@ public class Option2Activity extends Activity {
         Cursor cursor = sqliteDatabase.rawQuery(sql, null);
         try {
             cursor.moveToFirst();
-            text1.setText(cursor.getString(cursor.getColumnIndex("target")));
-            text2.setText(cursor.getString(cursor.getColumnIndex("error01")));
-            text3.setText(cursor.getString(cursor.getColumnIndex("error02")));
-            text4.setText(cursor.getString(cursor.getColumnIndex("error03")));
+            text1.setText(cursor.getString(cursor.getColumnIndex("option1")));
+            text2.setText(cursor.getString(cursor.getColumnIndex("option2")));
+            text3.setText(cursor.getString(cursor.getColumnIndex("option3")));
+            text4.setText(cursor.getString(cursor.getColumnIndex("option4")));
         } catch (Exception e) {
             e.printStackTrace();
         }

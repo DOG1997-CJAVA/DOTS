@@ -8,95 +8,102 @@
 
 
     <TextView
-        android:id="@+id/target"
-        android:layout_width="0dp"
-        android:layout_height="41dp"
+        android:id="@+id/listview_option1"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:gravity="center"
-        android:text="目标选项"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/error01"
+        android:text="选项1"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/listview_option2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/error01" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/error01"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/listview_option2"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:gravity="center"
-        android:text="干扰项1"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/error02"
+        android:text="选项2"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/listview_option1"
+        app:layout_constraintEnd_toStartOf="@+id/listview_option3"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/target"
-        app:layout_constraintTop_toTopOf="@+id/error02" />
+        app:layout_constraintStart_toEndOf="@+id/listview_option1"
+        app:layout_constraintTop_toTopOf="@+id/listview_option1" />
 
     <TextView
-        android:id="@+id/error02"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/listview_option3"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:gravity="center"
-        android:text="干扰项2"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/error03"
+        android:text="选项3"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/listview_option2"
+        app:layout_constraintEnd_toStartOf="@+id/listview_option4"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/error01"
-        app:layout_constraintTop_toTopOf="@+id/error03" />
+        app:layout_constraintStart_toEndOf="@+id/listview_option2"
+        app:layout_constraintTop_toTopOf="@+id/listview_option2" />
 
     <TextView
-        android:id="@+id/error03"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/listview_option4"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:gravity="center"
-        android:text="干扰项3"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/list_answer_time"
+        android:text="选项4"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/listview_option3"
+        app:layout_constraintEnd_toStartOf="@+id/listview_answer"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/error02"
-        app:layout_constraintTop_toTopOf="@+id/list_answer_time" />
+        app:layout_constraintStart_toEndOf="@+id/listview_option3"
+        app:layout_constraintTop_toTopOf="@+id/listview_option3"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/list_answer_time"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="回答时间"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/answer"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/error03"
-        app:layout_constraintTop_toTopOf="@+id/answer" />
-
-    <TextView
-        android:id="@+id/answer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/listview_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:gravity="center"
         android:text="回答"
-        android:textSize="30sp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/listview_option3"
+        app:layout_constraintEnd_toStartOf="@+id/listview_correct_answer"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/listview_option4"
+        app:layout_constraintTop_toTopOf="@+id/listview_option3" />
+
+    <TextView
+        android:id="@+id/listview_correct_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:text="目标"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/listview_answer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/list_answer_time"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/listview_answer"
+        app:layout_constraintTop_toTopOf="@+id/listview_answer" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
         android:background="@android:color/background_dark"
-        app:layout_constraintBottom_toBottomOf="@+id/list_answer_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_answer_time" />
+        app:layout_constraintTop_toBottomOf="@+id/listview_option1" />
 
     <ListView
         android:id="@+id/resultdetail_lv"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/error02" />
+        app:layout_constraintTop_toBottomOf="@+id/textView13">
+
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

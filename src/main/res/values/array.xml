@@ -23,12 +23,19 @@
         <item>3次</item>
         <item>4次</item>
         <item>5次</item>
+        <item>不设置重闻次数</item>
     </string-array>
 
     <string-array name="feedback_type">
-        <item>App界面问题</item>
-        <item>测试流程问题</item>
-        <item>数据储存导出问题</item>
-        <item>其他问题</item>
+        <item>（邮件主题）App界面问题</item>
+        <item>（邮件主题）测试流程问题</item>
+        <item>（邮件主题）数据储存导出问题</item>
+        <item>（邮件主题）其他问题</item>
     </string-array>
+
+    <string-array name="random_fix_mode">
+        <item>题目顺序：随机模式</item>
+        <item>题目顺序：固定模式</item>
+    </string-array>
+
 </resources>

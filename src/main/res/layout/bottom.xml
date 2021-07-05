@@ -70,6 +70,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
-            android:text="测试结果"/>
+            android:text="测试结果及反馈"/>
     </LinearLayout>
 </LinearLayout>

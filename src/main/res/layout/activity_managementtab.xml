@@ -5,15 +5,15 @@
     android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/welcom_color">
+    android:background="@drawable/new_background">
 
   <Button
       android:id="@+id/btn_retry_set"
       android:layout_width="300dp"
       android:layout_height="80dp"
-      android:layout_marginTop="132dp"
+      android:layout_marginTop="32dp"
       android:layout_marginBottom="32dp"
-      android:background="@drawable/bt_shape2"
+      android:background="@drawable/btn_transparent"
       android:text="重闻次数设置"
       android:textColor="#ffffffff"
       android:textSize="40sp"
@@ -26,22 +26,22 @@
       android:id="@+id/btn00"
       android:layout_width="300dp"
       android:layout_height="80dp"
-      android:layout_marginTop="249dp"
-      android:background="@drawable/bt_shape2"
+      android:layout_marginTop="32dp"
+      android:background="@drawable/btn_transparent"
       android:text="通信重连"
       android:textColor="#ffffffff"
       android:textSize="40sp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"></Button>
+      app:layout_constraintTop_toBottomOf="@+id/btn_retry_set"></Button>
 
   <Button
       android:id="@+id/btn01"
       android:layout_width="300dp"
       android:layout_height="80dp"
       android:layout_marginTop="32dp"
-      android:background="@drawable/bt_shape2"
-      android:text="通道测试管理"
+      android:background="@drawable/btn_transparent"
+      android:text="总控界面"
       android:textColor="#ffffffff"
       android:textSize="40sp"
       app:layout_constraintEnd_toEndOf="parent"
@@ -53,66 +53,39 @@
       android:layout_width="300dp"
       android:layout_height="80dp"
       android:layout_marginTop="32dp"
-      android:background="@drawable/bt_shape2"
+      android:background="@drawable/btn_transparent"
       android:text="测试结果管理"
       android:textColor="#ffffffff"
       android:textSize="40sp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/btn01"></Button>
-  <!--
-  <RadioGroup
-      android:id="@+id/radioGroupRetry"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      app:layout_constraintStart_toEndOf="@+id/textView2"
-      app:layout_constraintTop_toTopOf="@+id/textView2">
 
-    <RadioButton
-        android:id="@+id/btnRetry1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1"
-        android:textColor="#ffffff"
-        android:textSize="15sp" />
-
-    <RadioButton
-        android:id="@+id/btnRetry2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2"
-        android:textColor="#ffffff"
-        android:textSize="15sp" />
-
-    <RadioButton
-        android:id="@+id/btnRetry3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3"
-        android:textColor="#ffffff"
-        android:textSize="15sp" />
-
-    <RadioButton
-        android:id="@+id/btnRetry4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:textColor="#ffffff"
-        android:textSize="15sp" />
-
-  </RadioGroup>
-
-  <TextView
-      android:id="@+id/textView2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+  <Button
+      android:id="@+id/odor_release_delay"
+      android:layout_width="300dp"
+      android:layout_height="80dp"
       android:layout_marginTop="32dp"
-      android:text="重闻次数选择:"
-      android:textColor="#ffffff"
-      android:textSize="24sp"
-      app:layout_constraintStart_toStartOf="@+id/btn02"
-      app:layout_constraintTop_toBottomOf="@+id/btn02" />-->
+      android:background="@drawable/btn_transparent"
+      android:text="释放时间设置"
+      android:textColor="#ffffffff"
+      android:textSize="40sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/btn02" />
+
+  <Button
+      android:id="@+id/random_fix_mode"
+      android:layout_width="300dp"
+      android:layout_height="80dp"
+      android:layout_marginTop="32dp"
+      android:background="@drawable/btn_transparent"
+      android:text="测试模式设置"
+      android:textColor="#ffffffff"
+      android:textSize="40sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/odor_release_delay" />
 
   <TextView
       android:id="@+id/retryNumberRemind"
@@ -122,9 +95,9 @@
       android:text="当前设置的重闻次数："
       android:textColor="#ffffff"
       android:textSize="24sp"
-      app:layout_constraintEnd_toEndOf="@+id/btn02"
-      app:layout_constraintStart_toStartOf="@+id/btn02"
-      app:layout_constraintTop_toBottomOf="@+id/btn02" />
+      app:layout_constraintEnd_toEndOf="@+id/odor_release_delay"
+      app:layout_constraintStart_toStartOf="@+id/odor_release_delay"
+      app:layout_constraintTop_toBottomOf="@+id/random_fix_mode" />
 
   <TextView
       android:id="@+id/retryNumberShow"
@@ -135,6 +108,30 @@
       android:textSize="24sp"
       app:layout_constraintStart_toEndOf="@+id/retryNumberRemind"
       app:layout_constraintTop_toTopOf="@+id/retryNumberRemind" />
+
+  <TextView
+      android:id="@+id/mode_remind"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="32dp"
+      android:text="当前设置的测试模式："
+      android:textColor="#ffffff"
+      android:textSize="24sp"
+      app:layout_constraintEnd_toEndOf="@+id/random_fix_mode"
+      app:layout_constraintStart_toStartOf="@+id/random_fix_mode"
+      app:layout_constraintTop_toBottomOf="@+id/retryNumberRemind" />
+
+  <TextView
+      android:id="@+id/mode_to_set"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="32dp"
+      android:text="固定模式"
+      android:textColor="#ffffff"
+      android:textSize="24sp"
+      app:layout_constraintBottom_toBottomOf="@+id/mode_remind"
+      app:layout_constraintStart_toEndOf="@+id/mode_remind"
+      app:layout_constraintTop_toBottomOf="@+id/retryNumberRemind" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

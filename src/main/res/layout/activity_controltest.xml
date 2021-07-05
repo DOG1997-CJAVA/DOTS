@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/cloud"
+    android:background="@drawable/new_background"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -714,8 +714,8 @@
                     android:layout_marginTop="45dp"
                     android:background="@drawable/bt_shape1"
                     android:textColor="#FFFBFB"
-                    android:textOff="value_const已关闭"
-                    android:textOn="value_const已打开"
+                    android:textOff="value_const已打开"
+                    android:textOn="value_const已关闭"
                     android:textSize="30sp"></ToggleButton>
 
                 <ToggleButton
@@ -726,11 +726,11 @@
                     android:layout_marginTop="45dp"
                     android:background="@drawable/bt_shape1"
                     android:textColor="#FFFBFB"
-                    android:textOff="清洗气路已打开"
-                    android:textOn="清洗气路已关闭"
+                    android:textOff="清洗打开 加味关闭"
+                    android:textOn="清洗关闭 加味打开"
                     android:textSize="30sp"></ToggleButton>
 
-                <ToggleButton
+                <!--<ToggleButton
                     android:id="@+id/btn_add_smell"
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
@@ -738,9 +738,9 @@
                     android:layout_marginTop="45dp"
                     android:background="@drawable/bt_shape1"
                     android:textColor="#FFFBFB"
-                    android:textOff="加味通道已关闭"
-                    android:textOn="加味通道已打开应该互斥"
-                    android:textSize="30sp"></ToggleButton>
+                    android:textOff="加味通道已打开"
+                    android:textOn="加味通道已关闭"
+                    android:textSize="30sp"></ToggleButton>-->
             </LinearLayout>
 
             </LinearLayout>

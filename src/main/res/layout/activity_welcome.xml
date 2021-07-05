@@ -23,8 +23,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Olfactory-Test-China  Stable Version1.5.4.3\n@2020-2021 All Right Reserved"
-        android:textColor="#ffff00"
-        android:textSize="24sp" />
+        android:text="Olfactory-Test-China  Stable Version1.5.4.6\n@2020-2021 All Right Reserved"
+        android:textColor="#000000"
+        android:textSize="20sp" />
 
 </RelativeLayout>
