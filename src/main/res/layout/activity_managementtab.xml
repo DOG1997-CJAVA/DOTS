@@ -1,137 +1,159 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/new_background">
+    android:layout_height="wrap_content"
+    android:background="@drawable/new_background"
+    >
 
-  <Button
-      android:id="@+id/btn_retry_set"
-      android:layout_width="300dp"
-      android:layout_height="80dp"
-      android:layout_marginTop="32dp"
-      android:layout_marginBottom="32dp"
-      android:background="@drawable/btn_transparent"
-      android:text="重闻次数设置"
-      android:textColor="#ffffffff"
-      android:textSize="40sp"
-      app:layout_constraintBottom_toTopOf="@+id/btn00"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
-
-  <Button
-      android:id="@+id/btn00"
-      android:layout_width="300dp"
-      android:layout_height="80dp"
-      android:layout_marginTop="32dp"
-      android:background="@drawable/btn_transparent"
-      android:text="通信重连"
-      android:textColor="#ffffffff"
-      android:textSize="40sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/btn_retry_set"></Button>
-
-  <Button
-      android:id="@+id/btn01"
-      android:layout_width="300dp"
-      android:layout_height="80dp"
-      android:layout_marginTop="32dp"
-      android:background="@drawable/btn_transparent"
-      android:text="总控界面"
-      android:textColor="#ffffffff"
-      android:textSize="40sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/btn00"></Button>
-
-  <Button
-      android:id="@+id/btn02"
-      android:layout_width="300dp"
-      android:layout_height="80dp"
-      android:layout_marginTop="32dp"
-      android:background="@drawable/btn_transparent"
-      android:text="测试结果管理"
-      android:textColor="#ffffffff"
-      android:textSize="40sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/btn01"></Button>
-
-  <Button
-      android:id="@+id/odor_release_delay"
-      android:layout_width="300dp"
-      android:layout_height="80dp"
-      android:layout_marginTop="32dp"
-      android:background="@drawable/btn_transparent"
-      android:text="释放时间设置"
-      android:textColor="#ffffffff"
-      android:textSize="40sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/btn02" />
-
-  <Button
-      android:id="@+id/random_fix_mode"
-      android:layout_width="300dp"
-      android:layout_height="80dp"
-      android:layout_marginTop="32dp"
-      android:background="@drawable/btn_transparent"
-      android:text="测试模式设置"
-      android:textColor="#ffffffff"
-      android:textSize="40sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/odor_release_delay" />
-
-  <TextView
-      android:id="@+id/retryNumberRemind"
-      android:layout_width="wrap_content"
+  <LinearLayout
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:text="当前设置的重闻次数："
-      android:textColor="#ffffff"
-      android:textSize="24sp"
-      app:layout_constraintEnd_toEndOf="@+id/odor_release_delay"
-      app:layout_constraintStart_toStartOf="@+id/odor_release_delay"
-      app:layout_constraintTop_toBottomOf="@+id/random_fix_mode" />
+      android:orientation="vertical"
+      android:padding="@dimen/activity_horizontal_margin"
+      tools:context=".MainActivity"
+      tools:ignore="HardcodedText"
+      >
 
-  <TextView
-      android:id="@+id/retryNumberShow"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="1"
-      android:textColor="#ffffff"
-      android:textSize="24sp"
-      app:layout_constraintStart_toEndOf="@+id/retryNumberRemind"
-      app:layout_constraintTop_toTopOf="@+id/retryNumberRemind" />
+    <!-- 后台管理 -->
 
-  <TextView
-      android:id="@+id/mode_remind"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:text="当前设置的测试模式："
-      android:textColor="#ffffff"
-      android:textSize="24sp"
-      app:layout_constraintEnd_toEndOf="@+id/random_fix_mode"
-      app:layout_constraintStart_toStartOf="@+id/random_fix_mode"
-      app:layout_constraintTop_toBottomOf="@+id/retryNumberRemind" />
+    <TextView
+        android:layout_marginTop="0dp"
+        android:text="@string/back_ifo"
+        style="@style/SampleHeader"
+        />
 
-  <TextView
-      android:id="@+id/mode_to_set"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
-      android:text="固定模式"
-      android:textColor="#ffffff"
-      android:textSize="24sp"
-      app:layout_constraintBottom_toBottomOf="@+id/mode_remind"
-      app:layout_constraintStart_toEndOf="@+id/mode_remind"
-      app:layout_constraintTop_toBottomOf="@+id/retryNumberRemind" />
+    <Button
+        android:id="@+id/btn00"
+        android:text="@string/re_connect"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
 
+    <Button
+        android:id="@+id/btn01"
+        android:text="@string/general_control_interface"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btn02"
+        android:text="@string/management_result"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
+
+    <Button
+        android:id="@+id/btn_retry_set"
+        android:text="@string/management_retry_count"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
+
+    <Button
+        android:id="@+id/odor_release_delay"
+        android:text="@string/management_advance_timing"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
+
+    <Button
+        android:id="@+id/random_fix_mode"
+        android:text="@string/management_test_mode"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
+
+    <Button
+        android:id="@+id/release_time"
+        android:text="@string/management_release_timing"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
+
+    <Button
+        android:id="@+id/btn_language_select"
+        android:text="@string/lang_select"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
+
+    <TextView
+        android:id="@+id/retryNumberRemind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/management_retry_count_remind"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/retryNumberShow"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/mode_remind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/management_test_mode_remind"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/mode_to_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/management_fix_mode"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/release_time_remind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:text="@string/management_release_timing_remind"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/release_time_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="3s"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/release_delay_time_remind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/management_advance_timing_remind"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/delay_time_remind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="2s"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+  </LinearLayout>
+
+</ScrollView>

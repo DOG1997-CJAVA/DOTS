@@ -18,7 +18,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="5dp"
                 android:text="@string/viewinstruction1"
-                android:textSize="20sp"></TextView>
+                android:textSize="20sp" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/ladysniff"></ImageView>
+                android:src="@drawable/ladysniff" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -35,7 +35,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/viewinstruction2"
-                android:textSize="20sp"></TextView>
+                android:textSize="20sp"
+                android:layout_marginStart="10dp" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -43,7 +44,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/chosetses"></ImageView>
+                android:src="@drawable/chosetses" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,7 +53,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/viewinstruction3"
-                android:textSize="20sp"></TextView>
+                android:textSize="20sp"
+                android:layout_marginEnd="5dp"></TextView>
 
             <ImageView
                 android:layout_width="match_parent"

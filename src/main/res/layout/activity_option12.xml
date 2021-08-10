@@ -16,7 +16,7 @@
                 android:id="@+id/textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"></TextView>
+                android:textSize="30sp" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -35,11 +35,11 @@
 
                         <ImageView
                             android:id="@+id/image1"
-                            android:layout_width="400dp"
-                            android:layout_height="285dp"
+                            android:layout_width="400sp"
+                            android:layout_height="285sp"
                             android:foreground="?selectableItemBackground"
                             android:scaleType="fitXY"
-                            android:src="@drawable/pingguo"></ImageView>
+                            android:src="@drawable/pingguo" />
 
                         <TextView
                             android:id="@+id/text1"

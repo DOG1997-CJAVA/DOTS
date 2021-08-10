@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:src="@drawable/wifi_red"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageView
@@ -25,7 +24,7 @@
         android:layout_marginTop="8dp"
         android:src="@drawable/wifi"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn100"
@@ -33,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:background="@drawable/btn_transparent"
-        android:text="模拟测试"
+        android:text="@string/simulation_test"
         android:textColor="#ffffffff"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/btn101"
@@ -45,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_transparent"
-        android:text="开始测试"
+        android:text="@string/real_test"
         android:textColor="#ffffffff"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="@drawable/btn_transparent"
-        android:text="后台管理"
+        android:text="@string/Back_management"
         android:textColor="#ffffffff"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"

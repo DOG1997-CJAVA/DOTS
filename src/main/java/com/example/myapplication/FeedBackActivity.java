@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class FeedBackActivity extends Activity {
+public class FeedBackActivity extends BaseActivity {
     private static final String TAG = FeedBackActivity.class.getSimpleName();
     private String EMAIL_FROM;//发件人
     private String EMAIL_TO;//收件人

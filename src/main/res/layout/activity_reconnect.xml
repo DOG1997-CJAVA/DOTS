@@ -32,8 +32,10 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="6dp"
         android:background="@drawable/bt_shape"
-        android:text="连接"
+        android:text="@string/re_connect_btn"
+        android:textSize="20sp"
         android:textColor="#FFFFFFFF" />
+
     <Button
         android:id="@+id/btnT"
         android:layout_width="wrap_content"
@@ -43,5 +45,5 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="6dp"
         android:background="@drawable/bt_shape"
-        android:text="返回"></Button>
+        android:text="@string/quit_reconnect_btn" />
 </LinearLayout>

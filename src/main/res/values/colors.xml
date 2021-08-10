@@ -9,4 +9,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="color_green">#20E328</color>
     <color name="color_yellow">#FFC107</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="primary">#6002ee</color>
+    <color name="primaryDark">#5002c7</color>
+    <color name="accent">#9c47ff</color>
+
+    <color name="primary_custom">#607D8B</color>
+    <color name="primaryDark_custom">#546E7A</color>
+    <color name="accent_custom">#388E3C</color>
+    <color name="primary_custom_translucent">#40388E3C</color>
 </resources>

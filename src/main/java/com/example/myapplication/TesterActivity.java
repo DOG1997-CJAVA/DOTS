@@ -19,42 +19,14 @@ import com.example.myapplication.db.MyOpenHelper;
 
 import java.util.Random;
 
-public class TesterActivity extends AppCompatActivity {
+public class TesterActivity extends BaseActivity {
     //String medicalHistory;
     String gender;
+    boolean gender_is_check = false;//修复性别不选也可进行测试的bug
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tester);
-//        List<String> list = new ArrayList<String>();
-//        list.add("无");
-//        list.add("嗅觉减退");
-//        list.add("后天嗅觉丧失");//后天
-//        list.add("先天嗅觉缺失");//先天
-//        list.add("嗅觉过敏");
-//        list.add("幻嗅");
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-//        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-//        Spinner sp = (Spinner) findViewById(R.id.spinner1);
-//        sp.setAdapter(adapter);
-//        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            // parent： 为控件Spinner view：显示文字的TextView position：下拉选项的位置从0开始
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                TextView tvResult = (TextView) findViewById(R.id.tvResult);
-//                //获取Spinner控件的适配器
-//                ArrayAdapter<String> adapter = (ArrayAdapter<String>) parent.getAdapter();
-//                tvResult.setText(adapter.getItem(position));
-//                TextView tv = (TextView)view;
-//                tv.setTextSize(40);
-//                //获取选中值
-//                Spinner spinner = (Spinner) parent;
-//                medicalHistory = (String) spinner.getItemAtPosition(position);
-//
-//            }
-//            //没有选中时的处理
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
         Button btn=(Button)findViewById(R.id.tester_btn);
         EditText eTN1=(EditText)findViewById(R.id.editTextNum1);
         int random = new Random().nextInt(8999)+1000;
@@ -68,13 +40,15 @@ public class TesterActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton radioButton = (RadioButton)findViewById(radioGroup.getCheckedRadioButtonId());
                 gender = radioButton.getText().toString();
+                gender_is_check = true;
             }
         });
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {//trim 去掉前后多余的东西 多余的回车换行键
-                if(eT1.getText().toString().trim().isEmpty()||eTN1.getText().toString().trim().isEmpty()||eTN2.getText().toString().trim().isEmpty()){
-                    Toast.makeText(TesterActivity.this,"请输入完整的个人信息",Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {   //trim 去掉前后多余的东西 多余的回车换行键
+                if(eT1.getText().toString().trim().isEmpty()||eTN1.getText().toString().trim().isEmpty()
+                        ||eTN2.getText().toString().trim().isEmpty()|| !gender_is_check){
+                    Toast.makeText(TesterActivity.this,getString(R.string.info_incomplete_remind),Toast.LENGTH_SHORT).show();
                 }else{
                     // 创建SQLiteOpenHelper子类对象
                     ////注意，一定要传入最新的数据库版本号
@@ -83,6 +57,7 @@ public class TesterActivity extends AppCompatActivity {
                     SQLiteDatabase sqliteDatabase1 = dbHelper1.getWritableDatabase();
                     // 创建ContentValues对象
                     ContentValues values1 = new ContentValues();
+                    String record_temp = getString(R.string.quit_record_notcomplit);
                     String sq1 = "delete from "+Constants.TABLE_NAME+" where result="+"'默认'";
                     sqliteDatabase1.execSQL(sq1);
                     // 向该对象中插入键值对
@@ -97,8 +72,8 @@ public class TesterActivity extends AppCompatActivity {
                     // sqliteDatabase.execSQL("insert into user (id,name) values (1,'carson')");
                     //关闭数据库
                     sqliteDatabase1.close();
-                    Intent intent=getIntent();
-                    String value=intent.getStringExtra("channel");
+                    Intent intent = getIntent();
+                    String value = intent.getStringExtra("channel");
                     if("12通道".equals(value)){
                         Intent intent1=new Intent(TesterActivity.this, Ready12Activity.class);
                         startActivity(intent1);

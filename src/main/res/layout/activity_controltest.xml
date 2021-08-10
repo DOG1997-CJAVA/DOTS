@@ -726,8 +726,8 @@
                     android:layout_marginTop="45dp"
                     android:background="@drawable/bt_shape1"
                     android:textColor="#FFFBFB"
-                    android:textOff="清洗打开 加味关闭"
-                    android:textOn="清洗关闭 加味打开"
+                    android:textOff="清洗关闭 加味打开"
+                    android:textOn="清洗打开 加味关闭"
                     android:textSize="30sp"></ToggleButton>
 
                 <!--<ToggleButton

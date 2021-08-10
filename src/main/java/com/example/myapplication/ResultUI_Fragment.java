@@ -23,7 +23,7 @@ public class ResultUI_Fragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Button btn1=(Button) getActivity().findViewById(R.id.btn110);
+        Button btn1=(Button) getActivity().findViewById(R.id.btn_check_result);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,7 +32,7 @@ public class ResultUI_Fragment extends Fragment {
             }
         });
 
-        Button btn2=(Button) getActivity().findViewById(R.id.btn111);
+        Button btn2=(Button) getActivity().findViewById(R.id.btn_feedback);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,11 +40,12 @@ public class ResultUI_Fragment extends Fragment {
                 startActivity(intent);
             }
         });
-        Button btn3=(Button) getActivity().findViewById(R.id.btn112);
+        Button btn3=(Button) getActivity().findViewById(R.id.btn_back_mainpage);
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.exit(0);
+                Intent intent=new Intent(getActivity(),MainActivity.class);
+                startActivity(intent);
             }
         });
     }

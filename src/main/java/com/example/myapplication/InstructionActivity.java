@@ -9,7 +9,7 @@ import androidx.core.app.NavUtils;
 /**
  * Created by G2 on 2021/2/8.
  */
-public class InstructionActivity extends AppCompatActivity {
+public class InstructionActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -37,7 +37,7 @@ public class SocketService extends Service {
     private String port;
     private TimerTask task;
 
-    /*默认重连*/
+    /*默认不打开重连*/
     private boolean isReConnect = true;
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -76,7 +76,6 @@ public class SocketService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    /*因为Toast是要运行在主线程的  所以需要到主线程哪里去显示toast*/
     private void toastMsg(final String msg) {
         handler.post(new Runnable() {
             @Override
@@ -95,11 +94,11 @@ public class SocketService extends Service {
                     socket = new Socket();
                     try {
                         /*超时时间为2秒*/
-                        socket.connect(new InetSocketAddress(ip, Integer.valueOf(port)), 2000);
+                        socket.connect(new InetSocketAddress(ip, Integer.parseInt(port)), 2000);
                         /*连接成功的话  发送心跳包*/
                         if (socket.isConnected()) {
                             /*因为Toast是要运行在主线程的  这里是子线程  所以需要到主线程哪里去显示toast*/
-                            toastMsg("socket已连接");
+                            toastMsg("已连接到仪器");
                             /*发送连接成功的消息*/
                             EventMsg msg = new EventMsg();
                             for(int i=0;i<10;i++){
@@ -111,13 +110,13 @@ public class SocketService extends Service {
                     } catch (IOException e) {
                         e.printStackTrace();
                         if (e instanceof SocketTimeoutException) {
-                            //toastMsg("连接超时，正在重连");
+                            //toastMsg("连接超时，请检查");
                             EventMsg msg = new EventMsg();
                             msg.setTag(Constants.CONNET_FAIL);
                             EventBus.getDefault().post(msg);
                             releaseSocket();
                         } else if (e instanceof NoRouteToHostException) {
-                            toastMsg("该地址不存在，请检查");
+                            toastMsg("该IP地址不存在，请检查");
                             EventMsg msg = new EventMsg();
                             msg.setTag(Constants.CONNET_FAIL);
                             EventBus.getDefault().post(msg);
@@ -159,11 +158,11 @@ public class SocketService extends Service {
                 }
             }).start();
         } else {
-            //toastMsg("socket连接错误,请重试");
+            toastMsg("连接出错,数据发送失败，请重试");
         }
     }
 
-    /*定时发送数据*/
+    /*定时发送心跳数据 保持本客户端连接*/
     private void sendBeatData() {
         if (timer == null) {
             timer = new Timer();
@@ -225,7 +224,7 @@ public class SocketService extends Service {
         if (connectThread != null) {
             connectThread = null;
         }
-        /*重新初始化socket*/
+        /*若开启自动重连 重新初始化socket*/
         if (isReConnect) {
             initSocket();
         }
@@ -239,6 +238,7 @@ public class SocketService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.i("SocketService", "onDestroy");
+        toastMsg("onDestroy() 服务销毁");
         isReConnect = false;
         releaseSocket();
     }

@@ -9,12 +9,8 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import androidx.fragment.app.FragmentActivity;
 
-
-
-
-public class TabActivity extends FragmentActivity implements View.OnClickListener {
+public class TabActivity extends BaseActivity implements View.OnClickListener {
     //声明三个Tab的布局文件
     private LinearLayout needToKnow;
     private LinearLayout channelSelect;
@@ -41,19 +37,16 @@ public class TabActivity extends FragmentActivity implements View.OnClickListene
     }
 
     private void initEvents() {
-        //初始化三个Tab的点击事件
         needToKnow.setOnClickListener(this);
         channelSelect.setOnClickListener(this);
         resultUI.setOnClickListener(this);
     }
 
     private void initViews() {
-        //初始化三个Tab的布局文件
-        needToKnow = (LinearLayout) findViewById(R.id.needtoknow);
-        channelSelect = (LinearLayout) findViewById(R.id.channelselect);
-        resultUI = (LinearLayout) findViewById(R.id.resultui);
+        needToKnow = (LinearLayout) findViewById(R.id.need_to_know);
+        channelSelect = (LinearLayout) findViewById(R.id.channel_select);
+        resultUI = (LinearLayout) findViewById(R.id.result_ui);
 
-        //初始化三个ImageButton
         needToKnowImg = (ImageButton) findViewById(R.id.needtoknowimg);
         channelSelectImg = (ImageButton) findViewById(R.id.channelselectimg);
         resultUIImg = (ImageButton) findViewById(R.id.resultuiimg);
@@ -64,18 +57,14 @@ public class TabActivity extends FragmentActivity implements View.OnClickListene
     public void onClick(View v) {
         //先将三个ImageButton置为灰色
         resetImgs();
-        switch (v.getId()) {
-            case R.id.needtoknow:
-                selectTab(0);//当点击的是微信的Tab就选中微信的Tab
-                break;
-            case R.id.channelselect:
-                selectTab(1);
-                break;
-            case R.id.resultui:
-                selectTab(2);
-                break;
+        int id = v.getId();
+        if (id == R.id.need_to_know) {
+            selectTab(0);
+        } else if (id == R.id.channel_select) {
+            selectTab(1);
+        } else if (id == R.id.result_ui) {
+            selectTab(2);
         }
-
     }
 
     //进行选中Tab的处理
@@ -96,7 +85,6 @@ public class TabActivity extends FragmentActivity implements View.OnClickListene
                     needToKnowFrg = new NeedToKnow_Fragment();
                     transaction.add(R.id.id_content, needToKnowFrg);
                 } else {
-                    //如果微信对应的Fragment已经实例化，则直接显示出来
                     transaction.show(needToKnowFrg);
                 }
                 break;

@@ -2,6 +2,7 @@ package com.example.myapplication.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -24,14 +25,10 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 import static android.content.ContentValues.TAG;
-/*
-* SQLiteOpenHelper 数据库帮助类 goole 推荐方式
-* Android 提供的 SQLiteOpenHelper.java 是一个抽象类。那么我们要使用它，必须自己写一个类来继承它
-* */
 
 public class MyOpenHelper extends SQLiteOpenHelper {
 
-    //数据库的字段
+    public static int language_index = 0;
     public static class PictureColumns implements BaseColumns {
         public static final String PICTURE = "picture";
     }
@@ -48,6 +45,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //创建时的回调  TABLE_NAME4为主要的
         Log.d(TAG,"创建数据库....");
+        //getRetryData(mContext); //获取SharedPreferences 储存的语言设置 导入相应语言的表格
         String sql="create table "+Constants.TABLE_NAME+"(ID char(4),name char(8),age char(3),gender char(1),test_channel char(15),result char(15))";//managementinfo表格
         String sql1 = "create table " + Constants.TABLE_NAME1 + "(" + BaseColumns._ID   //picture表格
                 + " integer primary key autoincrement," + PictureColumns.PICTURE //primary key autoincrement 自动累加
@@ -85,10 +83,6 @@ public class MyOpenHelper extends SQLiteOpenHelper {
         for (int i=0;i<drawable.length;i++){
             cv.put(PictureColumns.PICTURE, getPicture(drawable[i]));
             db.insert(Constants.TABLE_NAME1, null, cv);
-            /*
-            * android 中封装好的SQL语句执行方法，不用再自行编写SQL语句 包括db.insert delete update query
-            * insert:第三个参数values:一个ContentValues对象，类似一个map.通过键值对的形式存储值。
-            * */
         }
     }
 
@@ -107,11 +101,15 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     /*
     对图片名称excel表的内容进行操作
      */
-    private void importSheet(SQLiteDatabase db,Context context) {
+    public void importSheet(SQLiteDatabase db,Context context) {
         try {
+/*            SharedPreferences retryCount = context.getSharedPreferences("retryCount",Context.MODE_PRIVATE);
+            language_index = retryCount.getInt("language_set",0);
+            Log.d(TAG,Integer.toString(language_index));*/
             InputStream is = context.getResources().getAssets().open("choose.xls");
             Workbook book = Workbook.getWorkbook(is);
-            Sheet sheet = book.getSheet(0);
+            Log.d(TAG,"导入excel表格数据....");
+            Sheet sheet = book.getSheet(0);//导入相应语言的excel表格
             for (int j = 1; j < sheet.getRows(); ++j) {
                 initDataInfo(db,sheet.getCell(0, j).getContents(), sheet.getCell(1, j).getContents(), sheet.getCell(2, j).getContents(), sheet.getCell(3, j).getContents(),
                         sheet.getCell(4, j).getContents(),sheet.getCell(5, j).getContents(),sheet.getCell(6, j).getContents(),sheet.getCell(7, j).getContents(),sheet.getCell(8, j).getContents());
@@ -121,6 +119,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
+
     /*
     * helper中新建删除类，补充删除功能，供管理员界面调用
     * 参数：唯一标码ID
@@ -164,6 +163,13 @@ public class MyOpenHelper extends SQLiteOpenHelper {
         cv.put("correct", correct);
         db.insert(Constants.TABLE_NAME3, null, cv);
     }
+
+    public static void getRetryData(Context context) {//通过上下文拿到MangementTabActivity定义的retryCount
+        SharedPreferences retryCount = context.getSharedPreferences("retryCount",Context.MODE_PRIVATE);
+        language_index = retryCount.getInt("language_set",0);
+        Log.d(TAG,Integer.toString(language_index));
+    }
+
     //数据库升级时，此方法会调用
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -18,7 +18,7 @@ import com.example.myapplication.db.MyOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivity extends BaseActivity {
     private MyOpenHelper moh;
     private SQLiteDatabase sd;
     private List<ManagementInfo> resultList;
@@ -66,9 +66,9 @@ public class ResultActivity extends AppCompatActivity {
 
                 //从resultList中取出一行数据，position相当于数组下标,可以实现逐行取数据
                ManagementInfo ri = resultList.get(position);
-                TextView ID = (TextView)view.findViewById(R.id.ID);
-                TextView name = (TextView)view.findViewById(R.id.name);
-                TextView result = (TextView)view.findViewById(R.id.result);
+                TextView ID = view.findViewById(R.id.ID);
+                TextView name = view.findViewById(R.id.name);
+                TextView result = view.findViewById(R.id.result);
                 ID.setText(ri.getID());
                 name.setText(ri.getName());
                 result.setText(ri.getResult());

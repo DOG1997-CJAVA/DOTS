@@ -1,21 +1,26 @@
 package com.example.myapplication;
 
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActivityManager;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.myapplication.common.EventMsg;
+import com.example.myapplication.databinding.ActivityWelcomeBinding;
 import com.example.myapplication.db.Constants;
 import com.example.myapplication.service.SocketService;
 
@@ -24,15 +29,12 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+import java.util.Locale;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class WelcomeActivity extends AppCompatActivity {
-
-    @BindView(R.id.skip)
-     TextView skip;
+public class WelcomeActivity extends BaseActivity {
+    private ActivityWelcomeBinding bindingWelcom;
     private int TIME = 3;
     private boolean isSkip = false;
     private boolean isConnectSuccess = false;
@@ -40,8 +42,8 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
-        ButterKnife.bind(this);
+        bindingWelcom = ActivityWelcomeBinding.inflate(getLayoutInflater());
+        setContentView(bindingWelcom.getRoot());
 
         /*register EventBus*/
         if (!EventBus.getDefault().isRegistered(this)) {
@@ -54,12 +56,12 @@ public class WelcomeActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
-        final Handler handler = new Handler() {
+        final Handler handler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 switch (msg.what) {
                     case -2:
-                        skip.setText("跳过( " + TIME + "s )");
+                        bindingWelcom.skip.setText("跳过( " + TIME + "s )");
                         break;
                     case 1:
                         // 这里记得要判断是否选择跳过，防止重复加载LoginActivity
@@ -81,26 +83,25 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         };
 
-        new Thread(new Runnable() {  // 开启一个线程倒计时
-            @Override
-            public void run() {
-                for (; TIME > 0; TIME--) {
-                    handler.sendEmptyMessage(-2);
-                    if (TIME <= 0) {
-                        break;
-                    }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        // 开启一个线程倒计时
+        new Thread(() -> {
+            for (; TIME > 0; TIME--) {
+                handler.sendEmptyMessage(-2);
+                if (TIME <= 0) {
+                    break;
                 }
-                handler.sendEmptyMessage(1);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            handler.sendEmptyMessage(1);
         }).start();
     }
 
-        @OnClick(R.id.skip)
+    private static final int skip = R.id.skip;
+    @OnClick(skip)
         public void onViewClicked() {
             String ip = "192.168.4.1";
             String port = "8086";
@@ -111,7 +112,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
 
             /*先判断 Service是否正在运行 如果正在运行  给出提示  防止启动多个service*/
-            if (isServiceRunning("com.example.myapplication.service.SocketService")) {
+            if (isServiceRunning()) {
                 Toast.makeText(this, "连接服务已运行", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -138,12 +139,12 @@ public class WelcomeActivity extends AppCompatActivity {
         /**
          * 判断服务是否运行
          */
-        private boolean isServiceRunning(final String className) {
+        private boolean isServiceRunning() {
             ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
             List<ActivityManager.RunningServiceInfo> info = activityManager.getRunningServices(Integer.MAX_VALUE);
             if (info == null || info.size() == 0) return false;
             for (ActivityManager.RunningServiceInfo aInfo : info) {
-                if (className.equals(aInfo.service.getClassName())) return true;
+                if ("com.example.myapplication.service.SocketService".equals(aInfo.service.getClassName())) return true;
             }
             return false;
         }

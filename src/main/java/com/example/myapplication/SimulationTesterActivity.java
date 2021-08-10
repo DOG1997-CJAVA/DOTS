@@ -25,7 +25,7 @@ import java.util.Random;
 /*
 * 加载模拟测试 受试信息录入界面 获取测试者的个人信息 不储存到数据库
 * */
-public class SimulationTesterActivity extends AppCompatActivity {
+public class SimulationTesterActivity extends BaseActivity {
     //String medicalHistory;
     String gender;
     @Override
@@ -51,7 +51,7 @@ public class SimulationTesterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {//由layout输入框加入限制信息
                 if(eT1.getText().toString().trim().isEmpty()||eTN1.getText().toString().trim().isEmpty()||eTN2.getText().toString().trim().isEmpty()){
-                    Toast.makeText(SimulationTesterActivity.this,"请输入完整的个人信息",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SimulationTesterActivity.this,getString(R.string.info_incomplete_remind),Toast.LENGTH_SHORT).show();
                 }else{
                     Intent intent = new Intent(SimulationTesterActivity.this,Ready2Activity.class);
                     getIntent().putExtra("simulation","simulation");

@@ -31,7 +31,7 @@ import java.net.Socket;
 
 import butterknife.ButterKnife;
 
-public class Ready2Activity extends Activity {
+public class Ready2Activity extends BaseActivity {
     final int TIME = 5;    //定义时间长度 只读常量
     final int TIMER_MSG = 0x001;    //定义消息代码
     private ProgressBar timer;    //声明水平进度条

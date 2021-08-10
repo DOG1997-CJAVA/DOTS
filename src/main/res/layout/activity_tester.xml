@@ -7,32 +7,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="请输入您的个人信息:"
+        android:text="@string/tester_ifo"
         android:textSize="40sp"
-        android:layout_marginTop="@dimen/smssdk_authorize_text_size_m"
-        ></TextView>
+        android:layout_marginTop="@dimen/smssdk_authorize_text_size_m" />
     <LinearLayout
         android:layout_gravity="center"
-        android:layout_width="300dp"
+        android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ID号:"
+            android:text="@string/id"
             android:textSize="40sp"
-            android:layout_marginLeft="35dp"/>
+            android:layout_marginLeft="35dp"
+            android:layout_marginStart="35dp" />
         <EditText
             android:textSize="40sp"
             android:singleLine="true"
             android:id="@+id/editTextNum1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:autofillHints="" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal">
@@ -41,37 +42,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="35dp"
-            android:text="姓名:"
-            android:textSize="40sp" />
+            android:text="@string/name"
+            android:textSize="40sp"
+            android:layout_marginStart="35dp" />
 
         <EditText
             android:id="@+id/editTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textSize="40sp"></EditText>
+            android:textSize="40sp" />
 
         <requestFocus />
     </LinearLayout>
     <LinearLayout
         android:layout_gravity="center"
-        android:layout_width="300dp"
+        android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="年龄:"
+        android:text="@string/age"
         android:textSize="40sp"
-        android:layout_marginLeft="35dp"/>
+        android:layout_marginLeft="35dp"
+        android:layout_marginStart="35dp" />
     <EditText
         android:textSize="40sp"
         android:id="@+id/editTextNum2"
         android:singleLine="true"
         android:inputType="number"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:autofillHints="" />
     </LinearLayout>
 <!--    <LinearLayout-->
 <!--        android:layout_gravity="center"-->
@@ -108,26 +112,27 @@
             android:id="@+id/btnMan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="男"
-            android:textSize="40dp" />
+            android:text="@string/gender_male"
+            android:textSize="40sp" />
 
         <RadioButton
             android:id="@+id/btnWoman"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="女"
-            android:textSize="40dp" />
+            android:text="@string/gender_female"
+            android:textSize="40sp"
+            android:layout_marginStart="20dp" />
     </RadioGroup>
+
     <Button
         android:id="@+id/tester_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:background="@drawable/bt_shape2"
         android:textColor="#ffffffff"
         android:layout_marginTop="80dp"
         android:layout_gravity="center"
-        android:text="下一步"
-        android:textSize="60sp"></Button>
+        android:text="@string/confirm1"
+        android:textSize="60sp" />
 </LinearLayout>

@@ -9,33 +9,39 @@
         <item>0xBBD45ABC</item>
         <item>0xBB4AA6D6</item>
     </integer-array>
+
     <string-array name="word">
-        <item>连接</item>
-        <item>断开连接</item>
-        <item>12通道</item>
-        <item>20通道</item>
-        <item>40通道</item>
+        <item>@string/btn_connect</item>
+        <item>@string/btn_disconnect</item>
+        <item>@string/btn_channel_12</item>
+        <item>@string/btn_channel_20</item>
+        <item>@string/btn_channel_40</item>
     </string-array>
 
     <string-array name="retry_times">
-        <item>1次</item>
-        <item>2次</item>
-        <item>3次</item>
-        <item>4次</item>
-        <item>5次</item>
-        <item>不设置重闻次数</item>
+        <item>@string/retry_times_1</item>
+        <item>@string/retry_times_2</item>
+        <item>@string/retry_times_3</item>
+        <item>@string/retry_times_4</item>
+        <item>@string/retry_times_5</item>
+        <item>@string/no_retry_times</item>
     </string-array>
 
     <string-array name="feedback_type">
-        <item>（邮件主题）App界面问题</item>
-        <item>（邮件主题）测试流程问题</item>
-        <item>（邮件主题）数据储存导出问题</item>
-        <item>（邮件主题）其他问题</item>
+        <item>@string/mail_theme_interface</item>
+        <item>@string/mail_theme_process</item>
+        <item>@string/mail_theme_export</item>
+        <item>@string/mail_theme_other</item>
     </string-array>
 
     <string-array name="random_fix_mode">
-        <item>题目顺序：随机模式</item>
-        <item>题目顺序：固定模式</item>
+        <item>@string/random_pattern</item>
+        <item>@string/fix_pattern</item>
+    </string-array>
+
+    <string-array name="language">
+        <item>@string/chinese</item>
+        <item>@string/english</item>
     </string-array>
 
 </resources>

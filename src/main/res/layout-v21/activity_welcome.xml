@@ -12,9 +12,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:elegantTextHeight="true"
-        android:text="@string/app_wel_skip"
+        android:text="跳过( 3s )"
         android:textColor="#FF000000"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:layout_alignParentEnd="true" />
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="@string/law_version_remind"
+        android:text="Olfactory-Test-China  Stable Version1.5.4.8\n@2020-2021 All Right Reserved"
         android:textColor="#000000"
         android:textSize="20sp" />
 

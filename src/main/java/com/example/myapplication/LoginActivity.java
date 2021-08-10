@@ -19,14 +19,14 @@ import com.example.myapplication.utils.UsersUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cn.smssdk.EventHandler;
+import cn.smssdk.EventHandler;//短信回调 广播接收器
 import cn.smssdk.SMSSDK;
 
 
 /**
  * Created by G2 on 2021/2/8.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     private Button buttonCode,buttonLogin;
     private EditText editTextPhoneNum,editTextCode;
     private String phoneNum,code;
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextCode = findViewById(R.id.editTextCode);
         editTextPhoneNum = findViewById(R.id.editTextPhoneNum);
 
-        eh = new EventHandler() {
+        eh = new EventHandler() {//对afterEvent中的收到的几种消息做出处理
             @Override
             public void afterEvent(int event, int result, Object data) {
                 if (result == SMSSDK.RESULT_COMPLETE){

@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -9,9 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.myapplication.db.Constants;
@@ -20,19 +16,16 @@ import com.example.myapplication.db.MyOpenHelper;
 
 import java.util.ArrayList;
 
-public class ManagementActivity extends Activity {
-    private MyOpenHelper moh;
-    private SQLiteDatabase sd;
+public class ManagementActivity extends BaseActivity {
     private ArrayList<ManagementInfo> resultList;
-    private ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_management);
         //创建或打开数据库
-        moh = new MyOpenHelper(this);
-        sd = moh.getReadableDatabase();
+        MyOpenHelper moh = new MyOpenHelper(this);
+        SQLiteDatabase sd = moh.getReadableDatabase();
         resultList = new ArrayList<>();
         //扫描数据库,将数据库信息放入resultList
         Cursor cursor = sd.rawQuery("select * from " + Constants.TABLE_NAME, null);
@@ -48,7 +41,7 @@ public class ManagementActivity extends Activity {
         }
         //获取ListView,并通过Adapter把resultList的信息显示到ListView
         //为ListView设置一个适配器,getCount()返回数据个数;getView()为每一行设置一个条目
-        lv = (ListView) findViewById(R.id.result_lv);
+        ListView lv = findViewById(R.id.result_lv);
         lv.setEmptyView(findViewById(R.id.isEmpty2));
         lv.setAdapter(new BaseAdapter() {
             @Override
@@ -69,30 +62,28 @@ public class ManagementActivity extends Activity {
                 }
                 //从resultList中取出一行数据，position相当于数组下标,可以实现逐行取数据
                 ManagementInfo ri = resultList.get(position);
-                TextView ID = (TextView) view.findViewById(R.id.ID);
-                TextView name = (TextView) view.findViewById(R.id.name);
-                TextView age = (TextView) view.findViewById(R.id.age);
-                TextView gender = (TextView) view.findViewById(R.id.gender);
-                TextView result = (TextView) view.findViewById(R.id.result);
+                TextView ID = view.findViewById(R.id.ID);
+                TextView name = view.findViewById(R.id.name);
+                TextView age = view.findViewById(R.id.age);
+                TextView gender = view.findViewById(R.id.gender);
+                TextView result = view.findViewById(R.id.result);
                 ID.setText(ri.getID());
                 name.setText(ri.getName());
                 age.setText(ri.getAge());
                 gender.setText(ri.getGender());
                 result.setText(ri.getResult());
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MaterialDialog dialog = new MaterialDialog(ManagementActivity.this, MaterialDialog.getDEFAULT_BEHAVIOR());
-                        dialog.title(R.string.remind, null);
-                        dialog.message(R.string.remind2, null, null);
-                        dialog.positiveButton(R.string.remind3, null, materialDialog -> {
-                            dialog.dismiss();
-                            return null;
-                        });
-                        dialog.show();
-                        //Toast.makeText(ManagementActivity.this, "请前往后台管理页面查看详细信息", Toast.LENGTH_SHORT).show();
-                    }
+                view.setOnClickListener(v -> {
+                    MaterialDialog dialog = new MaterialDialog(ManagementActivity.this, MaterialDialog.getDEFAULT_BEHAVIOR());
+                    dialog.title(R.string.remind, null);
+                    dialog.message(R.string.remind2, null, null);
+                    dialog.positiveButton(R.string.remind3, null, materialDialog -> {
+                        dialog.dismiss();
+                        return null;
+                    });
+                    dialog.show();
+                    //Toast.makeText(ManagementActivity.this, "请前往后台管理页面查看详细信息", Toast.LENGTH_SHORT).show();
                 });
+                cursor.close();
                 return view;
             }
 

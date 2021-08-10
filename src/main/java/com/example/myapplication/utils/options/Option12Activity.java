@@ -1,125 +1,138 @@
 package com.example.myapplication.utils.options;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Path;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
-
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.OnDoubleClickListener;
 import com.example.myapplication.R;
 import com.example.myapplication.TabActivity;
+import com.example.myapplication.databinding.ActivityOption12Binding;
 import com.example.myapplication.db.Constants;
 import com.example.myapplication.db.MyOpenHelper;
+import com.example.myapplication.language.LocaleManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+
+import static android.content.ContentValues.TAG;
 
 public class Option12Activity extends Activity {
 
-    private int count;
-    private TextView textView;
+    private ActivityOption12Binding bindingOpt12;
+    private static final String TAG = "Option12Activity";
+    public static final String sql2_CN_NO = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' , test_channel='12项气味测试' where ID=";
+    public static final String sql2_EN_NO = "update " + Constants.TABLE_NAME + " set result='NORMOSMIA' , test_channel='12 odor tests' where ID=";
+    public static final String sql2_CN_MI = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' , test_channel='12项气味测试' where ID=";
+    public static final String sql2_EN_MI = "update " + Constants.TABLE_NAME + " set result='MICROSMIA' , test_channel='12 odor tests' where ID=";
+    public static final String sql2_CN_AS = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' , test_channel='12项气味测试' where ID=";
+    public static final String sql2_EN_AS = "update " + Constants.TABLE_NAME + " set result='ANOSMIA' , test_channel='12 odor tests' where ID=";
+    public static String sql_base = sql2_CN_NO;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_option12);
+        bindingOpt12 = ActivityOption12Binding.inflate(getLayoutInflater());
+        setContentView(bindingOpt12.getRoot());
         //创建SQLiteOpenHelper子类对象
         //注意，一定要传入最新的数据库版本号
         MyOpenHelper dbHelper = new MyOpenHelper(Option12Activity.this);
         //调用getWritableDatabase()方法创建或打开一个可以读的数据库
         SQLiteDatabase sqliteDatabase = dbHelper.getWritableDatabase();
-        ImageView image1 = (ImageView) findViewById(R.id.image1);
-        ImageView image2 = (ImageView) findViewById(R.id.image2);
-        ImageView image3 = (ImageView) findViewById(R.id.image3);
-        ImageView image4 = (ImageView) findViewById(R.id.image4);
-        TextView text1 = (TextView) findViewById(R.id.text1);
-        TextView text2 = (TextView) findViewById(R.id.text2);
-        TextView text3 = (TextView) findViewById(R.id.text3);
-        TextView text4 = (TextView) findViewById(R.id.text4);
         //接收ReadyActivity页面传来的数据
+        SharedPreferences language_set = getSharedPreferences("retryCount", Context.MODE_PRIVATE);
+        int language_index = language_set.getInt("language_set", 0);
+        Log.d(TAG,"****************************************");
+        Log.d(TAG,Integer.toString(language_index));
+        Log.d(TAG,"****************************************");
+
         String odorStartTime = getIntent().getStringExtra("odorStartTime");
         String odorEndTime = getIntent().getStringExtra("odorEndTime");
         String retryCount = getIntent().getStringExtra("retryCount");
-        int accept2 = getIntent().getIntExtra("send2", 0);
+        int accept2 = getIntent().getIntExtra("send2", 0);//题目计数 答题返回计数 由number_count2代替 accept2只负责取数据库题目
+
+        if(language_index == 1){//递增40行取相应语言的描述词
+            accept2 = accept2 + 40;
+        }
         int number_count2 = getIntent().getIntExtra("number_count", 0);
         int index1, index2, index3, index4;
         String correct = " ";
-        textView = (TextView) findViewById(R.id.textview);
-        textView.setText("第" + (number_count2 + 1) + "题");
+        String tempSrt= "第" + (number_count2 + 1) + "题";
+        bindingOpt12.textview.setText(tempSrt);
         String sql = "select * from " + Constants.TABLE_NAME3 + " where rowid=" + (accept2 + 1);
+
         //执行sql语句  Cursor 是每行的集合 使用 moveToFirst() 定位第一行
         Cursor cursor = sqliteDatabase.rawQuery(sql, null);
         try {
             cursor.moveToFirst();//若打乱题目顺序，可以新建一列储存目标，前四列维持随机顺序
             //读取数据库存储的图片名称
-            text1.setText(cursor.getString(cursor.getColumnIndex("option1")));
-            text2.setText(cursor.getString(cursor.getColumnIndex("option2")));
-            text3.setText(cursor.getString(cursor.getColumnIndex("option3")));
-            text4.setText(cursor.getString(cursor.getColumnIndex("option4")));
+            bindingOpt12.text1.setText(cursor.getString(cursor.getColumnIndex("option1")));
+            bindingOpt12.text2.setText(cursor.getString(cursor.getColumnIndex("option2")));
+            bindingOpt12.text3.setText(cursor.getString(cursor.getColumnIndex("option3")));
+            bindingOpt12.text4.setText(cursor.getString(cursor.getColumnIndex("option4")));
             correct = cursor.getString(cursor.getColumnIndex("correct"));
         } catch (Exception e) {
             e.printStackTrace();
         }
         //获取图片的数量
-        count = getDrawable().size();
+        int count = getDrawable().size();
         if (count != 0) {
             try {
                 index1 = cursor.getInt(cursor.getColumnIndex("index01"));
                 index2 = cursor.getInt(cursor.getColumnIndex("index02"));
                 index3 = cursor.getInt(cursor.getColumnIndex("index03"));
                 index4 = cursor.getInt(cursor.getColumnIndex("index04"));
-                image1.setImageDrawable(getDrawable().get(index1 - 1));
-                image2.setImageDrawable(getDrawable().get(index2 - 1));
-                image3.setImageDrawable(getDrawable().get(index3 - 1));
-                image4.setImageDrawable(getDrawable().get(index4 - 1));
+                bindingOpt12.image1.setImageDrawable(getDrawable().get(index1 - 1));
+                bindingOpt12.image2.setImageDrawable(getDrawable().get(index2 - 1));
+                bindingOpt12.image3.setImageDrawable(getDrawable().get(index3 - 1));
+                bindingOpt12.image4.setImageDrawable(getDrawable().get(index4 - 1));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         cursor.close();
         //查询数据库用户没测试完成的信息
-        String sql1 = "select *   from " + Constants.TABLE_NAME + " where result=" + "'默认'";
+        String sql1 = "select *  from " + Constants.TABLE_NAME + " where result=" + "'默认'";
         Cursor cursor1 = sqliteDatabase.rawQuery(sql1, null);
-        cursor1.moveToFirst();
-        //获取表中列名为“ID”的字段
-        String id = cursor1.getString(cursor1.getColumnIndex("ID"));
-        String name = cursor1.getString(cursor1.getColumnIndex("name"));
-        String sex = cursor1.getString(cursor1.getColumnIndex("gender"));
-        String age = cursor1.getString(cursor1.getColumnIndex("age"));
-        //关闭查询源
-        cursor1.close();
-        //设置图片1点击事件
-        String finalCorrect = correct;
-        image1.setOnTouchListener(new OnDoubleClickListener(new OnDoubleClickListener.DoubleClickCallback() {
+        if(!cursor1.moveToFirst()) {
+            Log.e(TAG, "moveToPosition return fails, maybe table not created!!!");
+        }
+            //获取表中列名为“ID”的字段
+            String id = cursor1.getString(cursor1.getColumnIndex("ID"));
+            String name = cursor1.getString(cursor1.getColumnIndex("name"));
+            String sex = cursor1.getString(cursor1.getColumnIndex("gender"));
+            String age = cursor1.getString(cursor1.getColumnIndex("age"));
+            //关闭查询源
+            cursor1.close();
+            //设置图片1点击事件
+            String finalCorrect = correct;
+
+
+        bindingOpt12.image1.setOnTouchListener(new OnDoubleClickListener(new OnDoubleClickListener.DoubleClickCallback() {
             @Override
             public void onDoubleClick() {
                 //获取当前日期
                 Date date = new Date();
                 //日期标准化
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
                 // TODO Auto-generated method stub
                 ContentValues cv = new ContentValues();
                 if((number_count2+1) == 1){
@@ -129,11 +142,11 @@ public class Option12Activity extends Activity {
                 }
                 cv.put("ID", id);
                 cv.put("correct_answer", finalCorrect);
-                cv.put("option1", text1.getText().toString());
-                cv.put("option2", text2.getText().toString());
-                cv.put("option3", text3.getText().toString());
-                cv.put("option4", text4.getText().toString());
-                cv.put("answer", text1.getText().toString());//点击第一张图片，就是answer
+                cv.put("option1", bindingOpt12.text1.getText().toString());
+                cv.put("option2", bindingOpt12.text2.getText().toString());
+                cv.put("option3", bindingOpt12.text3.getText().toString());
+                cv.put("option4", bindingOpt12.text4.getText().toString());
+                cv.put("answer", bindingOpt12.text1.getText().toString());//点击第一张图片，就是answer
                 cv.put("responTime", sdf.format(date));
                 cv.put("odorStartTime", odorStartTime);
                 cv.put("odorEndTime", odorEndTime);
@@ -148,17 +161,33 @@ public class Option12Activity extends Activity {
                     int count = cursor.getInt(0);
                     cv1.put("answercount",count + "/" + "12");
                     if (count >= 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' , test_channel='12项气味测试' where ID=" + id;
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_NO;
+                            dbHelper.importSheet(sqliteDatabase,Option12Activity.this);
+                        } else {
+                            sql_base = sql2_EN_NO;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能正常");
-                    } else if (count >= 7 && count < 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' , test_channel='12项气味测试' where ID=" + id;
+                        cv1.put("result",getString(R.string.result_normal_ifo));
+                    } else if (count >= 7) {
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_MI;
+                        } else {
+                            sql_base = sql2_EN_MI;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能障碍");
+                        cv1.put("result",getString(R.string.result_mid_ifo));
                     } else {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' , test_channel='12项气味测试' where ID=" + id;
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_AS;
+                        } else {
+                            sql_base = sql2_EN_AS;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能丧失");
+                        cv1.put("result",getString(R.string.result_as_ifo));
                     }
                     cursor.close();
                     cv1.put("ID", id);
@@ -169,12 +198,12 @@ public class Option12Activity extends Activity {
                     //弹出对话框
                     AlertDialog dialog = new AlertDialog.Builder(Option12Activity.this)
                             .setIcon(R.mipmap.talk)//设置标题的图片
-                            .setTitle("提示")//设置对话框的标题
-                            .setMessage("测试完成，感谢您的使用！！！")//设置对话框的内容
-                            .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                            .setTitle(getString(R.string.remind))//设置对话框的标题
+                            .setMessage(getString(R.string.finish_quit_remind))//设置对话框的内容
+                            .setPositiveButton(getString(R.string.remind3), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(Option12Activity.this, "感谢您的使用", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Option12Activity.this, getString(R.string.finish_quit_remind), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Option12Activity.this, TabActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -184,19 +213,19 @@ public class Option12Activity extends Activity {
                     dialog.show();
                 } else {
                     Intent intent = getIntent();
-                    intent.putExtra("send3", number_count2 + 1);//accept2+1
+                    intent.putExtra("send3", number_count2 + 1);//number_count2 + 1
                     setResult(RESULT_OK, intent); //intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
                     finish();
                 }
                 sqliteDatabase.close();
             }
         }));
-        image2.setOnTouchListener(new OnDoubleClickListener(new OnDoubleClickListener.DoubleClickCallback() {
+        bindingOpt12.image2.setOnTouchListener(new OnDoubleClickListener(new OnDoubleClickListener.DoubleClickCallback() {
             @Override
             public void onDoubleClick() {
                 // TODO Auto-generated method stub
                 Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
                 ContentValues cv = new ContentValues();
                 if((number_count2+1) == 1){
                     cv.put("name", name);
@@ -205,11 +234,11 @@ public class Option12Activity extends Activity {
                 }
                 cv.put("ID", id);
                 cv.put("correct_answer", finalCorrect);
-                cv.put("option1", text1.getText().toString());
-                cv.put("option2", text2.getText().toString());
-                cv.put("option3", text3.getText().toString());
-                cv.put("option4", text4.getText().toString());
-                cv.put("answer", text2.getText().toString());//点击第一张图片，就是answer
+                cv.put("option1", bindingOpt12.text1.getText().toString());
+                cv.put("option2", bindingOpt12.text2.getText().toString());
+                cv.put("option3", bindingOpt12.text3.getText().toString());
+                cv.put("option4", bindingOpt12.text4.getText().toString());
+                cv.put("answer", bindingOpt12.text2.getText().toString());
                 cv.put("responTime", sdf.format(date));
                 cv.put("odorStartTime", odorStartTime);
                 cv.put("odorEndTime", odorEndTime);
@@ -223,17 +252,32 @@ public class Option12Activity extends Activity {
                     int count = cursor.getInt(0);
                     cv1.put("answercount",count + "/" + "12");
                     if (count >= 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' , test_channel='12项气味测试' where ID=" + id;
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_NO;
+                        } else {
+                            sql_base = sql2_EN_NO;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能正常");
-                    } else if (count >= 7 && count < 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' , test_channel='12项气味测试' where ID=" + id;
+                        cv1.put("result",getString(R.string.result_normal_ifo));
+                    } else if (count >= 7) {
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_MI;
+                        } else {
+                            sql_base = sql2_EN_MI;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能障碍");
+                        cv1.put("result",getString(R.string.result_mid_ifo));
                     } else {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' , test_channel='12项气味测试' where ID=" + id;
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_AS;
+                        } else {
+                            sql_base = sql2_EN_AS;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能丧失");
+                        cv1.put("result",getString(R.string.result_as_ifo));
                     }
                     cursor.close();
                     cv1.put("ID", id);
@@ -243,12 +287,12 @@ public class Option12Activity extends Activity {
                     sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv1);
                     AlertDialog dialog = new AlertDialog.Builder(Option12Activity.this)
                             .setIcon(R.mipmap.talk)//设置标题的图片
-                            .setTitle("提示")//设置对话框的标题
-                            .setMessage("测试完成，感谢您的使用！！！")//设置对话框的内容
-                            .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                            .setTitle(getString(R.string.remind))//设置对话框的标题
+                            .setMessage(getString(R.string.finish_quit_remind))//设置对话框的内容
+                            .setPositiveButton(getString(R.string.remind3), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(Option12Activity.this, "感谢您的使用", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Option12Activity.this, getString(R.string.finish_quit_remind), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Option12Activity.this, TabActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -265,12 +309,12 @@ public class Option12Activity extends Activity {
                 sqliteDatabase.close();
             }
         }));
-        image3.setOnTouchListener(new OnDoubleClickListener(new OnDoubleClickListener.DoubleClickCallback() {
+        bindingOpt12.image3.setOnTouchListener(new OnDoubleClickListener(new OnDoubleClickListener.DoubleClickCallback() {
             @Override
             public void onDoubleClick() {
                 // TODO Auto-generated method stub
                 Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
                 ContentValues cv = new ContentValues();
                 if((number_count2+1) == 1){
                     cv.put("name", name);
@@ -279,11 +323,11 @@ public class Option12Activity extends Activity {
                 }
                 cv.put("ID", id);
                 cv.put("correct_answer", finalCorrect);
-                cv.put("option1", text1.getText().toString());
-                cv.put("option2", text2.getText().toString());
-                cv.put("option3", text3.getText().toString());
-                cv.put("option4", text4.getText().toString());
-                cv.put("answer", text3.getText().toString());//点击第一张图片，就是answer
+                cv.put("option1", bindingOpt12.text1.getText().toString());
+                cv.put("option2", bindingOpt12.text2.getText().toString());
+                cv.put("option3", bindingOpt12.text3.getText().toString());
+                cv.put("option4", bindingOpt12.text4.getText().toString());
+                cv.put("answer", bindingOpt12.text3.getText().toString());
                 cv.put("responTime", sdf.format(date));
                 cv.put("odorStartTime", odorStartTime);
                 cv.put("odorEndTime", odorEndTime);
@@ -297,17 +341,32 @@ public class Option12Activity extends Activity {
                     int count = cursor.getInt(0);
                     cv1.put("answercount",count + "/" + "12");
                     if (count >= 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' , test_channel='12项气味测试' where ID=" + id;
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_NO;
+                        } else {
+                            sql_base = sql2_EN_NO;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能正常");
-                    } else if (count >= 7 && count < 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' , test_channel='12项气味测试' where ID=" + id;
+                        cv1.put("result",getString(R.string.result_normal_ifo));
+                    } else if (count >= 7) {
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_MI;
+                        } else {
+                            sql_base = sql2_EN_MI;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能障碍");
+                        cv1.put("result",getString(R.string.result_mid_ifo));
                     } else {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' , test_channel='12项气味测试' where ID=" + id;
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_AS;
+                        } else {
+                            sql_base = sql2_EN_AS;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能丧失");
+                        cv1.put("result",getString(R.string.result_as_ifo));
                     }
                     cursor.close();
                     cv1.put("ID", id);
@@ -317,12 +376,12 @@ public class Option12Activity extends Activity {
                     sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv1);
                     AlertDialog dialog = new AlertDialog.Builder(Option12Activity.this)
                             .setIcon(R.mipmap.talk)//设置标题的图片
-                            .setTitle("提示")//设置对话框的标题
-                            .setMessage("测试完成")//设置对话框的内容
-                            .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                            .setTitle(getString(R.string.remind))//设置对话框的标题
+                            .setMessage(getString(R.string.finish_quit_remind))//设置对话框的内容
+                            .setPositiveButton(getString(R.string.remind3), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(Option12Activity.this, "感谢您的使用", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Option12Activity.this, getString(R.string.finish_quit_remind), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Option12Activity.this, TabActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -346,18 +405,15 @@ public class Option12Activity extends Activity {
                     myAlphaAnimation.setAnimationListener(new Animation.AnimationListener() {    //设置动画监听事件
                         @Override
                         public void onAnimationStart(Animation arg0) {
-                            // TODO Auto-generated method stub
                         }
 
                         @Override
                         public void onAnimationRepeat(Animation arg0) {
-                            // TODO Auto-generated method stub
                         }
 
                         //图片旋转结束后触发事件，这里启动新的activity
                         @Override
                         public void onAnimationEnd(Animation arg0) {
-                            // TODO Auto-generated method stub
                             Intent intent = getIntent();
                             intent.putExtra("send3", accept2 + 1);
                             setResult(RESULT_OK, intent); //intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
@@ -372,12 +428,12 @@ public class Option12Activity extends Activity {
                 sqliteDatabase.close();
             }
         }));
-        image4.setOnTouchListener(new OnDoubleClickListener(new OnDoubleClickListener.DoubleClickCallback() {
+        bindingOpt12.image4.setOnTouchListener(new OnDoubleClickListener(new OnDoubleClickListener.DoubleClickCallback() {
             @Override
             public void onDoubleClick() {
                 // TODO Auto-generated method stub
                 Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
                 ContentValues cv = new ContentValues();
                 if((number_count2+1) == 1){
                     cv.put("name", name);
@@ -386,11 +442,11 @@ public class Option12Activity extends Activity {
                 }
                 cv.put("ID", id);
                 cv.put("correct_answer", finalCorrect);
-                cv.put("option1", text1.getText().toString());
-                cv.put("option2", text2.getText().toString());
-                cv.put("option3", text3.getText().toString());
-                cv.put("option4", text4.getText().toString());
-                cv.put("answer", text4.getText().toString());//点击第一张图片，就是answer
+                cv.put("option1", bindingOpt12.text1.getText().toString());
+                cv.put("option2", bindingOpt12.text2.getText().toString());
+                cv.put("option3", bindingOpt12.text3.getText().toString());
+                cv.put("option4", bindingOpt12.text4.getText().toString());
+                cv.put("answer", bindingOpt12.text4.getText().toString());
                 cv.put("responTime", sdf.format(date));
                 cv.put("odorStartTime", odorStartTime);
                 cv.put("odorEndTime", odorEndTime);
@@ -404,17 +460,32 @@ public class Option12Activity extends Activity {
                     int count = cursor.getInt(0);
                     cv1.put("answercount",count + "/" + "12");
                     if (count >= 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能正常' , test_channel='12项气味测试' where ID=" + id;
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_NO;
+                        } else {
+                            sql_base = sql2_EN_NO;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能正常");
-                    } else if (count >= 7 && count < 10) {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能障碍' , test_channel='12项气味测试' where ID=" + id;
+                        cv1.put("result",getString(R.string.result_normal_ifo));
+                    } else if (count >= 7) {
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_MI;
+                        } else {
+                            sql_base = sql2_EN_MI;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能障碍");
+                        cv1.put("result",getString(R.string.result_mid_ifo));
                     } else {
-                        String sql2 = "update " + Constants.TABLE_NAME + " set result='嗅觉功能丧失' , test_channel='12项气味测试' where ID=" + id;
+                        if (language_set.getInt("language_set", 0) == 0) {
+                            sql_base = sql2_CN_AS;
+                        } else {
+                            sql_base = sql2_EN_AS;
+                        }
+                        String sql2 = sql_base + id;
                         sqliteDatabase.execSQL(sql2);
-                        cv1.put("result","嗅觉功能丧失");
+                        cv1.put("result",getString(R.string.result_as_ifo));
                     }
                     cursor.close();
                     cv1.put("ID", id);
@@ -424,13 +495,12 @@ public class Option12Activity extends Activity {
                     sqliteDatabase.insert(Constants.TABLE_NAME4, null, cv1);
                     AlertDialog dialog = new AlertDialog.Builder(Option12Activity.this)
                             .setIcon(R.mipmap.talk)//设置标题的图片
-                            .setTitle("提示")//设置对话框的标题
-                            .setMessage("测试完成")//设置对话框的内容
-                            //设置对话框的按钮
-                            .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                            .setTitle(getString(R.string.remind))//设置对话框的标题
+                            .setMessage(getString(R.string.finish_quit_remind))//设置对话框的内容
+                            .setPositiveButton(getString(R.string.remind3), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(Option12Activity.this, "感谢您的使用", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Option12Activity.this, getString(R.string.finish_quit_remind), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Option12Activity.this, TabActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -454,16 +524,16 @@ public class Option12Activity extends Activity {
 // 这里处理逻辑代码，该方法仅适用于2.0或更新版的sdk
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setIcon(R.mipmap.talk)//设置标题的图片
-                .setTitle("提示")//设置对话框的标题
-                .setMessage("是否退出当前页面？退出将不会保留任何作答结果")//设置对话框的内容
+                .setTitle(getString(R.string.remind))//设置对话框的标题
+                .setMessage(getString(R.string.quit_remind))//设置对话框的内容
                 //设置对话框的按钮
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cencle1), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.confirm1), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MyOpenHelper moh = new MyOpenHelper(Option12Activity.this);
@@ -485,7 +555,6 @@ public class Option12Activity extends Activity {
         dialog.show();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextSize(40);
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(40);
-        return;
     }
 
     private ArrayList<Drawable> getDrawable() {
@@ -501,11 +570,15 @@ public class Option12Activity extends Activity {
                 byte[] answerA = c.getBlob(c.getColumnIndexOrThrow(MyOpenHelper.PictureColumns.PICTURE));
                 //将获取的数据转换成drawable
                 Bitmap bitmap1 = BitmapFactory.decodeByteArray(answerA, 0, answerA.length, null);
-                BitmapDrawable bitmapDrawable1 = new BitmapDrawable(bitmap1);
+                BitmapDrawable bitmapDrawable1 = new BitmapDrawable(getResources(),bitmap1);
                 Drawable drawable1 = bitmapDrawable1;
                 drawables.add(drawable1);
             }
         }
+        assert c != null;//Cursor必须要close()回收
+        c.close();
         return drawables;
     }
+
+
 }

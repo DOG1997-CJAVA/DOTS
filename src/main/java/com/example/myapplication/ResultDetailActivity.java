@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.example.myapplication.databinding.ActivityListviewBinding;
+import com.example.myapplication.databinding.ActivityResultdetailBinding;
 import com.example.myapplication.db.Constants;
 import com.example.myapplication.db.MyOpenHelper;
 import com.example.myapplication.db.ResultDetailInfo;
@@ -24,8 +26,11 @@ import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
+/*
+* 2021/7/20 代码优化 使用ViewBinding 替换所有的findviewbyID 仍使用java
+ * */
 
-public class ResultDetailActivity extends Activity {
+public class ResultDetailActivity extends BaseActivity {
     private static final String TAG = "tag";
     private MyOpenHelper moh;
     private SQLiteDatabase sd;
@@ -38,7 +43,8 @@ public class ResultDetailActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resultdetail);
+        com.example.myapplication.databinding.ActivityResultdetailBinding mbinding1 = ActivityResultdetailBinding.inflate(getLayoutInflater());
+        setContentView(mbinding1.getRoot());
         Intent intent = getIntent();
         String getID = intent.getStringExtra("ID");
         //创建或打开数据库
@@ -46,7 +52,6 @@ public class ResultDetailActivity extends Activity {
         sd= moh.getReadableDatabase();
         resultDetailList = new ArrayList<>();
         timeLog = new ArrayList<String>();
-        //扫描数据库,将数据库信息放入resultList
         Cursor cursor = sd.rawQuery("select * from "+ Constants.TABLE_NAME4+" where ID="+getID ,null);
         while (cursor.moveToNext()){
             String raw_count = raw_count_int +" ";
@@ -64,11 +69,9 @@ public class ResultDetailActivity extends Activity {
                 ResultDetailInfo rdi = new ResultDetailInfo(option1,option2,option3,option4,answer,correct_answer);
                 resultDetailList.add(rdi);
                 raw_count_int = raw_count_int + 1;
-            }
-
-            if(TextUtils.isEmpty(correct_answer) || TextUtils.isEmpty(answer)){
-            }else if(answer.equals(correct_answer)){
-                    correct = correct + 1;
+                if(answer.equals(correct_answer)){
+                    correct++;
+                }
             }
         }
         cursor.close();
@@ -84,37 +87,22 @@ public class ResultDetailActivity extends Activity {
         answerStu = (correct + "") + "/" + (resultDetailList.size() + "");//答题正确数目 显示
         Log.d(TAG, "onCreate: "+ answerStu);
 
-        TextView hzID = (TextView) findViewById(R.id.ID2);
-        hzID.setText(ID);
-        TextView hzName = (TextView) findViewById(R.id.name);
-        hzName.setText(name);
-        TextView hzSex = (TextView) findViewById(R.id.sex);
-        hzSex.setText(sex);
-        TextView hzAge = (TextView) findViewById(R.id.age);
-        hzAge.setText(age);
-        TextView hzResult = (TextView) findViewById(R.id.result1);
-        hzResult.setText(results);
-        TextView hzAnswerSituation = (TextView) findViewById(R.id.answercount);
-        hzAnswerSituation.setText(answerStu);
-        TextView test_channel = (TextView) findViewById(R.id.channelname);
-        test_channel.setText(testchannel);
-
+        mbinding1.ID2.setText(ID);
+        mbinding1.name.setText(name);
+        mbinding1.sex.setText(sex);
+        mbinding1.age.setText(age);
+        mbinding1.result1.setText(results);
+        mbinding1.answercount.setText(answerStu);
+        mbinding1.channelname.setText(testchannel);
         try{
-            //显示开始作答时间
-            TextView hzStartAnswerTime = (TextView) findViewById(R.id.startTime);
-            hzStartAnswerTime.setText(timeLog.get(0));
-            //显示结束作答时间
-            TextView hzEndAnswerTime = (TextView) findViewById(R.id.endTime);
-            //hzEndAnswerTime.setText(timeLog.get(timeLog.size()-1));//最后一个时间
-            hzEndAnswerTime.setText(timeLog.get(timeLog.size()-3));//最后一个时间
-            //Log.d(TAG,"aaaaaaaaaaaaaaaaaaaaaaaaaa"+timeLog);
+            mbinding1.startTime.setText(timeLog.get(0));
+            mbinding1.endTime.setText(timeLog.get(timeLog.size()-3));//最后一个时间
         }catch (Exception e){
             e.printStackTrace();
         }
         //获取ListView,并通过Adapter把resultList的信息显示到ListView
         //为ListView设置一个适配器,getCount()返回数据个数;getView()为每一行设置一个条目
-        lv = (ListView)findViewById(R.id.resultdetail_lv);
-        lv.setAdapter(new BaseAdapter() {
+        mbinding1.resultdetailLv.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
                 return resultDetailList.size();
@@ -132,20 +120,19 @@ public class ResultDetailActivity extends Activity {
                 else{
                     view = convertView;
                 }
-                //从resultList中取出一行数据，position相当于数组下标,可以实现逐行取数据
-                ResultDetailInfo ri = resultDetailList.get(position);
-                TextView option1 = (TextView)view.findViewById(R.id.listview_option1);
-                TextView option2 = (TextView)view.findViewById(R.id.listview_option2);
-                TextView option3 = (TextView)view.findViewById(R.id.listview_option3);
-                TextView option4 = (TextView)view.findViewById(R.id.listview_option4);
-                TextView answer = (TextView)view.findViewById(R.id.listview_answer);
-                TextView correct_answer = (TextView)view.findViewById(R.id.listview_correct_answer);
-                option1.setText(ri.getOption1());
-                option2.setText(ri.getOption2());
-                option3.setText(ri.getOption3());
-                option4.setText(ri.getOption4());
-                answer.setText(ri.getAnswer());
-                correct_answer.setText(ri.getCorrect_answer());
+                ResultDetailInfo ri = resultDetailList.get(position); //从resultList中取出一行数据，position相当于数组下标,可以实现逐行取数据
+                TextView listviewOption1 = (TextView) view.findViewById(R.id.listview_option1);
+                listviewOption1.setText(ri.getOption1());
+                TextView listviewOption2 = (TextView) view.findViewById(R.id.listview_option2);
+                listviewOption2.setText(ri.getOption2());
+                TextView listviewOption3 = (TextView) view.findViewById(R.id.listview_option3);
+                listviewOption3.setText(ri.getOption3());
+                TextView listviewOption4 = (TextView) view.findViewById(R.id.listview_option4);
+                listviewOption4.setText(ri.getOption4());
+                TextView listviewAnswer = (TextView) view.findViewById(R.id.listview_answer);
+                listviewAnswer.setText(ri.getAnswer());
+                TextView listviewCorrectAnswer = (TextView) view.findViewById(R.id.listview_correct_answer);
+                listviewCorrectAnswer.setText(ri.getCorrect_answer());
                 return view;
             }
 

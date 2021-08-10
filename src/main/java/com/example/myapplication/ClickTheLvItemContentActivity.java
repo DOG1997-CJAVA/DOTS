@@ -1,25 +1,19 @@
 package com.example.myapplication;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -28,7 +22,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.files.DialogFolderChooserExtKt;
 import com.example.myapplication.db.Constants;
-import com.example.myapplication.db.ManagementInfo;
 import com.example.myapplication.db.MyOpenHelper;
 import com.liyu.sqlitetoexcel.SQLiteToExcel;
 
@@ -40,7 +33,7 @@ import java.util.Map;
 
 import static android.os.Environment.getExternalStorageDirectory;
 
-public class ClickTheLvItemContentActivity extends AppCompatActivity implements View.OnClickListener {
+public class ClickTheLvItemContentActivity extends BaseActivity implements View.OnClickListener {
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 127;
     private MyOpenHelper moh;
     private SQLiteDatabase sd;
@@ -48,7 +41,6 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
     private ClickItemContentAdapter adapter;
     private TextView tv_title;
     private String ID;
-    private Button excel,delete_all;
 
     //以实现输出excel到具体路径下 依据日期添加筛选测试结果 SQlite导出为excel文件
     @Override
@@ -60,7 +52,7 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
             ActivityCompat.requestPermissions(ClickTheLvItemContentActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     WRITE_EXTERNAL_STORAGE_REQUEST_CODE);//申请WRITE_EXTERNAL_STORAGE权限
         }
-        delete_all = (Button) findViewById(R.id.delete_all);
+        Button delete_all = (Button) findViewById(R.id.delete_all);
         delete_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +68,7 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
                         System.out.println(idNumber);
                         Map map = moh.deleteFromDdById(idNumber);
                         if (map.get("result1") != null && map.get("result2") != null) {
-                            Toast.makeText(ClickTheLvItemContentActivity.this, "已成功删除数据", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ClickTheLvItemContentActivity.this,  getString(R.string.toast_delete_data_ifo), Toast.LENGTH_SHORT).show();
                         }
                         dataList.remove(i);
                         adapter.notifyDataSetChanged();
@@ -84,14 +76,14 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
                     return null;
                 });
                 dialog.negativeButton(R.string.cencle1, null, materialDialog -> {
-                    Toast.makeText(ClickTheLvItemContentActivity.this, "已取消", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ClickTheLvItemContentActivity.this, getString(R.string.cencle1), Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     return null;
                 });
                 dialog.show();
             }
         });
-        excel = (Button) findViewById(R.id.sql_to_excel_click);
+        Button excel = (Button) findViewById(R.id.sql_to_excel_click);
         excel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +105,7 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
                                         .setDataBase(sd.getPath())
                                         .setTables(Constants.TABLE_NAME4)
                                         .setOutputPath(file.getAbsolutePath())
-                                        .setOutputFileName(sdf.format(date) + "测试结果.xls")
+                                        .setOutputFileName(sdf.format(date) + getString(R.string.toast_export_filename_ifo))
                                         .start();
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -122,11 +114,11 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
                             return null;
                         });
                 dialog_folder.positiveButton(R.string.confirm1, null, materialDialog -> {
-                    Toast.makeText(ClickTheLvItemContentActivity.this, "已导出到指定目录", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ClickTheLvItemContentActivity.this, getString(R.string.toast_export_ifo), Toast.LENGTH_SHORT).show();
                     return null;
                 });
                 dialog_folder.negativeButton(R.string.cencle1, null, materialDialog -> {
-                    Toast.makeText(ClickTheLvItemContentActivity.this, "已取消数据导出", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ClickTheLvItemContentActivity.this, getString(R.string.toast_export_cancle_ifo), Toast.LENGTH_SHORT).show();
                     return null;
                 });
                 dialog_folder.show();
@@ -146,7 +138,7 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
             String ID = cursor.getString(cursor.getColumnIndex("ID"));
             String name = cursor.getString(cursor.getColumnIndex("name"));
             String result = cursor.getString(cursor.getColumnIndex("result"));
-            dataList.add("ID:" + ID + " " + "姓名:" + name + " " + "结果:" + result);
+            dataList.add(getString(R.string.id_3_7) + ID + " " + getString(R.string.name) + name + " " + getString(R.string.test_status_ifo) + result);
         }
         cursor.close();
         sd.close();
@@ -174,9 +166,9 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
     private void doNext(int requestCode, int[] grantResults) {
         if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(ClickTheLvItemContentActivity.this, "已授予权限", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ClickTheLvItemContentActivity.this, getString(R.string.toast_export_data_permiss), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(ClickTheLvItemContentActivity.this, "未授予权限，无法导出", Toast.LENGTH_SHORT).show();// Permission Denied
+                Toast.makeText(ClickTheLvItemContentActivity.this, getString(R.string.toast_export_data_unpermiss), Toast.LENGTH_SHORT).show();// Permission Denied
             }
         }
     }
@@ -204,14 +196,14 @@ public class ClickTheLvItemContentActivity extends AppCompatActivity implements 
                     String idNumber = (dataList.get(position) + "").substring(3, 7);
                     Map map = moh.deleteFromDdById(idNumber);
                     if (map.get("result1") != null && map.get("result2") != null) {
-                        Toast.makeText(ClickTheLvItemContentActivity.this, "已成功删除数据", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ClickTheLvItemContentActivity.this, getString(R.string.toast_delete_data_ifo), Toast.LENGTH_SHORT).show();
                     }
                     dataList.remove(position);
                     adapter.notifyDataSetChanged();
                     return null;
                 });
                 dialog.negativeButton(R.string.cencle1, null, materialDialog -> {
-                    Toast.makeText(this, "已取消", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.cencle1), Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     return null;
                 });

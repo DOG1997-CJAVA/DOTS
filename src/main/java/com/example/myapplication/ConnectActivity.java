@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class ConnectActivity extends AppCompatActivity {
+public class ConnectActivity extends BaseActivity {
 
     @BindView(R.id.ipTv)
     EditText ipTv;
@@ -51,10 +51,12 @@ public class ConnectActivity extends AppCompatActivity {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-
     }
 
-
+    //android:name = ".FunApplication"
+    //android:configChanges = "locale"
+    //android:launchMode="singleTask"
+    //<permission android:name = "android.permission.CHANGE_CONFIGURATION"/>
     @OnClick(R.id.connectBtn)
     public void onViewClicked() {
 
@@ -67,7 +69,7 @@ public class ConnectActivity extends AppCompatActivity {
         }
 
         //先判断 Service是否正在运行 如果正在运行  给出提示  防止启动多个service
-        if (isServiceRunning("com.example.myapplication.service.SocketService")) {
+        if (isServiceRunning()) {
             Toast.makeText(this, "连接服务已运行", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -76,10 +78,9 @@ public class ConnectActivity extends AppCompatActivity {
         //stopService(intent);
         /*启动service*/
         Intent intent = new Intent(getApplicationContext(), SocketService.class);
-        intent.putExtra(Constants.INTENT_IP, ip); //点击重连，调用SocketService 这一活动，传入参数
+        intent.putExtra(Constants.INTENT_IP, ip);
         intent.putExtra(Constants.INTENT_PORT, port);
         startService(intent);
-
     }
 
     @OnClick(R.id.btnT) //返回
@@ -99,19 +100,18 @@ public class ConnectActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-
     }
 
 
     /**
      * 判断服务是否运行
      */
-    private boolean isServiceRunning(final String className) {
+    private boolean isServiceRunning() {
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningServiceInfo> info = activityManager.getRunningServices(Integer.MAX_VALUE);
         if (info == null || info.size() == 0) return false;
         for (ActivityManager.RunningServiceInfo aInfo : info) {
-            if (className.equals(aInfo.service.getClassName())) return true;
+            if ("com.example.myapplication.service.SocketService".equals(aInfo.service.getClassName())) return true;
         }
         return false;
     }
