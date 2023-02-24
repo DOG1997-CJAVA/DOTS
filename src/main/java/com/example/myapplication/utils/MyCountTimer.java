@@ -50,7 +50,6 @@ public class MyCountTimer extends CountDownTimer {
         btn.setEnabled(false);
         //每隔一秒修改一次UI
         btn.setText(millisUntilFinished / 1000+"");
-
         // 设置透明度渐变动画
         final AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
         //设置动画持续时间

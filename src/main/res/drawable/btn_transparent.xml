@@ -18,7 +18,7 @@
             <size android:height="32dp" android:width="72dp"></size>
             <padding android:bottom="5dp" android:left="5dp"
                 android:right="5dp" android:top="5dp"></padding>
-            <solid android:color="#88f39c12"></solid>
+            <solid android:color="#BEE0EF"></solid>
         </shape>
     </item>
 </selector>

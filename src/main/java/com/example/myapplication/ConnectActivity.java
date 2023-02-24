@@ -9,11 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.example.myapplication.common.EventMsg;
 import com.example.myapplication.db.Constants;
+import com.example.myapplication.language.BaseActivity;
 import com.example.myapplication.service.SocketService;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,10 +52,6 @@ public class ConnectActivity extends BaseActivity {
         }
     }
 
-    //android:name = ".FunApplication"
-    //android:configChanges = "locale"
-    //android:launchMode="singleTask"
-    //<permission android:name = "android.permission.CHANGE_CONFIGURATION"/>
     @OnClick(R.id.connectBtn)
     public void onViewClicked() {
 

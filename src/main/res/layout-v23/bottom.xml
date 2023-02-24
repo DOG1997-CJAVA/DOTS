@@ -4,13 +4,14 @@
     android:layout_height="60dp"
     android:gravity="center"
     android:background="@color/material_blue_grey_800"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:baselineAligned="false">
 
     <LinearLayout
+        android:id="@+id/need_to_know"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:id="@+id/need_to_know"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -28,6 +29,7 @@
             android:textColor="#ffffff"
             android:text="@string/directions_for_use_btn"/>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/channel_select"
         android:layout_width="0dp"
@@ -48,8 +50,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
-            android:text="通道选择"/>
+            android:text="@string/channel_sel_btn"/>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/result_ui"
         android:layout_width="0dp"
@@ -70,6 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
-            android:text="测试结果及反馈"/>
+            android:text="@string/result_feedback_btn"/>
     </LinearLayout>
+
 </LinearLayout>

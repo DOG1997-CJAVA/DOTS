@@ -4,7 +4,7 @@
     android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/new_background">
+    android:background="@drawable/huisebackgroupnd">
 
     <Button
         android:id="@+id/btn_check_result"

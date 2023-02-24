@@ -27,7 +27,7 @@ public class ResultUI_Fragment extends Fragment {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),ManagementActivity.class);
+                Intent intent=new Intent(getActivity(), UserResultShowActivity.class);
                 startActivity(intent);
             }
         });

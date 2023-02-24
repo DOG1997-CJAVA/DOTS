@@ -4,93 +4,181 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
 
 import com.example.myapplication.common.EventMsg;
+import com.example.myapplication.databinding.ActivityMainBinding;
 import com.example.myapplication.db.Constants;
+import com.example.myapplication.db.MyOpenHelper;
+import com.example.myapplication.language.BaseActivity;
+import com.example.myapplication.management.ManagementTabActivity;
 import com.example.myapplication.service.SocketService;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Locale;
-import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import butterknife.ButterKnife;
-
-//import com.yariksoffice.lingver.Lingver;
-
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class MainActivity extends BaseActivity {
     private ServiceConnection sc;
     private static boolean reload = false;
     private long firstTime = 0;
     public SocketService socketService;
-    public ImageView icon10, icon11;
+    public ImageView icon_con_success, icon_con_error;
     public static final String TAG = "RightFragment";
-
+    int TIME = 3;               //定义默认时间长度
+    static int odor_release_delay = 1;
+    private ActivityMainBinding bindingMain;
+    private static final String SHOWCASE_ID = "sequence example";
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        bindSocketService();// 通过binder拿到service 开启服务
-        ButterKnife.bind(this);
-        //重启语言设置
-/*        if(!reload) {
-            SharedPreferences retryCount = getSharedPreferences("retryCount", MODE_PRIVATE);
-            int language_index = retryCount.getInt("language_set", 0);
-            String language;
-            Log.d(TAG, Integer.toString(language_index));
-            if (language_index == 0) {
-                language = "zh_simple";
-            } else {
-                language = "en";
-            }
-            Log.d(TAG, language);
-            switchLanguage(language);
-        }*/
-        //store = PreferenceLocaleStore(this, Locale(LANGUAGE_ENGLISH))
-        //Lingver.init(this, Locale(ENGLISH));
-        //Intent intent = getIntent();
-        //connect_sur_ero = intent.getBooleanExtra("connect_statue",false);
-        /*register EventBus*/
+        if (! XXPermissions.isGranted(MainActivity.this, Permission.MANAGE_EXTERNAL_STORAGE)){
+            XXPermissions.startPermissionActivity(MainActivity.this, Permission.MANAGE_EXTERNAL_STORAGE);
+        }
+        bindingMain = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(bindingMain.getRoot());
+        bindSocketService();
+        MyOpenHelper dbHelper1 = new MyOpenHelper(MainActivity.this);
+        SQLiteDatabase sqliteDatabase1 = dbHelper1.getWritableDatabase();
+        sqliteDatabase1.close();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
-        icon10 = findViewById(R.id.icon_connect_success);
-        icon10.setVisibility(View.GONE);//默认链接失败，等待更新
-        icon11 = findViewById(R.id.icon_connect_error);
-        icon11.setVisibility(View.VISIBLE);
-        Button btn100 = findViewById(R.id.btn100);
-        Button btn101 = findViewById(R.id.btn101);
-        Button btn102 = findViewById(R.id.btn102);
-        btn100.setOnClickListener(v -> {
-            //跳转到SimulationTesterActivity 模拟测试页面
+        SharedPreferences retryCount = this.getSharedPreferences("retryCount", MODE_PRIVATE);
+        odor_release_delay = retryCount.getInt("odor_release_delay", 1);
+        TIME = retryCount.getInt("odor_release_time", 3);
+        int time_sum_order = TIME  + odor_release_delay;
+        float time_sum = time_sum_order * 1000.0f;
+        time_sum_order = (int)time_sum;
+
+        icon_con_success = bindingMain.iconConnectSuccess;
+        icon_con_success.setVisibility(View.GONE);
+        icon_con_error = bindingMain.iconConnectError;
+        icon_con_error.setVisibility(View.VISIBLE);
+        Button btn_mock_test = bindingMain.btnMockTest;
+        Button btn_start_test = bindingMain.btnStartTest;
+        Button btn_back_mange = bindingMain.btnBackMange;
+
+
+        if (sc != null && socketService != null) {
+            socketService.sendOrder("413");
+        }
+
+        Timer my_open_timer = new Timer();
+        btn_mock_test.setOnClickListener(v -> {
+            int external_status = retryCount.getInt("external_status",0);
+            if( sc != null && socketService != null && external_status == 0){
+                socketService.sendOrder("404");
+                my_open_timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        socketService.sendOrder("404");
+                    }
+                }, 100);
+            }else if(sc != null && socketService != null && external_status == 1){
+                socketService.sendOrder("402");
+                my_open_timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        socketService.sendOrder("402");
+                    }
+                }, 100);
+            }
             Intent intent1 = new Intent(MainActivity.this, SimulationTesterActivity.class);
             startActivity(intent1);
         });
-        //跳转到SimulationTesterActivity 测试选择页面
-        btn101.setOnClickListener(v -> {
+        int finalTime_sum_order = time_sum_order;
+
+        btn_start_test.setOnClickListener(v -> {
+            my_open_timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (sc != null && socketService != null) {
+                    socketService.sendOrder(finalTime_sum_order + "415");
+                    Log.d(TAG, finalTime_sum_order + "415" + "");
+                }
+            }
+        }, 200);
+
             Intent intent2 = new Intent(MainActivity.this, TabActivity.class);
             startActivity(intent2);
         });
-        //管理员界面
-        btn102.setOnClickListener(v -> {
+
+        btn_back_mange.setOnClickListener(v -> {
             Intent intent3 = new Intent(MainActivity.this, ManagementTabActivity.class);
             startActivity(intent3);
         });
+        bindingMain.btnNav.setOnClickListener(V -> restartShowSequence());
+        SharedPreferences retryCount14 = getSharedPreferences("retryCount", MODE_PRIVATE);
+        SharedPreferences.Editor edit = retryCount14.edit();
+        edit.putInt("cache", 1);
+        edit.apply();
+    }
+
+    public void restartShowSequence(){
+        MaterialShowcaseView.resetSingleUse(this, SHOWCASE_ID);
+        presentShowcaseSequence();
+    }
+
+    private void presentShowcaseSequence() {
+
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500);
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, SHOWCASE_ID);
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(this)
+                        .setSkipText(getString(R.string.ShowcaseSequence_6))
+                        .setTarget(bindingMain.btnMockTest)
+                        .setDismissText(getString(R.string.remind3))
+                        .setContentText(getString(R.string.ShowcaseSequence_1))
+                        .withRectangleShape(true)
+                        .build()
+        );
+
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(this)
+                        .setSkipText(getString(R.string.ShowcaseSequence_6))
+                        .setTarget(bindingMain.btnStartTest)
+                        .setDismissText(getString(R.string.remind3))
+                        .setContentText(getString(R.string.ShowcaseSequence_2))
+                        .withRectangleShape(true)
+                        .build()
+        );
+
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(bindingMain.btnBackMange)
+                        .setSkipText(getString(R.string.ShowcaseSequence_6))
+                        .setDismissText(getString(R.string.remind3))
+                        .setContentText(getString(R.string.ShowcaseSequence_5))
+                        .withRectangleShape(true)
+                        .build()
+        );
+        sequence.start();
     }
 
     private void bindSocketService() {
@@ -110,42 +198,17 @@ public class MainActivity extends BaseActivity {
         bindService(intent, sc, BIND_AUTO_CREATE);//开启socket服务；自动开启
     }
 
-    //表示无论事件是在哪个线程发布出来的，该事件订阅方法onEvent都会在UI线程中执行
-    //订阅事件  Android中只能在UI线程中更新UI
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getConnectStatue(EventMsg msg) {
         if (msg.getTag().equals(Constants.CONNET_SUCCESS)) {
-            /*接收到这个消息说明连接成功*/
-            icon10.setVisibility(View.VISIBLE);
-            icon11.setVisibility(View.GONE);
+            icon_con_success.setVisibility(View.VISIBLE);
+            icon_con_error.setVisibility(View.GONE);
         }
         if (msg.getTag().equals(Constants.CONNET_FAIL)) {
-            icon11.setVisibility(View.VISIBLE);
-            icon10.setVisibility(View.GONE);
+            icon_con_error.setVisibility(View.VISIBLE);
+            icon_con_success.setVisibility(View.GONE);
         }
     }
-
-/*    private void switchLanguage(String language) {
-        //设置应用语言类型
-        reload = true;
-        Resources resources = getResources();
-        Configuration config = resources.getConfiguration();
-        DisplayMetrics dm = resources.getDisplayMetrics();
-        if (language.equals("zh_simple")) {
-            config.locale = Locale.SIMPLIFIED_CHINESE;
-        } else if (language.equals("en")) {
-            config.locale = Locale.ENGLISH;
-        } else {
-            config.locale = Locale.getDefault();
-        }
-        resources.updateConfiguration(config, dm);
-        //更新语言后，destroy当前页面，重新绘制
-        finish();
-        Intent it = new Intent(MainActivity.this, MainActivity.class);
-        //清空任务栈确保当前打开activit为前台任务栈栈顶
-        it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(it);
-    }*/
 
     @Override
     public void onBackPressed() {
@@ -154,15 +217,14 @@ public class MainActivity extends BaseActivity {
             Toast.makeText(MainActivity.this, getString(R.string.toast_app_quit_ifo), Toast.LENGTH_SHORT).show();
             firstTime = secondTime;
         } else {
-            socketService.sendOrder("414");//退出app时需要 关闭气泵 排风扇 以及所有电磁阀 等待断电
+            socketService.sendOrder("414");
             System.exit(0);
         }
     }
 
-
     @Override
     protected void onDestroy() {
-        socketService.sendOrder("414");//退出app时需要 关闭气泵 排风扇 以及所有电磁阀 等待断电
+        socketService.sendOrder("414");
         super.onDestroy();
         //关闭socket服务
         unbindService(sc);

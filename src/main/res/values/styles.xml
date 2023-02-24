@@ -7,7 +7,7 @@
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="colorAccent">@color/colorAccent</item>
 	</style>
-	
+
 	<style name="SampleHeader">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
@@ -20,11 +20,17 @@
 		<item name="android:layout_marginTop">@dimen/headerMarginVertical</item>
 		<item name="android:layout_marginBottom">@dimen/headerMarginVertical</item>
 	</style>
-	
+
 	<style name="SampleButton">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">@dimen/sample_button_height_en</item>
 		<item name="android:layout_marginTop">@dimen/sample_button_spacing</item>
+
+	</style>
+
+
+	<style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+		<item name="android:button">@drawable/checkbox_style</item>
 	</style>
 
 </resources>

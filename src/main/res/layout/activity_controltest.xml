@@ -41,8 +41,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/btn_style"
                         android:textColor="#FFFBFB"
-                        android:textOff="气泵1已关闭"
-                        android:textOn="气泵1已打开"
+                        android:textOff="Pump close"
+                        android:textOn="Pump working"
                         android:textSize="30sp"></ToggleButton>
                     <!--        android:layout_marginTop="45dp"-->
                     <!--        android:layout_width="102dp"-->
@@ -54,8 +54,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道1已关闭"
-                        android:textOn="通道1已打开"
+                        android:textOff="Channel 1 close"
+                        android:textOn="Channel 1 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -66,8 +66,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道2已关闭"
-                        android:textOn="通道2已打开"
+                        android:textOff="Channel 2 close"
+                        android:textOn="Channel 2 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -78,8 +78,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道3已关闭"
-                        android:textOn="通道3已打开"
+                        android:textOff="Channel 3 close"
+                        android:textOn="Channel 3 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -90,8 +90,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道4已关闭"
-                        android:textOn="通道4已打开"
+                        android:textOff="Channel 4 close"
+                        android:textOn="Channel 4 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -102,8 +102,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道5已关闭"
-                        android:textOn="通道5已打开"
+                        android:textOff="Channel 5 close"
+                        android:textOn="Channel 5 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -114,8 +114,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道6已关闭"
-                        android:textOn="通道6已打开"
+                        android:textOff="Channel 6 close"
+                        android:textOn="Channel 6 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -126,8 +126,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道7已关闭"
-                        android:textOn="通道7已打开"
+                        android:textOff="Channel 7 close"
+                        android:textOn="Channel 7 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -138,8 +138,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道8已关闭"
-                        android:textOn="通道8已打开"
+                        android:textOff="Channel 8 close"
+                        android:textOn="Channel 8 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -150,8 +150,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道9已关闭"
-                        android:textOn="通道9已打开"
+                        android:textOff="Channel 9 close"
+                        android:textOn="Channel 9 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -162,8 +162,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道10已关闭"
-                        android:textOn="通道10已打开"
+                        android:textOff="Channel 10 close"
+                        android:textOn="Channel 10 open"
                         android:textSize="30sp"></ToggleButton>
                 </LinearLayout>
 
@@ -174,16 +174,16 @@
                     android:orientation="vertical">
 
                     <ToggleButton
-                        android:id="@+id/pumb2"
+                        android:id="@+id/external_air_switch"
                         android:layout_width="110dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="45dp"
                         android:background="@drawable/btn_style"
                         android:textColor="#FFFBFB"
-                        android:textOff="气泵2已关闭"
-                        android:textOn="气泵2已打开"
-                        android:textSize="30sp"></ToggleButton>
+                        android:textOff="external air close"
+                        android:textOn="external air open"
+                        android:textSize="30sp" />
 
                     <ToggleButton
                         android:id="@+id/btn11"
@@ -193,9 +193,9 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道11已关闭"
-                        android:textOn="通道11已打开"
-                        android:textSize="30sp"></ToggleButton>
+                        android:textOff="Channel 11 close"
+                        android:textOn="Channel 11 open"
+                        android:textSize="30sp" />
 
                     <ToggleButton
                         android:id="@+id/btn12"
@@ -205,9 +205,9 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道12已关闭"
-                        android:textOn="通道12已打开"
-                        android:textSize="30sp"></ToggleButton>
+                        android:textOff="Channel 12 close"
+                        android:textOn="Channel 12 open"
+                        android:textSize="30sp" />
 
                     <ToggleButton
                         android:id="@+id/btn13"
@@ -217,9 +217,9 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道13已关闭"
-                        android:textOn="通道13已打开"
-                        android:textSize="30sp"></ToggleButton>
+                        android:textOff="Channel 13 close"
+                        android:textOn="Channel 13 open"
+                        android:textSize="30sp" />
 
                     <ToggleButton
                         android:id="@+id/btn14"
@@ -229,20 +229,19 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道14已关闭"
-                        android:textOn="通道14已打开"
-                        android:textSize="30sp"></ToggleButton>
+                        android:textOff="Channel 14 close"
+                        android:textOn="Channel 14 open"
+                        android:textSize="30sp" />
 
                     <ToggleButton
                         android:id="@+id/btn15"
                         android:layout_width="110dp"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道15已关闭"
-                        android:textOn="通道15已打开"
+                        android:textOff="Channel 15 close"
+                        android:textOn="Channel 15 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -253,8 +252,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道16已关闭"
-                        android:textOn="通道16已打开"
+                        android:textOff="Channel 16 close"
+                        android:textOn="Channel 16 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -265,8 +264,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道17已关闭"
-                        android:textOn="通道17已打开"
+                        android:textOff="Channel 17 close"
+                        android:textOn="Channel 17 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -277,8 +276,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道18已关闭"
-                        android:textOn="通道18已打开"
+                        android:textOff="Channel 18 close"
+                        android:textOn="Channel 18 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -289,8 +288,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道19已关闭"
-                        android:textOn="通道19已打开"
+                        android:textOff="Channel 19 close"
+                        android:textOn="Channel 19 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -301,8 +300,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道20已关闭"
-                        android:textOn="通道20已打开"
+                        android:textOff="Channel 20 close"
+                        android:textOn="Channel 20 open"
                         android:textSize="30sp"></ToggleButton>
                 </LinearLayout>
 
@@ -320,8 +319,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="排风扇已关闭"
-                        android:textOn="排风扇已打开"
+                        android:textOff="Fan stop"
+                        android:textOn="Fan working"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -332,8 +331,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道21已关闭"
-                        android:textOn="通道21已打开"
+                        android:textOff="Channel 21 close"
+                        android:textOn="Channel 21 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -344,8 +343,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道22已关闭"
-                        android:textOn="通道22已打开"
+                        android:textOff="Channel 22 close"
+                        android:textOn="Channel 22 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -356,8 +355,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道23已关闭"
-                        android:textOn="通道23已打开"
+                        android:textOff="Channel 23 close"
+                        android:textOn="Channel 23 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -368,8 +367,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道24已关闭"
-                        android:textOn="通道24已打开"
+                        android:textOff="Channel 24 close"
+                        android:textOn="Channel 24 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -380,8 +379,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道25已关闭"
-                        android:textOn="通道25已打开"
+                        android:textOff="Channel 25 close"
+                        android:textOn="Channel 25 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -392,8 +391,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道26已关闭"
-                        android:textOn="通道26已打开"
+                        android:textOff="Channel 26 close"
+                        android:textOn="Channel 26 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -404,8 +403,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道27已关闭"
-                        android:textOn="通道27已打开"
+                        android:textOff="Channel 27 close"
+                        android:textOn="Channel 27 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -416,8 +415,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道28已关闭"
-                        android:textOn="通道28已打开"
+                        android:textOff="Channel 28 close"
+                        android:textOn="Channel 28 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -428,8 +427,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道29已关闭"
-                        android:textOn="通道29已打开"
+                        android:textOff="Channel 29 close"
+                        android:textOn="Channel 29 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -440,8 +439,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道30已关闭"
-                        android:textOn="通道30已打开"
+                        android:textOff="Channel 30 close"
+                        android:textOn="Channel 30 open"
                         android:textSize="30sp"></ToggleButton>
                 </LinearLayout>
 
@@ -459,8 +458,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="尝试连接"
-                        android:textOn="尝试连接"
+                        android:textOff="reconnect"
+                        android:textOn="reconnect"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -471,8 +470,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道31已关闭"
-                        android:textOn="通道31已打开"
+                        android:textOff="Channel 31 close"
+                        android:textOn="Channel 31 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -483,8 +482,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道32已关闭"
-                        android:textOn="通道32已打开"
+                        android:textOff="Channel 32 close"
+                        android:textOn="Channel 32 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -495,8 +494,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道33已关闭"
-                        android:textOn="通道33已打开"
+                        android:textOff="Channel 33 close"
+                        android:textOn="Channel 33 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -507,8 +506,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道34已关闭"
-                        android:textOn="通道34已打开"
+                        android:textOff="Channel 34 close"
+                        android:textOn="Channel 34 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -519,8 +518,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道35已关闭"
-                        android:textOn="通道35已打开"
+                        android:textOff="Channel 35 close"
+                        android:textOn="Channel 35 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -531,8 +530,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道36已关闭"
-                        android:textOn="通道36已打开"
+                        android:textOff="Channel 36 close"
+                        android:textOn="Channel 36 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -543,8 +542,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道37已关闭"
-                        android:textOn="通道37已打开"
+                        android:textOff="Channel 37 close"
+                        android:textOn="Channel 37 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -555,8 +554,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道38已关闭"
-                        android:textOn="通道38已打开"
+                        android:textOff="Channel 38 close"
+                        android:textOn="Channel 38 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -567,8 +566,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道39已关闭"
-                        android:textOn="通道39已打开"
+                        android:textOff="Channel 39 close"
+                        android:textOn="Channel 39 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -579,8 +578,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道40已关闭"
-                        android:textOn="通道40已打开"
+                        android:textOff="Channel 40 close"
+                        android:textOn="Channel 40 open"
                         android:textSize="30sp"></ToggleButton>
 
                 </LinearLayout>
@@ -599,8 +598,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="扫描已关闭"
-                        android:textOn="正在自动扫描"
+                        android:textOff="auto scan stop"
+                        android:textOn="auto scanning"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -611,8 +610,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道41已关闭"
-                        android:textOn="通道41已打开"
+                        android:textOff="Channel 41 close"
+                        android:textOn="Channel 41 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -623,8 +622,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道42已关闭"
-                        android:textOn="通道42已打开"
+                        android:textOff="Channel 42 close"
+                        android:textOn="Channel 42 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -635,8 +634,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道43已关闭"
-                        android:textOn="通道43已打开"
+                        android:textOff="Channel 43 close"
+                        android:textOn="Channel 43 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -647,8 +646,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道44已关闭"
-                        android:textOn="通道44已打开"
+                        android:textOff="Channel 44 close"
+                        android:textOn="Channel 44 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -659,8 +658,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道45已关闭"
-                        android:textOn="通道45已打开"
+                        android:textOff="Channel 45 close"
+                        android:textOn="Channel 45 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -671,8 +670,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道46已关闭"
-                        android:textOn="通道46已打开"
+                        android:textOff="Channel 46 close"
+                        android:textOn="Channel 46 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -683,8 +682,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道47已关闭"
-                        android:textOn="通道47已打开"
+                        android:textOff="Channel 47 close"
+                        android:textOn="Channel 47 open"
                         android:textSize="30sp"></ToggleButton>
 
                     <ToggleButton
@@ -695,8 +694,8 @@
                         android:layout_marginTop="45dp"
                         android:background="@drawable/bt_shape1"
                         android:textColor="#FFFBFB"
-                        android:textOff="通道48已关闭"
-                        android:textOn="通道48已打开"
+                        android:textOff="Channel 48 close"
+                        android:textOn="Channel 48 open"
                         android:textSize="30sp"></ToggleButton>
                 </LinearLayout>
 
@@ -708,39 +707,64 @@
                 android:orientation="vertical">
                 <ToggleButton
                     android:id="@+id/btn_value_const"
-                    android:layout_width="110dp"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="45dp"
                     android:background="@drawable/bt_shape1"
                     android:textColor="#FFFBFB"
-                    android:textOff="value_const已打开"
-                    android:textOn="value_const已关闭"
+                    android:textOff="value_const mode"
+                    android:textOn="value_const mode close"
                     android:textSize="30sp"></ToggleButton>
 
                 <ToggleButton
                     android:id="@+id/btn_clean"
-                    android:layout_width="110dp"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="45dp"
                     android:background="@drawable/bt_shape1"
                     android:textColor="#FFFBFB"
-                    android:textOff="清洗关闭 加味打开"
-                    android:textOn="清洗打开 加味关闭"
+                    android:textOff="clean off odor on"
+                    android:textOn="clean on odor off"
                     android:textSize="30sp"></ToggleButton>
 
-                <!--<ToggleButton
-                    android:id="@+id/btn_add_smell"
-                    android:layout_width="110dp"
+                <ToggleButton
+                    android:id="@+id/btn_300_cycle"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="45dp"
                     android:background="@drawable/bt_shape1"
                     android:textColor="#FFFBFB"
-                    android:textOff="加味通道已打开"
-                    android:textOn="加味通道已关闭"
-                    android:textSize="30sp"></ToggleButton>-->
+                    android:textOff="300 times tests"
+                    android:textOn="300 times testing"
+                    android:textSize="30sp"></ToggleButton>
+
+                <ToggleButton
+                    android:id="@+id/btn_external_air_20"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="45dp"
+                    android:background="@drawable/bt_shape1"
+                    android:textColor="#FFFBFB"
+                    android:textOff="External channel 20 off"
+                    android:textOn="External channel 20 open"
+                    android:textSize="30sp"></ToggleButton>
+
+                <ToggleButton
+                    android:id="@+id/btn_external_air_21"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="45dp"
+                    android:background="@drawable/bt_shape1"
+                    android:textColor="#FFFBFB"
+                    android:textOff="External channel 21 off"
+                    android:textOn="External channel 21 open"
+                    android:textSize="30sp"></ToggleButton>
+
             </LinearLayout>
 
             </LinearLayout>

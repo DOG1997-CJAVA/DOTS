@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,13 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.example.myapplication.language.BaseActivity;
 import com.example.myapplication.mail.MyEmailHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 public class FeedBackActivity extends BaseActivity {
     private static final String TAG = FeedBackActivity.class.getSimpleName();

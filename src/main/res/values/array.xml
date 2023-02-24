@@ -27,6 +27,26 @@
         <item>@string/no_retry_times</item>
     </string-array>
 
+    <string-array name="reversal_times">
+        <item>@string/retry_times_1</item>
+        <item>@string/retry_times_2</item>
+        <item>@string/retry_times_3</item>
+        <item>@string/retry_times_4</item>
+        <item>@string/retry_times_5</item>
+        <item>@string/retry_times_6</item>
+        <item>@string/retry_times_7</item>
+        <item>@string/retry_times_8</item>
+    </string-array>
+
+    <string-array name="educate_level">
+        <item>@string/educate_1</item>
+        <item>@string/educate_2</item>
+        <item>@string/educate_3</item>
+        <item>@string/educate_4</item>
+        <item>@string/educate_5</item>
+        <item>@string/educate_6</item>
+    </string-array>
+
     <string-array name="feedback_type">
         <item>@string/mail_theme_interface</item>
         <item>@string/mail_theme_process</item>
@@ -42,6 +62,30 @@
     <string-array name="language">
         <item>@string/chinese</item>
         <item>@string/english</item>
+    </string-array>
+
+
+    <string-array name="id_custom_odor">
+        <item>"Orange"</item>
+        <item>"Jasmine"</item>
+        <item>"Chocolate"</item>
+        <item>"Lemon"</item>
+        <item>"Banana"</item>
+        <item>"Milk"</item>
+        <item>"Peach"</item>
+        <item>"Coffee"</item>
+        <item>"Mint"</item>
+        <item>"Soap"</item>
+        <item>"Garlic"</item>
+        <item>"Menthol"</item>
+        <item>"Cut Grass"</item>
+        <item>"Baby powder"</item>
+        <item>"Coconut"</item>
+        <item>"Lilac"</item>
+        <item>"Leather"</item>
+        <item>"Pineapple"</item>
+        <item>"Vanilla"</item>
+        <item>"Smoke"</item>
     </string-array>
 
 </resources>

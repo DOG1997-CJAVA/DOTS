@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="color_green">#20E328</color>
+    <color name="color_green">#086F0C</color>
     <color name="color_yellow">#FFC107</color>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
@@ -21,4 +21,18 @@
     <color name="primaryDark_custom">#546E7A</color>
     <color name="accent_custom">#388E3C</color>
     <color name="primary_custom_translucent">#40388E3C</color>
+
+    <color name="selected_background_color">#15a4fa</color>
+    <color name="unselected_background_color">#1c324a</color>
+    <color name="shadow_background_color">#28415f</color>
+    <color name="unselected_header_background_color">#1f3650</color>
+
+    <color name="unselected_text_color">#537095</color>
+    <color name="selected_text_color">#A3A0A0</color>
+    <color name="separator_color">#273e5b</color>
+
+    <color name="popup_menu_item_text_color">#607EA3</color>
+
+    <color name="female_icon_color">#e9515f</color>
+    <color name="male_icon_color">#f28944</color>
 </resources>

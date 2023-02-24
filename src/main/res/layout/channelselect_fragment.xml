@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_12"
@@ -47,6 +47,18 @@
             android:layout_marginLeft="5dp"
             android:background="@drawable/btn_transparent"
             android:text="@string/smell_test_40"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/btn_cus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/btn_transparent"
+            android:text="@string/smell_test_custom"
             android:textSize="40sp" />
     </LinearLayout>
 </LinearLayout>

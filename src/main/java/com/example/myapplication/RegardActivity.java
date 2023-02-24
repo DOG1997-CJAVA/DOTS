@@ -3,8 +3,9 @@ package com.example.myapplication;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
+
+import com.example.myapplication.language.BaseActivity;
 
 public class RegardActivity extends BaseActivity {
     @Override

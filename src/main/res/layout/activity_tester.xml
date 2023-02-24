@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <TextView
         android:layout_width="wrap_content"
@@ -10,6 +11,7 @@
         android:text="@string/tester_ifo"
         android:textSize="40sp"
         android:layout_marginTop="@dimen/smssdk_authorize_text_size_m" />
+
     <LinearLayout
         android:layout_gravity="center"
         android:layout_width="450dp"
@@ -21,15 +23,17 @@
             android:layout_height="wrap_content"
             android:text="@string/id"
             android:textSize="40sp"
-            android:layout_marginLeft="35dp"
             android:layout_marginStart="35dp" />
         <EditText
             android:textSize="40sp"
             android:singleLine="true"
             android:id="@+id/editTextNum1"
+            android:inputType="textPhonetic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="" />
+            android:autofillHints=""
+            />
+        <requestFocus />
     </LinearLayout>
 
     <LinearLayout
@@ -41,7 +45,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
             android:text="@string/name"
             android:textSize="40sp"
             android:layout_marginStart="35dp" />
@@ -50,11 +53,12 @@
             android:id="@+id/editTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPhonetic"
             android:singleLine="true"
-            android:textSize="40sp" />
-
-        <requestFocus />
+            android:textSize="40sp"
+            android:autofillHints="" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_gravity="center"
         android:layout_width="450dp"
@@ -66,16 +70,39 @@
         android:layout_height="wrap_content"
         android:text="@string/age"
         android:textSize="40sp"
-        android:layout_marginLeft="35dp"
         android:layout_marginStart="35dp" />
     <EditText
         android:textSize="40sp"
         android:id="@+id/editTextNum2"
         android:singleLine="true"
         android:inputType="number"
+        android:hint="0-130"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/educate_year"
+            android:textSize="40sp"
+            android:layout_marginStart="35dp" />
+        <EditText
+            android:textSize="40sp"
+            android:id="@+id/editTextEducate"
+            android:singleLine="true"
+            android:hint="0-40"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="" />
     </LinearLayout>
 <!--    <LinearLayout-->
 <!--        android:layout_gravity="center"-->
@@ -100,6 +127,18 @@
 <!--            android:text="选择"-->
 <!--            android:textSize="40sp"/>-->
 <!--    </LinearLayout>-->
+    <Button
+        android:id="@+id/btn_educate_list"
+        android:layout_gravity="center"
+        android:layout_width="250sp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_drawable"
+        android:textColor="#ffffff"
+        android:textSize="30sp"
+        android:text="@string/educate_choose"
+        />
     <RadioGroup
         android:layout_gravity="center"
         android:layout_marginTop="30dp"

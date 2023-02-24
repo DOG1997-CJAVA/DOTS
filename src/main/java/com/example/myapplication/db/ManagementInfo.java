@@ -11,24 +11,28 @@ public class ManagementInfo {
     private String age;
     //用户性别
     private String gender;
+
+    private String educate;
     //用户测试类型
     private String test_channel;
     //用户作答结果
     private String result;
 
     public ManagementInfo(){};
-    public ManagementInfo(String ID, String name, String age, String gender,String test_channel,String result) {
+    public ManagementInfo(String ID, String name, String age, String gender,String test_channel,String result,String educate) {
         this.ID = ID;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.test_channel = test_channel;
         this.result = result;
+        this.educate = educate;
     }
-    public ManagementInfo(String ID, String name, String result) {
+    public ManagementInfo(String ID, String name, String result , String educate) {
         this.ID = ID;
         this.name = name;
         this.result = result;
+        this.educate = educate;
     }
 
     public String getID() {
@@ -77,5 +81,12 @@ public class ManagementInfo {
 
     public void setResult(String result) {
         this.result = result;
+    }
+    public String getEducate() {
+        return educate;
+    }
+
+    public void setEducate(String age) {
+        this.educate = educate;
     }
 }

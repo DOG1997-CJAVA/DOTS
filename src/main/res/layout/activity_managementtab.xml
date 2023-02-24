@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/new_background"
+    android:background="@drawable/huisebackgroupnd"
     >
 
   <LinearLayout
@@ -24,25 +24,59 @@
         />
 
     <Button
+        android:id="@+id/btn_language_select"
+        android:text="@string/lang_select"
+        android:textSize="20sp"
+        android:drawableStart="@drawable/ic_baseline_language_24"
+        style="@style/SampleButton"
+        />
+    <Button
         android:id="@+id/btn00"
         android:text="@string/re_connect"
+        android:drawableStart="@drawable/ic_baseline_network_check_24"
         android:textSize="20sp"
         style="@style/SampleButton"
         />
 
     <Button
-        android:id="@+id/btn01"
+        android:id="@+id/btn_manage_activity"
         android:text="@string/general_control_interface"
+        android:drawableStart="@drawable/ic_baseline_handyman_24"
         android:textSize="20sp"
         style="@style/SampleButton"
         />
 
     <Button
-        android:id="@+id/btn02"
+        android:id="@+id/btn_test_result_manage"
         android:text="@string/management_result"
         android:textSize="20sp"
         style="@style/SampleButton"
         />
+
+    <Button
+        android:id="@+id/btn_cou_id_odor_selete"
+        android:text="@string/id_test_odor_cus"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
+    <TextView
+        android:id="@+id/cou_id_test_odor_remind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/id_test_odor_cus_remind"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/text_id_odor_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text=""
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btn_retry_set"
@@ -50,35 +84,6 @@
         android:textSize="20sp"
         style="@style/SampleButton"
         />
-
-    <Button
-        android:id="@+id/odor_release_delay"
-        android:text="@string/management_advance_timing"
-        android:textSize="20sp"
-        style="@style/SampleButton"
-        />
-
-    <Button
-        android:id="@+id/random_fix_mode"
-        android:text="@string/management_test_mode"
-        android:textSize="20sp"
-        style="@style/SampleButton"
-        />
-
-    <Button
-        android:id="@+id/release_time"
-        android:text="@string/management_release_timing"
-        android:textSize="20sp"
-        style="@style/SampleButton"
-        />
-
-    <Button
-        android:id="@+id/btn_language_select"
-        android:text="@string/lang_select"
-        android:textSize="20sp"
-        style="@style/SampleButton"
-        />
-
     <TextView
         android:id="@+id/retryNumberRemind"
         android:layout_width="wrap_content"
@@ -89,7 +94,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/retryNumberShow"
+        android:id="@+id/retry_number_show"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
@@ -97,24 +102,38 @@
         android:textColor="#ffffff"
         android:textSize="20sp" />
 
+    <Button
+        android:id="@+id/odor_release_delay"
+        android:text="@string/management_advance_timing"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
+
     <TextView
-        android:id="@+id/mode_remind"
+        android:id="@+id/release_delay_time_remind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="@string/management_test_mode_remind"
+        android:text="@string/management_advance_timing_remind"
         android:textColor="#ffffff"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/mode_to_set"
+        android:id="@+id/delay_time_remind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/management_fix_mode"
+        android:text="2s"
         android:textColor="#ffffff"
         android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/release_time"
+        android:text="@string/management_release_timing"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
 
     <TextView
         android:id="@+id/release_time_remind"
@@ -135,22 +154,29 @@
         android:textColor="#ffffff"
         android:textSize="20sp" />
 
+    <Button
+        android:id="@+id/random_fix_mode"
+        android:text="@string/management_test_mode"
+        android:textSize="20sp"
+        style="@style/SampleButton"
+        />
+
     <TextView
-        android:id="@+id/release_delay_time_remind"
+        android:id="@+id/mode_remind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="@string/management_advance_timing_remind"
+        android:text="@string/management_test_mode_remind"
         android:textColor="#ffffff"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/delay_time_remind"
+        android:id="@+id/mode_to_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="2s"
+        android:text="@string/management_fix_mode"
         android:textColor="#ffffff"
         android:textSize="20sp" />
 

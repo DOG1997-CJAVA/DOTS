@@ -9,6 +9,8 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.example.myapplication.language.BaseActivity;
+
 
 public class TabActivity extends BaseActivity implements View.OnClickListener {
     //声明三个Tab的布局文件
