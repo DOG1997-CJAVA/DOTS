@@ -5,7 +5,7 @@ Submit questions and corrections are welcome.
 It is worth noting that this application needs to be used with the digital olfactory stimulation transmission instrument (DOTS-ODD) developed by our team, and it is controlled by wireless wifi. 
 Details of the project are still being updated
 
-License
+#License
 Copyright 2023 Zhi Haolan
 
 Licensed under the Apache License, Version 2.0 (the "License");
