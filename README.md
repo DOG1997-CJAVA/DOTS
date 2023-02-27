@@ -1,9 +1,5 @@
 # DOTS
-This is an Android-based mobile application for olfactory function tests (DOTS), develop with android studio, which can complete psychophysics-based olfactory identification tests for clinical tests as well as daily research tests.
-It can customize a number of test parameters and export a variety of test data. 
-Submit questions and corrections are welcome. 
-It is worth noting that this application needs to be used with the digital olfactory stimulation transmission instrument (DOTS-ODD) developed by our team, and it is controlled by wireless wifi. 
-Details of the project are still being updated
+This is an Android-based mobile application for Digital Olfactory Test System (DOTS-APP), develop with android studio. DOTS-APP can be used to develop experimental paradigm for psychophysics-based olfactory identification tests. Psycjophysical responses  and timing sequence are recorded by DOTS-APP and exported in EXCEL format.  This application  is used with the Odor Delivery Device (ODD) developed by our team to provide olfactory stimulation developed by our team. However, it is possble to synchronize odor stimulations with user-developed odor delivery devices. For more infomation please contact. Details of the project are still being updated.
 
 #License
 Copyright 2023 Zhi Haolan
